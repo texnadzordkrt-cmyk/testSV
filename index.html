@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>Инфа под рукой 2.0</title>
    
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2.4">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2.4">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2.4">
-    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png?v=2.4">
-    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png?v=2.4">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2.3.1">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2.3.1">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2.3.1">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png?v=2.3.1">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png?v=2.3.1">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js?v=2.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js?v=2.3.1"></script>
     <style>
         * {
             margin: 0;
@@ -274,7 +274,7 @@
             min-height: 100vh;
             position: relative;
         }
-        /* Фоновый логотип на главной странице */
+        /* Фоновый логотип на главной странице с пульсацией яркости */
         #main-screen::before {
             content: '';
             position: fixed;
@@ -283,14 +283,25 @@
             transform: translate(-50%, -50%);
             width: 180px;
             height: 180px;
-            /*версия*/
-            background-image: url('logo.png?v=2.4');
+            background-image: url('logo.png?v=2.3.1');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             opacity: 0.25;
             pointer-events: none;
             z-index: 0;
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+        /* Анимация пульсации яркости логотипа */
+        @keyframes logoPulse {
+            0%, 100% {
+                opacity: 0.25;
+                filter: brightness(1) drop-shadow(0 0 0px rgba(0, 240, 255, 0));
+            }
+            50% {
+                opacity: 0.55;
+                filter: brightness(1.2) drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+            }
         }
         .main-container {
             max-width: 480px;
@@ -343,7 +354,7 @@
             font-weight: 400;
             color: var(--text-secondary);
         }
-        /* Кнопка меню - тёмно-красный цвет как на логотипе */
+        /* Кнопка меню - тёмно-красный цвет как на логотипе, текст жирный */
         .menu-btn {
             width: auto;
             background: rgba(220, 20, 20, 0.15);
@@ -352,6 +363,7 @@
             padding: 8px 20px;
             color: #dc1414;
             font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -730,7 +742,7 @@
     <div id="drawer-overlay" class="drawer-overlay"></div>
     <div id="drawer" class="drawer">
         <div class="drawer-header">
-            <h3>Обратная связь</h3>
+            <h3>Панель управления</h3>
             <button id="drawer-close" class="drawer-close"></button>
         </div>
         <div id="drawer-menu-main" class="drawer-menu">
@@ -1324,6 +1336,84 @@ const ENCRYPTED_PARKING_LEVEL1 = "U2FsdGVkX1/PvGV+i6cXaQ6YMgSxorTpnViHX9WyHoElYw
                         this.closeDrawer();
                     }
                 });
+
+                // --- НОВЫЙ КОД: Скрытие клавиатуры при скролле на мобильных ---
+                this.setupKeyboardHideOnScroll();
+            }
+
+            /**
+             * Функция для автоматического скрытия клавиатуры при прокрутке на мобильных устройствах
+             */
+            setupKeyboardHideOnScroll() {
+                // Проверяем, мобильное ли устройство
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (!isMobile) return;
+
+                let scrollTimeout = null;
+                let activeElementBeforeScroll = null;
+
+                const handleScrollStart = () => {
+                    // Запоминаем активный элемент (поле ввода), если оно в фокусе
+                    const focusedElement = document.activeElement;
+                    if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
+                        activeElementBeforeScroll = focusedElement;
+                    } else {
+                        activeElementBeforeScroll = null;
+                    }
+                };
+
+                const handleScrollEnd = () => {
+                    // Если было активное поле ввода, убираем с него фокус, чтобы скрыть клавиатуру
+                    if (activeElementBeforeScroll) {
+                        activeElementBeforeScroll.blur();
+                        activeElementBeforeScroll = null;
+                    }
+                };
+
+                // Отслеживаем начало скролла (тouchmove)
+                let isScrolling = false;
+                const onTouchMove = () => {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        handleScrollStart();
+                    }
+                    // Сбрасываем таймер для определения конца скролла
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        handleScrollEnd();
+                    }, 150);
+                };
+
+                // Также отслеживаем обычный scroll (для мыши или трекпада)
+                const onWheelOrScroll = () => {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        handleScrollStart();
+                    }
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        handleScrollEnd();
+                    }, 150);
+                };
+
+                // Добавляем обработчики на всё окно и на основные контейнеры с прокруткой
+                window.addEventListener('touchmove', onTouchMove, { passive: false });
+                window.addEventListener('scroll', onWheelOrScroll);
+                window.addEventListener('wheel', onWheelOrScroll);
+                
+                // Для основного контейнера результатов, если он прокручивается
+                if (this.resultsContainer) {
+                    this.resultsContainer.addEventListener('touchmove', onTouchMove, { passive: false });
+                    this.resultsContainer.addEventListener('scroll', onWheelOrScroll);
+                }
+                
+                // Также для drawer (меню), чтобы при скролле внутри меню клавиатура тоже скрывалась
+                if (this.drawer) {
+                    this.drawer.addEventListener('touchmove', onTouchMove, { passive: false });
+                    this.drawer.addEventListener('scroll', onWheelOrScroll);
+                }
             }
 
             async refreshData() {
