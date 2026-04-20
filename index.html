@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>Инфа под рукой 2.0</title>
    
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2.0">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2.0">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2.0">
-    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png?v=2.0">
-    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png?v=2.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2.2">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2.2">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2.2">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png?v=2.2">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png?v=2.2">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js?v=2.0"></script>
     <style>
@@ -274,21 +274,21 @@
             min-height: 100vh;
             position: relative;
         }
-        /* Фоновый логотип на главной странице */
+        /* Фоновый логотип на главной странице - максимальная яркость */
         #main-screen::before {
             content: '';
             position: fixed;
             top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 180px;
-            height: 180px;
-            /*версия*/
-            background-image: url('logo.png?v=2.0');
+            width: 240px;
+            height: 240px;
+            background-image: url('logo.png?v=2.2');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0.25;
+            opacity: 0.85;
+            filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.9)) brightness(1.2);
             pointer-events: none;
             z-index: 0;
         }
@@ -343,14 +343,14 @@
             font-weight: 400;
             color: var(--text-secondary);
         }
-        /* Кнопка меню - постоянная бледно-жёлтая подсветка */
+        /* Кнопка меню - тёмно-красный цвет как на логотипе */
         .menu-btn {
             width: auto;
-            background: rgba(250, 204, 21, 0.15);
-            border: 1px solid rgba(250, 204, 21, 0.4);
+            background: rgba(220, 20, 20, 0.15);
+            border: 1px solid rgba(220, 20, 20, 0.4);
             border-radius: 25px;
             padding: 8px 20px;
-            color: var(--accent-yellow);
+            color: #dc1414;
             font-size: 13px;
             cursor: pointer;
             display: flex;
@@ -360,12 +360,12 @@
             flex-shrink: 0;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 0 12px rgba(250, 204, 21, 0.2);
+            box-shadow: 0 0 12px rgba(220, 20, 20, 0.2);
         }
         .menu-btn:hover {
-            background: rgba(250, 204, 21, 0.3);
-            box-shadow: 0 0 18px rgba(250, 204, 21, 0.4);
-            border-color: var(--accent-yellow);
+            background: rgba(220, 20, 20, 0.3);
+            box-shadow: 0 0 18px rgba(220, 20, 20, 0.4);
+            border-color: #dc1414;
         }
 
         /* Панель масштабирования на главном экране (над поиском) */
@@ -718,7 +718,7 @@
 
             <div class="sticky-search-wrapper">
                 <div class="search-section">
-                    <input type="text" id="search-input" class="search-input" placeholder="Напишите: станцию, документ или фамилию" autocomplete="off">
+                    <input type="text" id="search-input" class="search-input" placeholder="Напишите название: станции, документа или фамилию" autocomplete="off">
                 </div>
             </div>
 
@@ -730,7 +730,7 @@
     <div id="drawer-overlay" class="drawer-overlay"></div>
     <div id="drawer" class="drawer">
         <div class="drawer-header">
-            <h3>Меню приложения</h3>
+            <h3>Тут можно ...</h3>
             <button id="drawer-close" class="drawer-close"></button>
         </div>
         <div id="drawer-menu-main" class="drawer-menu">
