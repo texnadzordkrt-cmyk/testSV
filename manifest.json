@@ -1,6 +1,6 @@
 {
-  "name": "Инфа под рукой 2.0",
-  "short_name": "Инфа под рукой",
+  "name": "Инфа 2.0",
+  "short_name": "Инфа 2.0",
   "description": "Справочная информация о станциях, парковках и контактах",
   "start_url": "index.html",
   "display": "standalone",
