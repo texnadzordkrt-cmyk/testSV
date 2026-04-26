@@ -2,7 +2,7 @@
   "name": "Инфа под рукой 2.0",
   "short_name": "Инфа под рукой",
   "description": "Справочная информация о станциях, парковках и контактах",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "theme_color": "#0a0a0a",
   "background_color": "#0a0a0a",
