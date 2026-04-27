@@ -1,14 +1,16 @@
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v1';
 const CACHE_NAME = `infa-cache-${CACHE_VERSION}`;
+
+// Исправленные пути с учётом подпапки testSV
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/favicon-32x32.png',
-  '/favicon-16x16.png',
-  '/apple-touch-icon.png',
-  '/android-chrome-192x192.png',
-  '/android-chrome-512x512.png',
-  '/logo.png'
+  '/testSV/',
+  '/testSV/index.html',
+  '/testSV/favicon-32x32.png',
+  '/testSV/favicon-16x16.png',
+  '/testSV/apple-touch-icon.png',
+  '/testSV/android-chrome-192x192.png',
+  '/testSV/android-chrome-512x512.png',
+  '/testSV/logo.png'
 ];
 
 self.addEventListener('install', event => {
