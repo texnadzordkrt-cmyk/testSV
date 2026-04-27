@@ -1,4 +1,4 @@
-const CACHE_NAME = 'infa-pod-rukoi-v2';  // Увеличил версию для принудительного обновления
+const CACHE_NAME = 'infa-pod-rukoi-v3';  // Увеличил версию для принудительного обновления
 const urlsToCache = [
   '/',
   '/index.html',
