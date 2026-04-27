@@ -2060,68 +2060,111 @@
             window.app = new InfaApp();
         });
     </script>
-
-    <!-- Service Worker with update notification -->
-    <script>
-        (function() {
-            const REPO_NAME = 'testSV';
+<!-- Service Worker с уведомлением об обновлении -->
+<script>
+    (function() {
+        const REPO_NAME = 'testSV';
+        
+        if (!('serviceWorker' in navigator) || location.protocol !== 'https:') {
+            console.log('SW не поддерживается или не HTTPS');
+            return;
+        }
+        
+        let updateBanner = null;
+        let pendingUpdateWorker = null; // Храним ожидающий SW
+        
+        // Функция показа баннера
+        const showUpdateNotification = () => {
+            if (updateBanner) return;
             
-            if ('serviceWorker' in navigator && location.protocol === 'https:') {
-                window.addEventListener('load', function() {
-                    var swPath = '/' + REPO_NAME + '/sw.js';
-                    console.log('Регистрация SW по пути:', swPath);
-                    
-                    navigator.serviceWorker.register(swPath)
-                        .then(function(reg) {
-                            console.log('✅ Service Worker зарегистрирован:', reg);
-                            
-                            // Проверяем обновления каждые 60 секунд
-                            setInterval(() => {
-                                reg.update();
-                            }, 60000);
-                        })
-                        .catch(function(err) {
-                            console.error('❌ Ошибка регистрации SW:', err);
-                        });
-                    
-                    // Создаём баннер для уведомления об обновлении
-                    let updateBanner = null;
-                    
-                    const showUpdateNotification = () => {
-                        if (updateBanner) return;
-                        
-                        updateBanner = document.createElement('div');
-                        updateBanner.className = 'update-banner';
-                        updateBanner.innerHTML = `
-                            <div class="update-banner-text">
-                                🌐 Загружена новая информация в БД!
-                            </div>
-                            <button class="update-banner-btn" id="update-now-btn">Обновить БД</button>
-                        `;
-                        document.body.appendChild(updateBanner);
-                        
-                        setTimeout(() => {
-                            updateBanner.classList.add('show');
-                        }, 100);
-                        
-                        document.getElementById('update-now-btn').addEventListener('click', () => {
-                            updateBanner.classList.remove('show');
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 300);
-                        });
-                    };
-                    
-                    // Слушаем сообщения от Service Worker
-                    navigator.serviceWorker.addEventListener('message', event => {
-                        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
-                            console.log('Получено сообщение о новой версии SW');
-                            showUpdateNotification();
-                        }
-                    });
-                });
+            updateBanner = document.createElement('div');
+            updateBanner.className = 'update-banner';
+            updateBanner.innerHTML = `
+                <div class="update-banner-text">
+                    🌐 Загружена новая информация!"
+                </div>
+                <button class="update-banner-btn" id="update-now-btn">Обновить БД →</button>
+            `;
+            document.body.appendChild(updateBanner);
+            
+            setTimeout(() => {
+                if (updateBanner) updateBanner.classList.add('show');
+            }, 100);
+            
+            document.getElementById('update-now-btn').addEventListener('click', () => {
+                if (updateBanner) updateBanner.classList.remove('show');
+                
+                // Если есть ожидающий Service Worker — активируем его
+                if (pendingUpdateWorker) {
+                    pendingUpdateWorker.postMessage({ type: 'SKIP_WAITING' });
+                    pendingUpdateWorker = null;
+                }
+                
+                // Перезагружаем страницу через 0.5 секунды
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            });
+        };
+        
+        // Проверка наличия обновления при загрузке
+        const checkForUpdates = async (registration) => {
+            // Обновляем SW (проверяем новую версию на сервере)
+            await registration.update();
+            
+            // Проверяем, есть ли ожидающий (новый) Service Worker
+            if (registration.waiting) {
+                console.log('Найден ожидающий SW:', registration.waiting);
+                pendingUpdateWorker = registration.waiting;
+                showUpdateNotification();
+                return;
             }
-        })();
-    </script>
+            
+            // Слушаем событие появления нового SW (когда он переходит в состояние waiting)
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                console.log('Обнаружен новый SW в процессе установки');
+                
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        console.log('Новый SW установлен и ожидает активации');
+                        pendingUpdateWorker = newWorker;
+                        showUpdateNotification();
+                    }
+                });
+            });
+        };
+        
+        // Регистрация Service Worker
+        window.addEventListener('load', function() {
+            const swPath = '/' + REPO_NAME + '/sw.js';
+            console.log('Регистрация SW по пути:', swPath);
+            
+            navigator.serviceWorker.register(swPath)
+                .then(function(registration) {
+                    console.log('✅ Service Worker зарегистрирован:', registration);
+                    
+                    // Сразу проверяем наличие обновлений
+                    checkForUpdates(registration);
+                    
+                    // Проверяем обновления каждые 30 секунд
+                    setInterval(() => {
+                        checkForUpdates(registration);
+                    }, 30000);
+                })
+                .catch(function(err) {
+                    console.error('❌ Ошибка регистрации SW:', err);
+                });
+            
+            // Слушаем сообщения от Service Worker
+            navigator.serviceWorker.addEventListener('message', event => {
+                if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
+                    console.log('Получено сообщение о новой версии от SW');
+                    showUpdateNotification();
+                }
+            });
+        });
+    })();
+</script>
 </body>
 </html>
