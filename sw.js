@@ -1,4 +1,4 @@
-const CACHE_NAME = 'infa-pod-rukoi-v1';
+const CACHE_NAME = 'infa-pod-rukoi-v2';  // Увеличил версию для принудительного обновления
 const urlsToCache = [
   '/',
   '/index.html',
@@ -43,6 +43,14 @@ self.addEventListener('activate', event => {
           if (name !== CACHE_NAME) return caches.delete(name);
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      // Отправляем сообщение всем открытым вкладкам о новой версии
+      return self.clients.matchAll();
+    }).then(clients => {
+      clients.forEach(client => {
+        client.postMessage({ type: 'NEW_VERSION_AVAILABLE' });
+      });
+      return self.clients.claim();
+    })
   );
 });
