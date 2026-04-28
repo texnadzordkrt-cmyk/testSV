@@ -69,46 +69,6 @@
             transform: scale(1.02);
         }
         
-        /* Стиль для баннера обновления SW */
-        .sw-update-banner {
-            position: fixed;
-            top: 20px;
-            left: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, #00f0ff 0%, #0099cc 100%);
-            border-radius: 16px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 10001;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            animation: slideDown 0.5s ease-out;
-        }
-        .sw-update-banner.hide {
-            animation: slideUp 0.5s ease-out forwards;
-        }
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-100px);
-            }
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -1254,6 +1214,7 @@
                 this.pinCode = "";
                 this.maxPinLength = 4;
                 this.isRestoredResults = false;
+                this.soundPlayed = false;
                 this.init();
             }
 
@@ -1289,6 +1250,18 @@
                 this.drawerAddStation = document.getElementById('drawer-add-station');
                 this.drawerAddParking = document.getElementById('drawer-add-parking');
                 this.drawerAddContact = document.getElementById('drawer-add-contact');
+            }
+
+            playNotificationSound() {
+                if (this.soundPlayed) return;
+                try {
+                    const audio = new Audio('/testSV/notification.mp3');
+                    audio.volume = 0.7;
+                    audio.play();
+                    this.soundPlayed = true;
+                } catch(e) {
+                    console.log('Ошибка воспроизведения звука:', e);
+                }
             }
 
             saveSearchResults(results, query) {
@@ -1886,12 +1859,17 @@
                 
                 if (localStorage.getItem('update_performed_since_last_sw') === 'true') return;
                 
+                // Воспроизводим звук через 500 мс после появления баннера
+                setTimeout(() => {
+                    this.playNotificationSound();
+                }, 500);
+                
                 const banner = document.createElement('div');
                 banner.className = 'update-banner';
                 banner.id = 'force-update-banner';
                 banner.innerHTML = `
                     <div class="update-banner-text">
-                        🔄 В базу данных добавлена новая информация!
+                        🔔 В базу данных добавлена новая информация!
                     </div>
                     <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
                 `;
@@ -2199,143 +2177,11 @@
         });
     </script>
 
-    <!-- Service Worker регистрация с уведомлениями -->
+    <!-- Service Worker регистрация -->
     <script>
         (function() {
             const REPO_NAME = 'testSV';
             
-            // Функция для воспроизведения звука уведомления
-            async function playNotificationSound() {
-                try {
-                    // Создаем аудио элемент
-                    const audio = new Audio('/' + REPO_NAME + '/notification.mp3');
-                    audio.volume = 0.8;
-                    
-                    // Пытаемся воспроизвести
-                    const playPromise = audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            console.log('Автовоспроизведение звука заблокировано браузером. Показываем визуальное уведомление.');
-                            showVisualNotification();
-                        });
-                    }
-                } catch(e) {
-                    console.log('Ошибка воспроизведения звука:', e);
-                    showVisualNotification();
-                }
-            }
-            
-            // Функция для показа визуального уведомления (если звук не сработал)
-            function showVisualNotification() {
-                const existingBanner = document.querySelector('.sw-update-banner');
-                if (existingBanner) return;
-                
-                const banner = document.createElement('div');
-                banner.className = 'sw-update-banner';
-                banner.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 28px;">🔄</span>
-                        <div>
-                            <div style="font-weight: bold; font-size: 16px; color: #0a0a0a;">Доступно обновление приложения!</div>
-                            <div style="font-size: 13px; color: #0a0a0a; opacity: 0.9;">Нажмите "Обновить" для установки новой версии</div>
-                        </div>
-                    </div>
-                    <button id="sw-update-confirm" style="
-                        background: #0a0a0a;
-                        border: none;
-                        border-radius: 30px;
-                        padding: 8px 20px;
-                        color: #00f0ff;
-                        font-weight: bold;
-                        cursor: pointer;
-                        font-size: 14px;
-                    ">Обновить</button>
-                `;
-                document.body.appendChild(banner);
-                
-                const updateBtn = document.getElementById('sw-update-confirm');
-                if (updateBtn) {
-                    updateBtn.addEventListener('click', () => {
-                        localStorage.removeItem('update_performed_since_last_sw');
-                        sessionStorage.removeItem('force_update_banner_shown');
-                        window.location.reload();
-                    });
-                }
-                
-                // Автоматически скрыть через 15 секунд
-                setTimeout(() => {
-                    const bannerEl = document.querySelector('.sw-update-banner');
-                    if (bannerEl) {
-                        bannerEl.classList.add('hide');
-                        setTimeout(() => bannerEl.remove(), 500);
-                    }
-                }, 15000);
-            }
-            
-            // Функция для показа основного баннера обновления (с возможностью звука)
-            let hasNotifiedThisSession = false;
-            let audioUnlocked = false;
-            
-            function showUpdateFromSW() {
-                if (hasNotifiedThisSession) return;
-                hasNotifiedThisSession = true;
-                
-                if (localStorage.getItem('update_performed_since_last_sw') === 'true') {
-                    console.log('Обновление уже было выполнено');
-                    return;
-                }
-                
-                console.log('Получено уведомление о новой версии SW!');
-                
-                // Пытаемся воспроизвести звук
-                playNotificationSound();
-                
-                // Показываем баннер (как дополнительное уведомление)
-                const existingBanner = document.getElementById('update-from-sw-banner');
-                if (existingBanner) return;
-                
-                const banner = document.createElement('div');
-                banner.id = 'update-from-sw-banner';
-                banner.className = 'update-banner';
-                banner.innerHTML = `
-                    <div class="update-banner-text">
-                        🔄 <strong>Новая версия приложения!</strong> Доступно обновление
-                    </div>
-                    <button class="update-banner-btn" id="sw-update-confirm-main">Обновить</button>
-                `;
-                document.body.appendChild(banner);
-                
-                setTimeout(() => banner.classList.add('show'), 100);
-                
-                const updateBtn = document.getElementById('sw-update-confirm-main');
-                if (updateBtn) {
-                    updateBtn.addEventListener('click', () => {
-                        localStorage.removeItem('update_performed_since_last_sw');
-                        sessionStorage.removeItem('force_update_banner_shown');
-                        window.location.reload();
-                    });
-                }
-                
-                setTimeout(() => {
-                    const bannerEl = document.getElementById('update-from-sw-banner');
-                    if (bannerEl) {
-                        bannerEl.classList.remove('show');
-                        setTimeout(() => bannerEl.remove(), 500);
-                    }
-                }, 15000);
-            }
-            
-            // Предзагрузка звука при первом касании пользователя
-            function preloadAudioOnFirstTouch() {
-                const audio = new Audio('/' + REPO_NAME + '/notification.mp3');
-                audio.load();
-                console.log('Звук предзагружен');
-                audioUnlocked = true;
-                document.removeEventListener('touchstart', preloadAudioOnFirstTouch);
-                document.removeEventListener('click', preloadAudioOnFirstTouch);
-            }
-            
-            // Регистрация Service Worker
             if ('serviceWorker' in navigator && location.protocol === 'https:') {
                 window.addEventListener('load', function() {
                     var swPath = '/' + REPO_NAME + '/sw.js';
@@ -2344,42 +2190,11 @@
                     navigator.serviceWorker.register(swPath)
                         .then(function(reg) {
                             console.log('✅ Service Worker зарегистрирован:', reg);
-                            
-                            // Проверяем наличие обновления
-                            if (reg.waiting) {
-                                console.log('Есть ожидающий SW');
-                                showUpdateFromSW();
-                            }
-                            
-                            // Слушаем события обновления
-                            reg.addEventListener('updatefound', () => {
-                                const newWorker = reg.installing;
-                                console.log('Обнаружено обновление SW');
-                                
-                                newWorker.addEventListener('statechange', () => {
-                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                        console.log('Новая версия SW установлена, ожидает активации');
-                                        showUpdateFromSW();
-                                    }
-                                });
-                            });
                         })
                         .catch(function(err) {
                             console.error('❌ Ошибка регистрации SW:', err);
                         });
-                    
-                    // Слушаем сообщения от SW
-                    navigator.serviceWorker.addEventListener('message', event => {
-                        console.log('Сообщение от SW:', event.data);
-                        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
-                            showUpdateFromSW();
-                        }
-                    });
                 });
-                
-                // Предзагружаем звук при первом касании (для обхода политики автовоспроизведения)
-                document.addEventListener('touchstart', preloadAudioOnFirstTouch, { once: false });
-                document.addEventListener('click', preloadAudioOnFirstTouch, { once: false });
             }
         })();
     </script>
