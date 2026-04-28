@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Инфа под рукой 2.0</title>
@@ -13,96 +12,795 @@
     <meta name="apple-mobile-web-app-title" content="Инфа под рукой">
     <meta name="mobile-web-app-capable" content="yes">
     
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2.4.5">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2.4.5">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2.4.5">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png?v=2.4.5">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png?v=2.4.5">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-        :root {
-            --bg-primary: #0a0a0a; --bg-secondary: #111111; --bg-card: #1a1a1a;
-            --accent-cyan: #00f0ff; --accent-cyan-glow: rgba(0, 240, 255, 0.3);
-            --accent-cyan-dim: rgba(0, 240, 255, 0.1); --accent-green: #4ade80;
-            --accent-yellow: #facc15; --error-red: #f87171; --error-red-glow: rgba(255, 68, 68, 0.3);
-            --text-primary: #ffffff; --text-secondary: #9ca3af; --text-muted: #6b7280;
-            --border-color: #333333;
-            --base-font-size-search: 1.3rem; --base-font-size-title: 16px;
-            --base-font-size-detail: 13px; --base-font-size-context: 0.85rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-        .screen { display: none; min-height: 100vh; width: 100%; }
-        .screen.active { display: flex; flex-direction: column; }
-        #loading-screen { justify-content: center; align-items: center; background: var(--bg-primary); padding: 20px; }
-        .loading-card { background: var(--bg-card); border-radius: 20px; padding: 50px 30px; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 0 40px rgba(0, 240, 255, 0.15); border: 1px solid var(--border-color); }
-        .app-title { font-size: 32px; font-weight: 700; color: var(--accent-cyan); text-shadow: 0 0 20px var(--accent-cyan-glow); animation: pulse-title 2s ease-in-out infinite; }
-        @keyframes pulse-title { 0%,100%{opacity:1;text-shadow:0 0 20px var(--accent-cyan-glow);} 50%{opacity:0.85;text-shadow:0 0 30px var(--accent-cyan-glow),0 0 60px var(--accent-cyan);} }
-        .spinner { width: 60px; height: 60px; margin: 0 auto; position: relative; }
-        .spinner-progress { position: absolute; inset: 0; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--accent-cyan); border-right-color: var(--accent-cyan); animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { color: var(--text-secondary); font-size: 15px; margin-top: 25px; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --accent-cyan: #00f0ff;
+            --accent-cyan-glow: rgba(0, 240, 255, 0.3);
+            --accent-cyan-dim: rgba(0, 240, 255, 0.1);
+            --accent-green: #4ade80;
+            --accent-yellow: #facc15;
+            --accent-yellow-glow: rgba(250, 204, 21, 0.25);
+            --error-red: #f87171;
+            --error-red-glow: rgba(255, 68, 68, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border-color: #333333;
+            --base-font-size-search: 1.3rem;
+            --base-font-size-title: 16px;
+            --base-font-size-detail: 13px;
+            --base-font-size-label: 13px;
+            --base-font-size-button: 13px;
+            --base-font-size-context: 0.85rem;
+            --base-font-size-no-results: 14px;
+        }
+        html, body {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .screen {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+        #loading-screen {
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-primary);
+            padding: 20px;
+        }
+        .loading-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 50px 30px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+        }
+        .app-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 40px var(--accent-cyan-glow);
+            animation: pulse-title 2s ease-in-out infinite;
+            letter-spacing: -0.5px;
+        }
+        @keyframes pulse-title {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 40px var(--accent-cyan-glow);
+            }
+            50% {
+                opacity: 0.85;
+                text-shadow: 0 0 30px var(--accent-cyan-glow), 0 0 60px var(--accent-cyan), 0 0 80px var(--accent-cyan-glow);
+            }
+        }
+        .app-version {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        .spinner-container {
+            margin: 30px 0;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .spinner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 3px solid var(--bg-secondary);
+        }
+        .spinner-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--accent-cyan);
+            border-right-color: var(--accent-cyan);
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 10px var(--accent-cyan-glow);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-top: 25px;
+            letter-spacing: 0.5px;
+        }
 
-        #login-screen { justify-content: center; align-items: center; background: var(--bg-primary); padding: 20px; }
-        .login-card { background: transparent; padding: 40px 28px; width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; }
-        .login-title { font-size: 28px; font-weight: 700; color: var(--accent-cyan); text-shadow: 0 0 20px var(--accent-cyan-glow); text-align: center; margin-bottom: 10px; }
-        .login-subtitle { color: var(--text-secondary); font-size: 15px; margin-bottom: 30px; text-align: center; }
-        .pin-dots-container { display: flex; justify-content: center; gap: 16px; margin-bottom: 40px; }
-        .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border-color); background: transparent; transition: all 0.2s; }
-        .pin-dot.filled { background: var(--accent-cyan); border-color: var(--accent-cyan); box-shadow: 0 0 12px var(--accent-cyan-glow); }
-        .pin-dot.error { background: var(--error-red); border-color: var(--error-red); box-shadow: 0 0 12px var(--error-red-glow); animation: shake 0.4s ease-in-out; }
-        @keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(8px);} 60%{transform:translateX(-4px);} 80%{transform:translateX(4px);} }
-        .pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; max-width: 300px; margin-bottom: 30px; }
-        .pin-btn { aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-size: 28px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-        .pin-btn:active { transform: scale(0.92); border-color: var(--accent-cyan); box-shadow: 0 0 20px var(--accent-cyan-glow); }
-        .pin-btn.empty { visibility: hidden; pointer-events: none; }
-        .pin-btn.backspace { font-size: 22px; color: var(--text-secondary); }
-        .pin-hidden-input { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
-        .forgot-pin { color: var(--text-secondary); font-size: 15px; text-decoration: underline; cursor: pointer; background: none; border: none; }
+        #login-screen {
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-primary);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .login-card {
+            background: transparent;
+            border-radius: 24px;
+            padding: 40px 28px;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            box-shadow: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px var(--accent-cyan-glow);
+            letter-spacing: -0.5px;
+        }
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 400;
+        }
 
-        #main-screen { background: var(--bg-primary); padding: 20px 16px; min-height: 100vh; position: relative; }
-        .main-container { max-width: 480px; margin: 0 auto; position: relative; z-index: 1; }
-        .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
-        .greeting { font-size: 20px; }
-        h2.greeting { font-size: 22px; color: var(--accent-cyan); text-shadow: 0 0 15px var(--accent-cyan-glow); }
-        h3.greeting { font-size: 14px; color: var(--text-secondary); }
-        .menu-btn { background: rgba(220,20,20,0.15); border: 1px solid rgba(220,20,20,0.4); border-radius: 25px; padding: 8px 20px; color: #dc1414; font-size: 13px; font-weight: 700; cursor: pointer; }
-        .zoom-panel { display: flex; justify-content: center; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); gap: 12px; }
-        .zoom-btn { background: transparent; border: 1px solid var(--border-color); border-radius: 20px; padding: 6px 16px; color: var(--text-secondary); cursor: pointer; }
-        .zoom-indicator { color: var(--accent-green); font-size: 14px; font-weight: 600; padding: 4px 14px; background: rgba(74,222,128,0.1); border-radius: 20px; min-width: 85px; text-align: center; }
-        .search-input { width: 100%; background: var(--bg-secondary); border: 2px solid var(--accent-cyan); border-radius: 14px; padding: 16px 18px; color: var(--text-primary); font-size: var(--base-font-size-search); outline: none; box-shadow: 0 0 20px var(--accent-cyan-glow); }
-        .results-container { margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
-        .result-card { background: var(--bg-card); border-radius: 16px; padding: 16px; display: flex; gap: 14px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; }
-        .result-card:hover { border-color: var(--accent-cyan); transform: translateX(4px); box-shadow: 0 0 20px var(--accent-cyan-glow); }
+        .pin-dots-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            min-height: 24px;
+        }
+        .pin-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+        .pin-dot.filled {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 12px var(--accent-cyan-glow);
+        }
+        .pin-dot.error {
+            background: var(--error-red);
+            border-color: var(--error-red);
+            box-shadow: 0 0 12px var(--error-red-glow);
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .pin-hidden-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 1px;
+            height: 1px;
+        }
+
+        .pin-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+        .pin-btn {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .pin-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+        .pin-btn:active::after {
+            width: 100%;
+            height: 100%;
+        }
+        .pin-btn:active {
+            transform: scale(0.92);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+            background: var(--bg-card);
+        }
+        .pin-btn.empty {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .pin-btn.backspace {
+            font-size: 22px;
+            color: var(--text-secondary);
+        }
+        .pin-btn.backspace:active {
+            border-color: var(--error-red);
+            color: var(--error-red);
+            box-shadow: 0 0 15px var(--error-red-glow);
+        }
+
+        .forgot-pin {
+            color: var(--text-secondary);
+            font-size: 15px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            transition: color 0.2s;
+            margin-top: 10px;
+        }
+        .forgot-pin:hover {
+            color: var(--accent-cyan);
+        }
+
+        @media (max-width: 380px) {
+            .pin-pad {
+                gap: 12px;
+            }
+            .pin-btn {
+                font-size: 24px;
+            }
+            .login-card {
+                padding: 30px 20px;
+            }
+        }
+        @media (max-height: 700px) {
+            .login-card {
+                padding: 25px 20px;
+            }
+            .pin-dots-container {
+                margin-bottom: 25px;
+            }
+            .pin-pad {
+                margin-bottom: 20px;
+            }
+        }
+
+        #main-screen {
+            background: var(--bg-primary);
+            padding: 20px 16px;
+            min-height: 100vh;
+            position: relative;
+        }
+        #main-screen::before {
+            content: '';
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            background-image: url('logo.png?v=2.4.5');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 0;
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+        @keyframes logoPulse {
+            0%, 100% {
+                opacity: 0.25;
+                filter: brightness(1) drop-shadow(0 0 0px rgba(0, 240, 255, 0));
+            }
+            50% {
+                opacity: 0.55;
+                filter: brightness(1.2) drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+            }
+        }
+        .main-container {
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .sticky-search-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-primary);
+            padding-top: 0;
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        .header-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-titles {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 500;
+            margin: 0;
+            color: var(--text-primary);
+        }
+        h2.greeting {
+            font-size: 22px;
+            margin-bottom: 4px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 15px var(--accent-cyan-glow);
+            font-weight: 600;
+        }
+        h3.greeting {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .menu-btn {
+            width: auto;
+            background: rgba(220, 20, 20, 0.15);
+            border: 1px solid rgba(220, 20, 20, 0.4);
+            border-radius: 25px;
+            padding: 8px 20px;
+            color: #dc1414;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 12px rgba(220, 20, 20, 0.2);
+        }
+        .menu-btn:hover {
+            background: rgba(220, 20, 20, 0.3);
+            box-shadow: 0 0 18px rgba(220, 20, 20, 0.4);
+            border-color: #dc1414;
+        }
+        .zoom-panel {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            gap: 12px;
+            width: 100%;
+        }
+        .zoom-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            min-width: 44px;
+        }
+        .zoom-btn:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+            background: transparent;
+        }
+        .zoom-btn:active {
+            transform: scale(0.95);
+        }
+        .zoom-indicator {
+            color: var(--accent-green);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 4px 14px;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 20px;
+            min-width: 85px;
+            text-align: center;
+        }
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s ease, opacity 0.3s ease;
+        }
+        .drawer-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100%;
+            background: var(--bg-card);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: right 0.35s ease-out;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .drawer.active {
+            right: 0;
+        }
+        @media (max-width: 768px) {
+            .drawer { width: 50%; right: -50%; }
+        }
+        @media (max-width: 480px) {
+            .drawer { width: 50%; right: -50%; }
+        }
+        .drawer-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .drawer-header h3 {
+            color: var(--accent-cyan);
+            font-size: 18px;
+            font-weight: 600;
+            transition: font-size 0.3s ease;
+        }
+        .drawer-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 8px;
+            transition: color 0.2s;
+        }
+        .drawer-close:hover {
+            color: var(--error-red);
+        }
+        .drawer-menu {
+            flex: 1;
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .drawer-item {
+            background: transparent;
+            border: none;
+            padding: 14px 20px;
+            text-align: left;
+            color: var(--text-primary);
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .drawer-item:hover {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent-cyan);
+            padding-left: 24px;
+        }
+        .drawer-item .item-icon {
+            font-size: 18px;
+            min-width: 28px;
+        }
+        .drawer-submenu {
+            display: none;
+            flex-direction: column;
+            background: var(--bg-secondary);
+            margin: 0;
+            border-radius: 0;
+        }
+        .drawer-submenu.active {
+            display: flex;
+        }
+        .drawer-submenu .drawer-item {
+            padding-left: 48px;
+            font-size: 14px;
+        }
+        .drawer-back {
+            border-top: 1px solid var(--border-color);
+            margin-top: 8px;
+            color: var(--text-secondary);
+        }
+        .drawer-back:hover {
+            color: var(--accent-cyan);
+        }
+        .search-section {
+            margin-bottom: 16px;
+            width: 100%;
+        }
+        .search-input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 14px;
+            padding: 16px 18px;
+            color: var(--text-primary);
+            font-size: var(--base-font-size-search);
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--accent-cyan-glow), inset 0 0 8px var(--accent-cyan-dim);
+        }
+        .search-input:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 28px var(--accent-cyan-glow), inset 0 0 12px var(--accent-cyan-dim);
+            background: var(--bg-card);
+        }
+        .search-input:focus {
+            border-color: var(--accent-cyan);
+            background: var(--bg-card);
+            box-shadow: 0 0 32px var(--accent-cyan-glow), inset 0 0 14px var(--accent-cyan-dim);
+        }
+        @keyframes marquee {
+            0% { text-indent: 0; }
+            50% { text-indent: -30px; }
+            100% { text-indent: 0; }
+        }
+        .search-input::placeholder {
+            color: var(--text-muted);
+            font-size: 1rem;
+            animation: marquee 8s ease-in-out infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+        .results-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .results-container.restored-result .result-card * {
+            color: var(--text-secondary) !important;
+        }
+
+        .results-container.restored-result .match-percent {
+            display: none !important;
+        }
+
+        .results-container.restored-result .parking-buttons {
+            display: none !important;
+        }
+
+        .results-container.restored-result .result-icon {
+            color: inherit !important;
+            opacity: 0.5;
+        }
+
+        .results-container.restored-result .contact-link {
+            color: var(--text-secondary) !important;
+        }
+        .results-container.restored-result .contact-link:hover {
+            color: var(--accent-cyan) !important;
+        }
+        
+        .result-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            gap: 14px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+        .result-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateX(4px);
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+        }
         .result-icon { font-size: 28px; flex-shrink: 0; }
         .result-content { flex: 1; }
-        .result-title { font-size: var(--base-font-size-title); font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
-        .result-detail { font-size: var(--base-font-size-detail); margin-bottom: 6px; line-height: 1.5; }
-        .no-results { text-align: center; color: var(--text-muted); padding: 40px 20px; background: var(--bg-card); border-radius: 16px; }
-        .notification { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--bg-card); padding: 14px 24px; border-radius: 12px; z-index: 2000; border: 1px solid var(--border-color); opacity: 0; transition: all 0.3s; }
+        .result-title { font-size: var(--base-font-size-title); font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; transition: font-size 0.3s ease; }
+        .result-detail { font-size: var(--base-font-size-detail); margin-bottom: 6px; line-height: 1.5; transition: font-size 0.3s ease; }
+        .result-contact { font-size: var(--base-font-size-detail); color: var(--accent-cyan); display: flex; align-items: center; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-color); transition: font-size 0.3s ease; }
+        .result-contact a { color: var(--accent-cyan); text-decoration: none; }
+        .no-results { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: var(--base-font-size-no-results); background: var(--bg-card); border-radius: 16px; transition: font-size 0.3s ease; position: relative; z-index: 1; }
+        .notification { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--bg-card); color: var(--text-primary); padding: 14px 24px; border-radius: 12px; font-size: 14px; z-index: 2000; border: 1px solid var(--border-color); opacity: 0; transition: all 0.3s ease; }
         .notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .notification.success { border-color: var(--accent-cyan); box-shadow: 0 0 20px var(--accent-cyan-glow); }
+        .notification.error { border-color: var(--error-red); box-shadow: 0 0 20px var(--error-red-glow); }
         .hidden { display: none !important; }
+        .contact-link { color: var(--accent-cyan); text-decoration: none; display: inline-block; margin: 4px 0; transition: opacity 0.2s; font-size: inherit; }
+        .contact-link:hover { opacity: 0.8; text-decoration: underline; }
+        .match-percent { display: inline-block; background: var(--accent-green); color: var(--bg-primary); font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 12px; margin-left: 8px; vertical-align: middle; transition: font-size 0.3s ease; }
+        .result-context { font-size: var(--base-font-size-context); color: var(--text-secondary); margin-top: 4px; margin-bottom: 4px; padding: 4px 8px; background: rgba(0, 240, 255, 0.05); border-radius: 6px; transition: font-size 0.3s ease; }
+        .parking-buttons { display: flex; gap: 12px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border-color); justify-content: flex-start; }
+        .parking-yes-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .parking-yes-btn:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+            background: transparent;
+        }
+        .parking-yes-btn:active { transform: scale(0.95); }
+        .parking-no-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .parking-no-btn:hover {
+            border-color: var(--error-red);
+            color: var(--error-red);
+            box-shadow: 0 0 15px var(--error-red-glow);
+            background: transparent;
+        }
+        .parking-no-btn:active { transform: scale(0.95); }
         
-        /* Drawer styles */
-        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; visibility: hidden; opacity: 0; transition: all 0.3s; }
-        .drawer-overlay.active { visibility: visible; opacity: 1; }
-        .drawer { position: fixed; top: 0; right: -50%; width: 50%; height: 100%; background: var(--bg-card); border-left: 1px solid var(--border-color); z-index: 1001; transition: right 0.35s; display: flex; flex-direction: column; overflow-y: auto; }
-        .drawer.active { right: 0; }
-        .drawer-header { padding: 24px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .drawer-header h3 { color: var(--accent-cyan); font-size: 18px; }
-        .drawer-close { background: transparent; border: none; color: var(--text-secondary); font-size: 24px; cursor: pointer; }
-        .drawer-menu { flex: 1; padding: 16px 0; display: flex; flex-direction: column; gap: 8px; }
-        .drawer-item { background: transparent; border: none; padding: 14px 20px; text-align: left; color: var(--text-primary); font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); width: 100%; }
-        .drawer-item:hover { background: rgba(0,240,255,0.1); color: var(--accent-cyan); }
-        .drawer-item .item-icon { font-size: 18px; min-width: 28px; }
-        .drawer-submenu { display: none; flex-direction: column; background: var(--bg-secondary); }
-        .drawer-submenu.active { display: flex; }
-        .drawer-submenu .drawer-item { padding-left: 48px; }
-        .drawer-back { border-top: 1px solid var(--border-color); margin-top: 8px; color: var(--text-secondary); }
-        
-        /* Version badge */
+        .update-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            background: #2c3e50;
+            border-left: 4px solid #00f0ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transform: translateY(120px);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.95);
+        }
+        .update-banner.show {
+            transform: translateY(0);
+        }
+        .update-banner-text {
+            font-size: 14px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .update-banner-btn {
+            background: #00f0ff;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 16px;
+            color: #0a0a0a;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .update-banner-btn:hover {
+            background: #4ade80;
+            transform: scale(1.02);
+        }
+
+        /* Version badge - правый нижний угол */
         .version-badge {
             position: fixed;
             bottom: 10px;
@@ -117,53 +815,50 @@
             pointer-events: none;
             backdrop-filter: blur(4px);
         }
-        
-        .update-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 16px;
-            right: 16px;
-            background: rgba(26,26,26,0.95);
-            border-left: 4px solid #00f0ff;
-            border-radius: 12px;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 10000;
-            transform: translateY(120px);
-            transition: transform 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        .update-banner.show { transform: translateY(0); }
-        .update-banner-btn { background: #00f0ff; border: none; border-radius: 20px; padding: 6px 16px; color: #0a0a0a; font-weight: bold; cursor: pointer; }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div id="loading-screen" class="screen active">
         <div class="loading-card">
             <h1 class="app-title">Инфа под рукой 2.0</h1>
-            <p class="app-version" style="color:var(--text-secondary);margin-bottom:40px;">web-приложение</p>
-            <div class="spinner"><div class="spinner-progress"></div></div>
+            <p class="app-version">web-приложение</p>
+            <div class="spinner-container"><div class="spinner"><div class="spinner-progress"></div></div></div>
             <p class="loading-text">Проверка доступа</p>
         </div>
     </div>
 
     <div id="login-screen" class="screen">
         <div class="login-card">
-            <h1 class="login-title">Инфа под рукой 2.0</h1>
-            <p class="login-subtitle">Введите код доступа</p>
-            <div class="pin-dots-container" id="pin-dots">
-                <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+            <div class="login-header">
+                <h1 class="login-title">Инфа под рукой 2.0</h1>
+                <p class="login-subtitle">Введите код доступа</p>
             </div>
-            <input type="password" id="login-password-hidden" class="pin-hidden-input" autocomplete="current-password" inputmode="numeric">
+
+            <div class="pin-dots-container" id="pin-dots">
+                <div class="pin-dot" data-index="0"></div>
+                <div class="pin-dot" data-index="1"></div>
+                <div class="pin-dot" data-index="2"></div>
+                <div class="pin-dot" data-index="3"></div>
+            </div>
+
+            <input type="password" id="login-password-hidden" class="pin-hidden-input" autocomplete="current-password" inputmode="numeric" pattern="[0-9]*">
+
             <div class="pin-pad" id="pin-pad">
-                <button class="pin-btn" data-digit="1">1</button><button class="pin-btn" data-digit="2">2</button><button class="pin-btn" data-digit="3">3</button>
-                <button class="pin-btn" data-digit="4">4</button><button class="pin-btn" data-digit="5">5</button><button class="pin-btn" data-digit="6">6</button>
-                <button class="pin-btn" data-digit="7">7</button><button class="pin-btn" data-digit="8">8</button><button class="pin-btn" data-digit="9">9</button>
-                <button class="pin-btn empty"></button><button class="pin-btn" data-digit="0">0</button>
+                <button class="pin-btn" data-digit="1">1</button>
+                <button class="pin-btn" data-digit="2">2</button>
+                <button class="pin-btn" data-digit="3">3</button>
+                <button class="pin-btn" data-digit="4">4</button>
+                <button class="pin-btn" data-digit="5">5</button>
+                <button class="pin-btn" data-digit="6">6</button>
+                <button class="pin-btn" data-digit="7">7</button>
+                <button class="pin-btn" data-digit="8">8</button>
+                <button class="pin-btn" data-digit="9">9</button>
+                <button class="pin-btn empty"></button>
+                <button class="pin-btn" data-digit="0">0</button>
                 <button class="pin-btn backspace" data-action="backspace">⌫</button>
             </div>
+
             <button class="forgot-pin" id="forgot-pin-btn">Забыли код-доступа?</button>
         </div>
     </div>
@@ -171,27 +866,37 @@
     <div id="main-screen" class="screen">
         <div class="main-container">
             <div class="header-info">
-                <div><h2 class="greeting">Инфа под рукой 2.0</h2><h3 class="greeting"><span id="username">доступ ⭐️⭐️⭐️</span></h3></div>
+                <div class="header-titles">
+                    <h2 class="greeting">Инфа под рукой 2.0</h2>
+                    <h3 class="greeting"><span id="username">доступ ⭐️⭐️⭐️</span></h3>
+                </div>
                 <button id="menu-btn" class="menu-btn">Меню</button>
             </div>
-            <div class="zoom-panel">
-                <button id="zoom-out-btn" class="zoom-btn">🔍−</button>
+
+            <div id="zoom-panel" class="zoom-panel">
+                <button id="zoom-out-btn" class="zoom-btn" title="Уменьшить текст">🔍−</button>
                 <span id="zoom-indicator" class="zoom-indicator">Масштаб</span>
-                <button id="zoom-in-btn" class="zoom-btn">🔍+</button>
+                <button id="zoom-in-btn" class="zoom-btn" title="Увеличить текст">🔍+</button>
             </div>
-            <div class="search-section">
-                <input type="text" id="search-input" class="search-input" placeholder="Напишите название: станции, документа или фамилию" autocomplete="off">
+
+            <div class="sticky-search-wrapper">
+                <div class="search-section">
+                    <input type="text" id="search-input" class="search-input" placeholder="Напишите название: станции, документа или фамилию" autocomplete="off">
+                </div>
             </div>
+
             <div id="results-container" class="results-container hidden"></div>
         </div>
     </div>
 
     <div id="drawer-overlay" class="drawer-overlay"></div>
     <div id="drawer" class="drawer">
-        <div class="drawer-header"><h3>Панель управления</h3><button id="drawer-close" class="drawer-close">✕</button></div>
+        <div class="drawer-header">
+            <h3>Панель<br>управление</h3>
+            <button id="drawer-close" class="drawer-close">✕</button>
+        </div>
         <div id="drawer-menu-main" class="drawer-menu">
             <button id="drawer-refresh" class="drawer-item"><span class="item-icon">🌐</span><span>Обновить БД</span></button>
-            <button id="drawer-check-update" class="drawer-item"><span class="item-icon">🔄</span><span>Проверить обновления</span></button>
             <button id="drawer-error" class="drawer-item"><span class="item-icon">✍️</span><span>Написать об ошибке</span></button>
             <button id="drawer-add-data" class="drawer-item"><span class="item-icon">📝</span><span>Добавить новые данные</span></button>
             <button id="drawer-logout" class="drawer-item"><span class="item-icon">🆔</span><span>Выход</span></button>
@@ -205,27 +910,34 @@
     </div>
 
     <div id="notification" class="notification hidden"></div>
-    <div class="version-badge" id="app-version-badge">загрузка...</div>
+    
+    <!-- Бейдж с версией приложения в правом нижнем углу -->
+    <div class="version-badge" id="app-version-badge">v2.4.5</div>
 
     <script>
-        const APP_VERSION = '1.1.0';
+        const APP_VERSION = '2.1';
         
         const ACCESS_LEVELS = {
             '83e19a9ce479dc064bab4bd50134db14918cc967debd3ad223bb8993c523788d': {
-                level: 3, name: 'Администратор', greeting: 'доступ ⭐️⭐️⭐️',
+                level: 3,
+                name: 'Администратор',
+                greeting: 'доступ ⭐️⭐️⭐️',
                 permissions: ['contacts', 'stations', 'parking', 'documents']
             },
             '775988758f13f17d20e083ed112c78ad3b62be322f501d4a61ca174a704be1a7': {
-                level: 2, name: 'Оператор', greeting: 'доступ ⭐️⭐️',
+                level: 2,
+                name: 'Оператор',
+                greeting: 'доступ ⭐️⭐️',
                 permissions: ['contacts', 'stations', 'parking']
             },
             'c5165083befc92b41c6c93d615f2b0239c2f7f1d7232991f3edb6f15cc638794': {
-                level: 1, name: 'Пользователь', greeting: 'доступ ⭐️',
+                level: 1,
+                name: 'Пользователь',
+                greeting: 'доступ ⭐️',
                 permissions: ['contacts', 'parking']
             }
         };
 
-        // Зашифрованные данные (заполните реальными)
         const ENCRYPTED_CONTACTS_LEVEL3 = "";
         const ENCRYPTED_STATIONS_LEVEL3 = "";
         const ENCRYPTED_PARKING_LEVEL3 = "";
@@ -238,51 +950,84 @@
         const ENCRYPTED_CONTACTS_LEVEL1 = "";
         const ENCRYPTED_PARKING_LEVEL1 = "";
         
-        let CONTACTS_DATA = [], STATIONS_DATA = [], DOCUMENTS_DATA = [], PARKING_DATA = [];
+        const STORAGE_KEYS = {
+            LAST_RESULTS: 'infa_last_results_raw',
+            LAST_QUERY: 'infa_last_query'
+        };
 
+        const FORCE_UPDATE_BANNER = true;
+
+        let CONTACTS_DATA = [];
+        let STATIONS_DATA = [];
+        let DOCUMENTS_DATA = [];
+        let PARKING_DATA = [];
+
+        let SESSION_DATA = null;
+        
         function verifyAccessCode(inputCode) {
             if (!inputCode) return null;
             const hash = CryptoJS.SHA256(inputCode.trim()).toString();
             const userData = ACCESS_LEVELS[hash];
-            return userData ? { ...userData, enteredCode: inputCode.trim() } : null;
+            if (userData) {
+                return { ...userData, enteredCode: inputCode.trim() };
+            }
+            return null;
         }
         
         function decryptData(encryptedBase64, password) {
-            if (!encryptedBase64 || encryptedBase64.trim() === "") return [];
+            if (!encryptedBase64 || encryptedBase64.trim() === "") {
+                return [];
+            }
             try {
                 const decrypted = CryptoJS.AES.decrypt(encryptedBase64, password);
                 const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
-                return decryptedStr ? JSON.parse(decryptedStr) : [];
-            } catch(e) { return []; }
+                if (!decryptedStr) return [];
+                return JSON.parse(decryptedStr);
+            } catch(e) {
+                console.error("Ошибка расшифровки:", e);
+                return [];
+            }
         }
 
         function decryptAllDataWithCode(userData) {
             const accessCode = userData.enteredCode;
-            if (userData.level === 3) {
+            const level = userData.level;
+            
+            if (level === 3) {
                 CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL3, accessCode);
                 STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL3, accessCode);
                 PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL3, accessCode);
                 DOCUMENTS_DATA = decryptData(ENCRYPTED_DOCUMENTS_LEVEL3, accessCode);
-            } else if (userData.level === 2) {
+            } 
+            else if (level === 2) {
                 CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL2, accessCode);
                 STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL2, accessCode);
                 PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL2, accessCode);
                 DOCUMENTS_DATA = [];
-            } else if (userData.level === 1) {
+            } 
+            else if (level === 1) {
                 CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL1, accessCode);
                 PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL1, accessCode);
-                STATIONS_DATA = []; DOCUMENTS_DATA = [];
+                STATIONS_DATA = [];
+                DOCUMENTS_DATA = [];
             }
+            
             return true;
         }
         
         function saveSession(userData) {
             const sessionData = {
                 accessCodeHash: CryptoJS.SHA256(userData.enteredCode).toString(),
-                level: userData.level, permissions: userData.permissions,
-                contacts: CONTACTS_DATA, stations: STATIONS_DATA, parking: PARKING_DATA, documents: DOCUMENTS_DATA,
-                timestamp: Date.now(), appVersion: APP_VERSION
+                level: userData.level,
+                permissions: userData.permissions,
+                contacts: CONTACTS_DATA,
+                stations: STATIONS_DATA,
+                parking: PARKING_DATA,
+                documents: DOCUMENTS_DATA,
+                timestamp: Date.now(),
+                appVersion: APP_VERSION
             };
+            
             localStorage.setItem('access_session_data', JSON.stringify(sessionData));
             localStorage.setItem('access_session_timestamp', sessionData.timestamp);
             sessionStorage.setItem('access_session_data', JSON.stringify(sessionData));
@@ -291,7 +1036,8 @@
         function isSessionValid() {
             const timestamp = localStorage.getItem('access_session_timestamp');
             if (!timestamp) return false;
-            return (Date.now() - parseInt(timestamp)) < (30 * 24 * 60 * 60 * 1000);
+            const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+            return (Date.now() - parseInt(timestamp)) < THIRTY_DAYS;
         }
 
         function restoreSessionFromStorage() {
@@ -301,55 +1047,178 @@
                 sessionStorage.removeItem('access_session_data');
                 return null;
             }
-            let sessionData = sessionStorage.getItem('access_session_data') || localStorage.getItem('access_session_data');
+            
+            let sessionData = sessionStorage.getItem('access_session_data');
+            if (!sessionData) {
+                sessionData = localStorage.getItem('access_session_data');
+            }
+            
             if (!sessionData) return null;
+            
             try {
                 const data = JSON.parse(sessionData);
                 CONTACTS_DATA = data.contacts || [];
                 STATIONS_DATA = data.stations || [];
                 PARKING_DATA = data.parking || [];
                 DOCUMENTS_DATA = data.documents || [];
+                
                 const userData = ACCESS_LEVELS[data.accessCodeHash];
-                return userData ? { ...userData, enteredCode: null } : null;
-            } catch(e) { return null; }
+                if (userData) {
+                    return { ...userData, enteredCode: null };
+                }
+                return null;
+            } catch(e) {
+                return null;
+            }
         }
         
         const DATABASE = {
-            contacts: [], stations: [], documents: [], parking: [], currentUser: null,
-            init() { this.contacts = CONTACTS_DATA; this.stations = STATIONS_DATA; this.documents = DOCUMENTS_DATA; this.parking = PARKING_DATA; },
-            hasPermission(perm) { return this.currentUser?.permissions?.includes(perm); },
+            users: [],
+            stations: [],
+            contacts: [],
+            documents: [],
+            parking: [],
+            currentUser: null,
+            isInitialized: false,
+
+            init() {
+                this.users = Object.values(ACCESS_LEVELS);
+                this.contacts = CONTACTS_DATA;
+                this.stations = STATIONS_DATA;
+                this.documents = DOCUMENTS_DATA;
+                this.parking = PARKING_DATA;
+                this.isInitialized = true;
+                console.log('DATABASE ready');
+            },
+
             calculateMatchPercent(text, query) {
                 if (!text || !query) return 0;
-                const t = text.toLowerCase(), q = query.toLowerCase();
+                const t = text.toLowerCase();
+                const q = query.toLowerCase();
                 if (t === q) return 100;
                 if (t.includes(q)) return Math.min((q.length / t.length) * 100, 99);
                 return 0;
             },
-            searchAllRanked(q) {
-                if (!q) return [];
-                const lq = q.toLowerCase().trim();
-                let results = [];
-                if (this.hasPermission('stations')) {
-                    this.stations.forEach(s => { let best = 0; if (s.searchName) best = Math.max(best, this.calculateMatchPercent(s.searchName, lq)); if (s.телефон) best = Math.max(best, this.calculateMatchPercent(s.телефон, lq)); if (best > 0) results.push({ ...s, type: 'station', matchPercent: best }); });
-                }
-                if (this.hasPermission('parking')) {
-                    this.parking.forEach(p => { let best = 0; if (p.searchName) best = Math.max(best, this.calculateMatchPercent(p.searchName, lq)); if (best > 0) results.push({ ...p, type: 'parking', matchPercent: best }); });
-                }
-                if (this.hasPermission('contacts')) {
-                    this.contacts.forEach(c => { let best = 0; if (c.searchName) best = Math.max(best, this.calculateMatchPercent(c.searchName, lq)); if (c.телефон) best = Math.max(best, this.calculateMatchPercent(c.телефон, lq)); if (best > 0) results.push({ ...c, type: 'contact', matchPercent: best }); });
-                }
-                if (this.hasPermission('documents')) {
-                    this.documents.forEach(d => { let best = 0; if (d.searchName) best = Math.max(best, this.calculateMatchPercent(d.searchName, lq)); if (best > 0) results.push({ ...d, type: 'document', matchPercent: best }); });
-                }
-                return results.sort((a,b) => b.matchPercent - a.matchPercent);
+
+            hasPermission(perm) {
+                return this.currentUser && this.currentUser.permissions.includes(perm);
             },
-            setCurrentUser(u) { this.currentUser = u; }
+
+            searchStationsRanked(q) {
+                if (!q || !this.hasPermission('stations')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.stations.forEach(s => {
+                    let best = 0;
+                    if (s.searchName) best = Math.max(best, this.calculateMatchPercent(s.searchName, lq));
+                    if (s.телефон) best = Math.max(best, this.calculateMatchPercent(s.телефон, lq));
+                    if (best > 0) res.push({ ...s, type: 'station', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchParkingRanked(q) {
+                if (!q || !this.hasPermission('parking')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.parking.forEach(p => {
+                    let best = 0;
+                    if (p.searchName) best = Math.max(best, this.calculateMatchPercent(p.searchName, lq));
+                    if (best > 0) res.push({ ...p, type: 'parking', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchContactsRanked(q) {
+                if (!q || !this.hasPermission('contacts')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.contacts.forEach(c => {
+                    let best = 0;
+                    if (c.searchName) best = Math.max(best, this.calculateMatchPercent(c.searchName, lq));
+                    if (c.телефон) best = Math.max(best, this.calculateMatchPercent(c.телефон, lq));
+                    if (best > 0) res.push({ ...c, type: 'contact', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchDocumentsRanked(q) {
+                if (!q || !this.hasPermission('documents')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.documents.forEach(d => {
+                    let best = 0;
+                    if (d.searchName) best = Math.max(best, this.calculateMatchPercent(d.searchName, lq));
+                    if (best > 0) res.push({ ...d, type: 'document', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchAllRanked(q) {
+                let allResults = [
+                    ...this.searchStationsRanked(q),
+                    ...this.searchParkingRanked(q),
+                    ...this.searchContactsRanked(q),
+                    ...this.searchDocumentsRanked(q)
+                ];
+                allResults.sort((a, b) => b.matchPercent - a.matchPercent);
+                return allResults;
+            },
+
+            setCurrentUser(u) {
+                this.currentUser = u;
+            }
+        };
+        
+        const ParkingUI = {
+            userParkingData: {},
+
+            init() {
+                this.loadUserData();
+            },
+
+            loadUserData() {
+                try {
+                    const saved = localStorage.getItem('infa_parking_user_data');
+                    if (saved) this.userParkingData = JSON.parse(saved);
+                } catch(e) {
+                    this.userParkingData = {};
+                }
+            },
+
+            saveUserData() {
+                localStorage.setItem('infa_parking_user_data', JSON.stringify(this.userParkingData));
+            },
+
+            getUserNote(parkingId) {
+                return (this.userParkingData[parkingId] && this.userParkingData[parkingId].note !== undefined) 
+                    ? this.userParkingData[parkingId].note 
+                    : null;
+            },
+
+            updateParkingNote(parkingId, newNote) {
+                if (!parkingId) return false;
+                if (!PARKING_DATA.find(p => p.id === parkingId)) return false;
+                if (!this.userParkingData[parkingId]) this.userParkingData[parkingId] = {};
+                this.userParkingData[parkingId].note = newNote;
+                this.userParkingData[parkingId].updatedAt = new Date().toISOString();
+                this.saveUserData();
+                return true;
+            }
         };
         
         class InfaApp {
             constructor() {
-                this.currentUser = null; this.currentZoom = 100; this.minZoom = 70; this.maxZoom = 150;
-                this.pinCode = ""; this.maxPinLength = 4;
+                this.currentUser = null;
+                this.isLoggedIn = false;
+                this.currentZoom = 100;
+                this.minZoom = 70;
+                this.maxZoom = 150;
+                this.zoomStep = 10;
+                this.drawerCloseTimer = null;
+                this.pinCode = "";
+                this.maxPinLength = 4;
+                this.isRestoredResults = false;
                 this.init();
             }
 
@@ -359,20 +1228,23 @@
                 this.mainScreen = document.getElementById('main-screen');
                 this.loadingText = document.querySelector('.loading-text');
                 this.usernameSpan = document.getElementById('username');
+                this.menuBtn = document.getElementById('menu-btn');
                 this.searchInput = document.getElementById('search-input');
                 this.resultsContainer = document.getElementById('results-container');
                 this.notification = document.getElementById('notification');
                 this.zoomInBtn = document.getElementById('zoom-in-btn');
                 this.zoomOutBtn = document.getElementById('zoom-out-btn');
                 this.zoomIndicator = document.getElementById('zoom-indicator');
+                
+                this.pinPad = document.getElementById('pin-pad');
                 this.pinDots = document.getElementById('pin-dots');
                 this.pinHiddenInput = document.getElementById('login-password-hidden');
                 this.forgotPinBtn = document.getElementById('forgot-pin-btn');
+                
                 this.drawerOverlay = document.getElementById('drawer-overlay');
                 this.drawer = document.getElementById('drawer');
                 this.drawerClose = document.getElementById('drawer-close');
                 this.drawerRefresh = document.getElementById('drawer-refresh');
-                this.drawerCheckUpdate = document.getElementById('drawer-check-update');
                 this.drawerError = document.getElementById('drawer-error');
                 this.drawerAddData = document.getElementById('drawer-add-data');
                 this.drawerLogout = document.getElementById('drawer-logout');
@@ -382,270 +1254,971 @@
                 this.drawerAddStation = document.getElementById('drawer-add-station');
                 this.drawerAddParking = document.getElementById('drawer-add-parking');
                 this.drawerAddContact = document.getElementById('drawer-add-contact');
+                
                 this.versionBadge = document.getElementById('app-version-badge');
             }
 
-            showVersionInfo() {
-                if (this.versionBadge) {
-                    this.versionBadge.textContent = `v${APP_VERSION}`;
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.getRegistration().then(reg => {
-                            if (reg?.active) this.versionBadge.style.background = 'rgba(0, 240, 255, 0.25)';
+            saveSearchResults(results, query) {
+                if (!results || results.length === 0) {
+                    this.clearSavedResults();
+                    return;
+                }
+                try {
+                    const rawResults = results.map(item => {
+                        const clone = { ...item };
+                        if (clone.userNote) delete clone.userNote;
+                        return clone;
+                    });
+                    localStorage.setItem(STORAGE_KEYS.LAST_RESULTS, JSON.stringify(rawResults));
+                    localStorage.setItem(STORAGE_KEYS.LAST_QUERY, query);
+                } catch (e) {
+                    console.warn('Не удалось сохранить результаты поиска:', e);
+                }
+            }
+
+            restoreSearchResults() {
+                try {
+                    const savedResultsRaw = localStorage.getItem(STORAGE_KEYS.LAST_RESULTS);
+                    const savedQuery = localStorage.getItem(STORAGE_KEYS.LAST_QUERY);
+                    
+                    if (savedResultsRaw && savedQuery) {
+                        const rawResults = JSON.parse(savedResultsRaw);
+                        const restoredResults = rawResults.map(item => {
+                            if (item.type === 'parking' && item.id) {
+                                return { ...item, userNote: ParkingUI.getUserNote(item.id) };
+                            }
+                            return item;
                         });
+                        this.displayResults(restoredResults, savedQuery);
+                        if (this.resultsContainer) {
+                            this.resultsContainer.classList.add('restored-result');
+                        }
+                        this.isRestoredResults = true;
+                        this.showNotification(`Показаны сохранённые результаты: "${savedQuery}"`, 'success');
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn('Не удалось восстановить результаты поиска:', e);
+                }
+                return false;
+            }
+
+            clearSavedResults() {
+                localStorage.removeItem(STORAGE_KEYS.LAST_RESULTS);
+                localStorage.removeItem(STORAGE_KEYS.LAST_QUERY);
+            }
+
+            initPinPad() {
+                if (!this.pinPad) return;
+                
+                this.pinPad.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.pin-btn');
+                    if (!btn) return;
+                    
+                    const digit = btn.getAttribute('data-digit');
+                    const action = btn.getAttribute('data-action');
+                    
+                    if (digit !== null) {
+                        this.addPinDigit(digit);
+                    } else if (action === 'backspace') {
+                        this.removePinDigit();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (!this.loginScreen.classList.contains('active')) return;
+                    
+                    if (e.key >= '0' && e.key <= '9') {
+                        e.preventDefault();
+                        this.addPinDigit(e.key);
+                    } else if (e.key === 'Backspace') {
+                        e.preventDefault();
+                        this.removePinDigit();
+                    } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.submitPin();
+                    }
+                });
+
+                if (this.pinHiddenInput) {
+                    this.pinHiddenInput.addEventListener('input', (e) => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        if (val) {
+                            this.pinCode = val.slice(0, this.maxPinLength);
+                            this.updatePinDots();
+                            if (this.pinCode.length >= this.maxPinLength) {
+                                this.submitPin();
+                            }
+                        }
+                    });
+                }
+
+                if (this.forgotPinBtn) {
+                    this.forgotPinBtn.addEventListener('click', () => {
+                        window.location.href = 'tel:89169002420';
+                    });
+                }
+            }
+
+            addPinDigit(digit) {
+                if (this.pinCode.length < this.maxPinLength) {
+                    this.pinCode += digit;
+                    this.updatePinDots();
+                    
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.value = this.pinCode;
+                    }
+                    
+                    if (this.pinCode.length >= this.maxPinLength) {
+                        setTimeout(() => this.submitPin(), 200);
                     }
                 }
             }
 
-            async checkForUpdates() {
-                this.showNotification('🔍 Проверка обновлений...', 'success');
-                if ('serviceWorker' in navigator) {
-                    try {
-                        const registration = await navigator.serviceWorker.getRegistration();
-                        if (registration) {
-                            await registration.update();
-                            const swUrl = registration.active?.scriptURL;
-                            if (swUrl) {
-                                const response = await fetch(swUrl + '?t=' + Date.now());
-                                const swContent = await response.text();
-                                let swVersion = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/)?.[1];
-                                if (swVersion) {
-                                    const savedVersion = localStorage.getItem('sw_cache_version');
-                                    if (savedVersion !== swVersion) {
-                                        this.showNotification(`🆕 Доступна новая версия! Нажмите "Обновить БД"`, 'success');
-                                        this.showUpdateBanner();
-                                    } else {
-                                        this.showNotification(`✅ Версия актуальна (${APP_VERSION})`, 'success');
-                                    }
-                                }
-                            }
-                        }
-                    } catch(e) { console.error(e); }
+            removePinDigit() {
+                if (this.pinCode.length > 0) {
+                    this.pinCode = this.pinCode.slice(0, -1);
+                    this.updatePinDots();
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.value = this.pinCode;
+                    }
                 }
             }
 
-            showUpdateBanner() {
-                if (document.getElementById('force-update-banner')) return;
-                const banner = document.createElement('div');
-                banner.className = 'update-banner';
-                banner.id = 'force-update-banner';
-                banner.innerHTML = `<div class="update-banner-text">🔔 В базу данных добавлена новая информация!</div><button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>`;
-                document.body.appendChild(banner);
-                setTimeout(() => banner.classList.add('show'), 100);
-                document.getElementById('force-update-btn')?.addEventListener('click', () => {
-                    this.refreshData();
-                    banner.classList.remove('show');
-                    setTimeout(() => banner.remove(), 500);
-                    sessionStorage.setItem('force_update_banner_shown', 'true');
-                    localStorage.setItem('update_performed_since_last_sw', 'true');
+            updatePinDots() {
+                if (!this.pinDots) return;
+                const dots = this.pinDots.querySelectorAll('.pin-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('filled', index < this.pinCode.length);
+                    dot.classList.remove('error');
                 });
             }
 
-            async refreshData() {
-                if (!this.currentUser?.enteredCode) {
-                    this.showNotification('❌ PIN не найден. Выполните повторный вход.', 'error');
-                    this.handleLogout();
-                    return;
-                }
-                const savedPin = this.currentUser.enteredCode;
-                this.showLoadingMessage('Обновление данных...');
-                CONTACTS_DATA = []; STATIONS_DATA = []; PARKING_DATA = []; DOCUMENTS_DATA = [];
-                await new Promise(r => setTimeout(r, 100));
-                decryptAllDataWithCode({ ...this.currentUser, enteredCode: savedPin });
-                DATABASE.contacts = CONTACTS_DATA; DATABASE.stations = STATIONS_DATA;
-                DATABASE.parking = PARKING_DATA; DATABASE.documents = DOCUMENTS_DATA;
-                const sessionData = {
-                    accessCodeHash: CryptoJS.SHA256(savedPin).toString(),
-                    level: this.currentUser.level, permissions: this.currentUser.permissions,
-                    contacts: CONTACTS_DATA, stations: STATIONS_DATA, parking: PARKING_DATA, documents: DOCUMENTS_DATA,
-                    timestamp: Date.now(), appVersion: APP_VERSION
-                };
-                localStorage.setItem('access_session_data', JSON.stringify(sessionData));
-                localStorage.setItem('access_session_timestamp', sessionData.timestamp);
-                sessionStorage.setItem('access_session_data', JSON.stringify(sessionData));
-                this.currentUser = { ...this.currentUser, enteredCode: savedPin };
-                DATABASE.setCurrentUser(this.currentUser);
-                if (this.searchInput?.value.trim()) {
-                    const query = this.searchInput.value.trim();
-                    this.displayResults(DATABASE.searchAllRanked(query.toLowerCase()), query);
-                }
-                this.showNotification('✅ Данные успешно обновлены!', 'success');
+            showPinError() {
+                if (!this.pinDots) return;
+                const dots = this.pinDots.querySelectorAll('.pin-dot');
+                dots.forEach(dot => dot.classList.add('error'));
+                
+                setTimeout(() => {
+                    this.pinCode = "";
+                    this.updatePinDots();
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.value = "";
+                    }
+                }, 500);
             }
-
-            initPinPad() {
-                const pad = document.getElementById('pin-pad');
-                if (!pad) return;
-                pad.addEventListener('click', (e) => {
-                    const btn = e.target.closest('.pin-btn');
-                    if (!btn) return;
-                    const digit = btn.getAttribute('data-digit');
-                    if (digit) this.addPinDigit(digit);
-                    if (btn.getAttribute('data-action') === 'backspace') this.removePinDigit();
-                });
-                document.addEventListener('keydown', (e) => {
-                    if (!this.loginScreen?.classList.contains('active')) return;
-                    if (e.key >= '0' && e.key <= '9') { e.preventDefault(); this.addPinDigit(e.key); }
-                    if (e.key === 'Backspace') { e.preventDefault(); this.removePinDigit(); }
-                    if (e.key === 'Enter') this.submitPin();
-                });
-                this.forgotPinBtn?.addEventListener('click', () => window.location.href = 'tel:89169002420');
-            }
-
-            addPinDigit(d) { if (this.pinCode.length < this.maxPinLength) { this.pinCode += d; this.updatePinDots(); if (this.pinCode.length === this.maxPinLength) setTimeout(() => this.submitPin(), 200); } }
-            removePinDigit() { this.pinCode = this.pinCode.slice(0, -1); this.updatePinDots(); }
-            updatePinDots() { this.pinDots?.querySelectorAll('.pin-dot').forEach((dot, i) => dot.classList.toggle('filled', i < this.pinCode.length)); }
 
             async submitPin() {
-                if (!this.pinCode) return;
+                if (this.pinCode.length === 0) return;
+                
                 const userData = verifyAccessCode(this.pinCode);
                 if (!userData) {
-                    this.pinDots?.querySelectorAll('.pin-dot').forEach(d => d.classList.add('error'));
-                    setTimeout(() => { this.pinCode = ""; this.updatePinDots(); }, 500);
+                    this.showPinError();
                     this.showNotification('Неверный код доступа', 'error');
                     return;
                 }
+
                 this.showLoadingMessage('Расшифровка данных...');
-                decryptAllDataWithCode(userData);
-                this.currentUser = userData;
-                DATABASE.setCurrentUser(userData);
-                saveSession(userData);
+                
+                const fullUserData = { ...userData, enteredCode: this.pinCode };
+                const decryptSuccess = decryptAllDataWithCode(fullUserData);
+
+                if (!decryptSuccess) {
+                    this.showNotification('Ошибка расшифровки данных. Обратитесь к администратору.', 'error');
+                    this.pinCode = "";
+                    this.updatePinDots();
+                    return;
+                }
+
+                this.currentUser = fullUserData;
+                this.isLoggedIn = true;
+                DATABASE.setCurrentUser(fullUserData);
+                saveSession(fullUserData);
+                
                 this.pinCode = "";
                 this.updatePinDots();
                 this.showMainScreen();
-                this.showNotification(`Добро пожаловать, ${userData.greeting}!`, 'success');
+                this.showNotification(`Добро пожаловать, ${fullUserData.greeting}!`, 'success');
+            }
+
+            updateZoomIndicator() {
+                const text = this.currentZoom === 100 ? 'Масштаб' : `${this.currentZoom}%`;
+                if (this.zoomIndicator) this.zoomIndicator.textContent = text;
+            }
+
+            applyZoomToDrawer() {
+                const scale = this.currentZoom / 100;
+                const drawer = this.drawer;
+                if (!drawer) return;
+                const drawerItems = drawer.querySelectorAll('.drawer-item, .drawer-header h3, .drawer-close');
+                drawerItems.forEach(el => {
+                    let baseSize = 15;
+                    if (el.classList.contains('drawer-item')) baseSize = 15;
+                    else if (el.tagName === 'H3') baseSize = 18;
+                    else if (el.classList.contains('drawer-close')) baseSize = 24;
+                    else baseSize = 14;
+                    el.style.fontSize = `${baseSize * scale}px`;
+                });
+                const icons = drawer.querySelectorAll('.item-icon');
+                icons.forEach(icon => {
+                    icon.style.fontSize = `${18 * scale}px`;
+                });
             }
 
             applyZoom(percent) {
                 percent = Math.max(this.minZoom, Math.min(this.maxZoom, percent));
                 this.currentZoom = percent;
                 const scale = percent / 100;
+
                 if (this.searchInput) this.searchInput.style.fontSize = `${1.3 * scale}rem`;
-                document.querySelectorAll('.result-title').forEach(el => el.style.fontSize = `${1 * scale}rem`);
-                document.querySelectorAll('.result-detail, .result-contact').forEach(el => el.style.fontSize = `${0.8125 * scale}rem`);
-                if (this.zoomIndicator) this.zoomIndicator.textContent = percent === 100 ? 'Масштаб' : `${percent}%`;
+                
+                document.querySelectorAll('.result-card').forEach(card => {
+                    const title = card.querySelector('.result-title');
+                    if (title) title.style.fontSize = `${1 * scale}rem`;
+                    card.querySelectorAll('.result-detail, .result-contact').forEach(el => {
+                        el.style.fontSize = `${0.8125 * scale}rem`;
+                    });
+                    const ctx = card.querySelector('.result-context');
+                    if (ctx) ctx.style.fontSize = `${0.85 * scale}rem`;
+                    const mp = card.querySelector('.match-percent');
+                    if (mp) mp.style.fontSize = `${0.7 * scale}rem`;
+                });
+
+                const nores = document.querySelector('.no-results');
+                if (nores) nores.style.fontSize = `${0.875 * scale}rem`;
+                
+                if (this.zoomIndicator) this.zoomIndicator.style.fontSize = `${0.875 * scale}rem`;
+                document.querySelectorAll('.zoom-btn').forEach(btn => btn.style.fontSize = `${0.875 * scale}rem`);
+
+                this.updateZoomIndicator();
+                this.applyZoomToDrawer();
                 localStorage.setItem('infa_zoom', this.currentZoom);
             }
 
-            loadZoomSetting() { const saved = localStorage.getItem('infa_zoom'); if (saved) this.applyZoom(parseInt(saved)); else this.applyZoom(100); }
-
-            showMainScreen() {
-                this.loadingScreen?.classList.remove('active');
-                this.loginScreen?.classList.remove('active');
-                this.mainScreen?.classList.add('active');
-                if (this.usernameSpan && this.currentUser) this.usernameSpan.textContent = this.currentUser.greeting;
-                this.loadZoomSetting();
-                this.showVersionInfo();
-                if (this.searchInput) { this.searchInput.value = ''; setTimeout(() => this.searchInput.focus(), 100); }
-                DATABASE.init();
+            zoomIn() {
+                let nz = this.currentZoom + this.zoomStep;
+                if (nz > this.maxZoom) {
+                    this.showNotification(`Максимальный масштаб: ${this.maxZoom}%`, 'error');
+                    return;
+                }
+                this.applyZoom(nz);
+                this.showNotification(`Масштаб: ${nz}%`, 'success');
             }
 
-            showLoginScreen() {
-                this.loadingScreen?.classList.remove('active');
-                this.mainScreen?.classList.remove('active');
-                this.loginScreen?.classList.add('active');
-                this.pinCode = ""; this.updatePinDots();
+            zoomOut() {
+                let nz = this.currentZoom - this.zoomStep;
+                if (nz < this.minZoom) {
+                    this.showNotification(`Минимальный масштаб: ${this.minZoom}%`, 'error');
+                    return;
+                }
+                this.applyZoom(nz);
+                this.showNotification(`Масштаб: ${nz}%`, 'success');
             }
 
-            handleLogout() {
-                this.currentUser = null; DATABASE.setCurrentUser(null);
-                localStorage.removeItem('access_session_data'); localStorage.removeItem('access_session_timestamp');
-                sessionStorage.removeItem('access_session_data');
-                this.showLoginScreen();
-                this.showNotification('Вы вышли из аккаунта', 'success');
-            }
-
-            startLoading() {
-                const restored = restoreSessionFromStorage();
-                if (restored && isSessionValid()) {
-                    this.currentUser = restored;
-                    DATABASE.setCurrentUser(restored);
-                    this.showMainScreen();
-                } else { this.showLoginScreen(); }
-            }
-
-            liveSearch() {
-                if (!this.searchInput) return;
-                const q = this.searchInput.value.trim().toLowerCase();
-                if (q.length < 2) { this.resultsContainer?.classList.add('hidden'); return; }
-                const results = DATABASE.searchAllRanked(q);
-                this.displayResults(results, q);
-            }
-
-            displayResults(results, q) {
-                if (!this.resultsContainer) return;
-                this.resultsContainer.classList.remove('hidden');
-                if (!results.length) { this.resultsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>'; return; }
-                this.resultsContainer.innerHTML = results.map(item => {
-                    if (item.type === 'contact') {
-                        return `<div class="result-card"><div class="result-icon">👤</div><div class="result-content"><div class="result-title">${this.escapeHtml(item.имя)}</div><div class="result-detail">💼 ${this.escapeHtml(item.должность)}</div>${item.телефон ? `<div class="result-contact"><a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}">📞 ${this.escapeHtml(item.телефон)}</a></div>` : ''}</div></div>`;
-                    } else if (item.type === 'parking') {
-                        return `<div class="result-card"><div class="result-icon">🅿️</div><div class="result-content"><div class="result-title">${this.escapeHtml(item.название)}</div>${item.контекст ? `<div class="result-detail">${this.escapeHtml(item.контекст)}</div>` : ''}${item.ссылка ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank">⭐️ ПОСТРОИТЬ МАРШРУТ</a></div>` : ''}</div></div>`;
-                    } else if (item.type === 'station') {
-                        return `<div class="result-card"><div class="result-icon">🚇</div><div class="result-content"><div class="result-title">${this.escapeHtml(item.станция || item.линия)}</div>${item.линия ? `<div class="result-detail">✳️ ${this.escapeHtml(item.линия)}</div>` : ''}${item.телефон ? `<div class="result-contact"><a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}">📞 ${this.escapeHtml(item.телефон)}</a></div>` : ''}</div></div>`;
+            loadZoomSetting() {
+                const saved = localStorage.getItem('infa_zoom');
+                if (saved) {
+                    let z = parseInt(saved);
+                    if (!isNaN(z) && z >= this.minZoom && z <= this.maxZoom) {
+                        this.currentZoom = z;
+                    } else {
+                        this.currentZoom = 100;
                     }
-                    return '';
-                }).join('');
+                }
                 this.applyZoom(this.currentZoom);
             }
 
-            showNotification(msg, type) {
+            openDrawer() {
+                if (this.drawerOverlay && this.drawer) {
+                    this.drawerOverlay.classList.add('active');
+                    this.drawer.classList.add('active');
+                    this.startDrawerAutoClose();
+                    this.drawerMenuMain.style.display = 'flex';
+                    this.drawerSubmenuAdd.classList.remove('active');
+                }
+            }
+
+            closeDrawer() {
+                if (this.drawerOverlay && this.drawer) {
+                    this.drawerOverlay.classList.remove('active');
+                    this.drawer.classList.remove('active');
+                    this.stopDrawerAutoClose();
+                }
+            }
+
+            startDrawerAutoClose() {
+                this.stopDrawerAutoClose();
+                this.drawerCloseTimer = setTimeout(() => {
+                    this.closeDrawer();
+                }, 30000);
+            }
+
+            stopDrawerAutoClose() {
+                if (this.drawerCloseTimer) {
+                    clearTimeout(this.drawerCloseTimer);
+                    this.drawerCloseTimer = null;
+                }
+            }
+
+            resetDrawerAutoClose() {
+                if (this.drawer && this.drawer.classList.contains('active')) {
+                    this.startDrawerAutoClose();
+                }
+            }
+
+            showAddSubmenu() {
+                this.drawerMenuMain.style.display = 'none';
+                this.drawerSubmenuAdd.classList.add('active');
+                this.resetDrawerAutoClose();
+            }
+
+            hideAddSubmenu() {
+                this.drawerMenuMain.style.display = 'flex';
+                this.drawerSubmenuAdd.classList.remove('active');
+                this.resetDrawerAutoClose();
+            }
+
+            async refreshData() {
+                this.showNotification('🌐 Обновление данных...', 'success');
+                
+                this.clearSavedResults();
+                
+                if (!this.currentUser || !this.currentUser.enteredCode) {
+                    this.showNotification('❌ PIN не найден в памяти. Выполните повторный вход.', 'error');
+                    this.handleLogout();
+                    return;
+                }
+                
+                const currentPin = this.currentUser.enteredCode;
+                const currentLevel = this.currentUser.level;
+                
+                this.showLoadingMessage('Обновление данных...');
+                
+                this.loadingScreen.classList.add('active');
+                this.mainScreen.classList.remove('active');
+                
+                CONTACTS_DATA = [];
+                STATIONS_DATA = [];
+                PARKING_DATA = [];
+                DOCUMENTS_DATA = [];
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                const fullUserData = { 
+                    ...this.currentUser, 
+                    enteredCode: currentPin 
+                };
+                
+                const decryptSuccess = decryptAllDataWithCode(fullUserData);
+                
+                if (!decryptSuccess) {
+                    this.loadingScreen.classList.remove('active');
+                    this.showMainScreen();
+                    this.showNotification('❌ Ошибка расшифровки данных.', 'error');
+                    return;
+                }
+                
+                DATABASE.contacts = CONTACTS_DATA;
+                DATABASE.stations = STATIONS_DATA;
+                DATABASE.parking = PARKING_DATA;
+                DATABASE.documents = DOCUMENTS_DATA;
+                
+                saveSession(fullUserData);
+                
+                this.currentUser = fullUserData;
+                this.isLoggedIn = true;
+                DATABASE.setCurrentUser(fullUserData);
+                
+                this.loadingScreen.classList.remove('active');
+                this.showMainScreen();
+                
+                if (this.searchInput && this.searchInput.value.trim()) {
+                    const query = this.searchInput.value.trim();
+                    const results = DATABASE.searchAllRanked(query.toLowerCase());
+                    this.displayResults(results, query);
+                    this.saveSearchResults(results, query);
+                }
+                
+                this.showNotification('✅ Данные успешно обновлены!', 'success');
+            }
+
+            showLoadingMessage(msg) {
+                if (this.loadingText) this.loadingText.textContent = msg;
+            }
+
+            handleLogout() {
+                this.isLoggedIn = false;
+                this.currentUser = null;
+                DATABASE.setCurrentUser(null);
+                localStorage.removeItem('access_session_data');
+                localStorage.removeItem('access_session_timestamp');
+                sessionStorage.removeItem('access_session_data');
+                
+                this.clearSavedResults();
+                
+                this.pinCode = "";
+                this.updatePinDots();
+                this.showLoginScreen();
+                this.showNotification('Вы вышли из системы', 'success');
+            }
+
+            showLoginScreen() {
+                this.loadingScreen.classList.remove('active');
+                this.mainScreen.classList.remove('active');
+                this.loginScreen.classList.add('active');
+                this.closeDrawer();
+                this.pinCode = "";
+                this.updatePinDots();
+                if (this.pinHiddenInput) {
+                    this.pinHiddenInput.value = "";
+                }
+            }
+
+            showMainScreen() {
+                this.loadingScreen.classList.remove('active');
+                this.loginScreen.classList.remove('active');
+                this.mainScreen.classList.add('active');
+                
+                if (this.usernameSpan && this.currentUser) {
+                    this.usernameSpan.textContent = this.currentUser.greeting;
+                }
+                
+                this.loadZoomSetting();
+                
+                // Отображаем версию приложения
+                if (this.versionBadge) {
+                    this.versionBadge.textContent = `v${APP_VERSION}`;
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.getRegistration().then(reg => {
+                            if (reg && reg.active) {
+                                this.versionBadge.style.background = 'rgba(0, 240, 255, 0.25)';
+                            }
+                        });
+                    }
+                }
+                
+                if (this.searchInput) {
+                    this.searchInput.value = '';
+                    setTimeout(() => this.searchInput.focus(), 100);
+                }
+                
+                if (this.resultsContainer) {
+                    const hasRestored = this.restoreSearchResults();
+                    
+                    if (!hasRestored) {
+                        this.resultsContainer.innerHTML = '';
+                        this.resultsContainer.classList.add('hidden');
+                        if (this.resultsContainer.classList.contains('restored-result')) {
+                            this.resultsContainer.classList.remove('restored-result');
+                        }
+                        this.isRestoredResults = false;
+                    }
+                }
+                
+                DATABASE.init();
+                ParkingUI.init();
+                
+                this.showForceUpdateBanner();
+            }
+            
+            showForceUpdateBanner() {
+                if (!FORCE_UPDATE_BANNER) return;
+                
+                if (sessionStorage.getItem('force_update_banner_shown') === 'true') return;
+                
+                if (localStorage.getItem('update_performed_since_last_sw') === 'true') return;
+                
+                const banner = document.createElement('div');
+                banner.className = 'update-banner';
+                banner.id = 'force-update-banner';
+                banner.innerHTML = `
+                    <div class="update-banner-text">
+                       🔔 В базу данных добавлена новая информация!
+                    </div>
+                    <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
+                `;
+                document.body.appendChild(banner);
+                
+                setTimeout(() => banner.classList.add('show'), 100);
+                
+                const btn = document.getElementById('force-update-btn');
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        this.refreshData();
+                        
+                        const bannerEl = document.getElementById('force-update-banner');
+                        if (bannerEl) {
+                            bannerEl.classList.remove('show');
+                            setTimeout(() => bannerEl.remove(), 500);
+                        }
+                        
+                        sessionStorage.setItem('force_update_banner_shown', 'true');
+                        localStorage.setItem('update_performed_since_last_sw', 'true');
+                    });
+                }
+            }
+
+            startLoading() {
+                const restoredUser = restoreSessionFromStorage();
+                
+                if (restoredUser && isSessionValid()) {
+                    this.currentUser = restoredUser;
+                    this.isLoggedIn = true;
+                    DATABASE.setCurrentUser(restoredUser);
+                    this.showMainScreen();
+                    this.showNotification('Сессия восстановлена', 'success');
+                } else {
+                    this.showLoginScreen();
+                }
+                
+                this.checkSWVersionAndResetFlag();
+            }
+            
+            async checkSWVersionAndResetFlag() {
+                if (!('serviceWorker' in navigator)) return;
+                
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration && registration.active) {
+                        const swUrl = registration.active.scriptURL;
+                        const response = await fetch(swUrl + '?t=' + Date.now());
+                        const swContent = await response.text();
+                        
+                        let currentVersion = null;
+                        let match = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/);
+                        if (match) currentVersion = match[1];
+                        
+                        if (!currentVersion) {
+                            match = swContent.match(/CACHE_NAME\s*=\s*['"][^'"]*-([^'"]+)['"]/);
+                            if (match) currentVersion = match[1];
+                        }
+                        
+                        if (!currentVersion) {
+                            currentVersion = swContent.substring(0, 100);
+                        }
+                        
+                        const savedVersion = localStorage.getItem('sw_cache_version');
+                        
+                        if (savedVersion !== currentVersion) {
+                            localStorage.setItem('sw_cache_version', currentVersion);
+                            localStorage.removeItem('update_performed_since_last_sw');
+                            sessionStorage.removeItem('force_update_banner_shown');
+                        }
+                    }
+                } catch(e) {
+                    console.log('Ошибка проверки версии SW:', e);
+                }
+            }
+
+            liveSearch() {
+                if (!this.searchInput || !DATABASE) return;
+                const q = this.searchInput.value.trim().toLowerCase();
+                
+                if (q.length >= 1 && this.resultsContainer && this.resultsContainer.classList.contains('restored-result')) {
+                    this.resultsContainer.classList.remove('restored-result');
+                    this.isRestoredResults = false;
+                }
+                
+                if (q.length === 1) {
+                    this.clearSavedResults();
+                }
+                
+                if (q.length < 2) {
+                    if (this.resultsContainer) {
+                        this.resultsContainer.innerHTML = '';
+                        this.resultsContainer.classList.add('hidden');
+                    }
+                    return;
+                }
+                
+                const results = DATABASE.searchAllRanked(q);
+                this.displayResults(results, q);
+                this.saveSearchResults(results, this.searchInput.value.trim());
+            }
+
+            performSearch() {
+                if (!this.searchInput) return;
+                const q = this.searchInput.value.trim();
+                if (!q) {
+                    this.showNotification('Введите текст для поиска', 'error');
+                    this.searchInput.focus();
+                    return;
+                }
+                const results = DATABASE.searchAllRanked(q.toLowerCase());
+                this.displayResults(results, q);
+                this.saveSearchResults(results, q);
+                
+                if (results.length === 0) {
+                    this.showNotification('Ничего не найдено', 'error');
+                } else {
+                    this.showNotification(`Найдено: ${results.length}`, 'success');
+                }
+            }
+
+            formatTextWithLinks(text) {
+                if (!text) return '';
+                let t = this.escapeHtml(text).replace(/\n/g, '<br>');
+                t = t.replace(/(\+?[0-9][0-9\s\-\(\)]{8,}[0-9])/g, m => 
+                    `<a href="tel:${m.replace(/[^\d+]/g,'')}" class="contact-link">${m}</a>`);
+                t = t.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, m => 
+                    `<a href="mailto:${m}" class="contact-link">${m}</a>`);
+                t = t.replace(/(https?:\/\/[^\s]+)/g, m => 
+                    `<a href="${m}" target="_blank" rel="noopener noreferrer" class="contact-link">${m}</a>`);
+                return t;
+            }
+
+            highlightText(text, query, color = null) {
+                if (!text) return '';
+                if (!query) {
+                    return color 
+                        ? `<span style="color:${color};">${this.escapeHtml(text)}</span>` 
+                        : this.escapeHtml(text);
+                }
+                const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                const highlighted = text.replace(regex, '<span style="color: #4ade80; font-weight: 700;">$1</span>');
+                if (color) return `<span style="color:${color}; ">${highlighted}</span>`;
+                return highlighted;
+            }
+
+            displayResults(results, query) {
+                if (!this.resultsContainer) return;
+                this.resultsContainer.classList.remove('hidden');
+
+                if (results.length === 0) {
+                    this.resultsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                    this.applyZoom(this.currentZoom);
+                    return;
+                }
+
+                const currentQ = (query || '').toLowerCase();
+
+                this.resultsContainer.innerHTML = results.map(item => {
+                    if (item.type === 'contact') {
+                        const phone = item.телефон 
+                            ? `<a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">📞 ${this.escapeHtml(item.телефон)}</a>` 
+                            : '';
+                        const nameHtml = this.highlightText(item.имя, currentQ, '#ffb347');
+                        const jobHtml = this.highlightText(item.должность, currentQ);
+                        return `<div class="result-card contact">
+                            <div class="result-icon">👤</div>
+                            <div class="result-content">
+                                <div class="result-title">${nameHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                <div class="result-detail">💼 ${jobHtml}</div>
+                                ${phone ? `<div class="result-contact">${phone}</div>` : ''}
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'parking') {
+                        const mapLink = item.ссылка 
+                            ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ПОСТРОИТЬ МАРШРУТ</a></div>` 
+                            : '';
+                        let currentNote = item.примечание || '';
+                        const userNote = item.userNote !== undefined ? item.userNote : ParkingUI.getUserNote(item.id);
+                        if (userNote !== null) currentNote = userNote;
+                        const noteHtml = currentNote 
+                            ? `<div class="result-detail parking-note">${this.formatTextWithLinks(currentNote)}</div>` 
+                            : '';
+                        const contextHtml = item.контекст 
+                            ? `<div class="result-context">${this.formatTextWithLinks(item.контекст)}</div>` 
+                            : '';
+                        const titleHtml = this.highlightText(item.название, currentQ, '#ffb347');
+                        const buttons = `<div class="parking-buttons">
+                            <button class="parking-yes-btn" data-id="${item.id}">✅ Есть парковка</button>
+                            <button class="parking-no-btn" data-id="${item.id}">❌ Нет парковки</button>
+                        </div>`;
+                        return `<div class="result-card parking" data-parking-id="${item.id}">
+                            <div class="result-icon">🅿️</div>
+                            <div class="result-content">
+                                <div class="result-title">${titleHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                ${contextHtml}${noteHtml}${mapLink}${buttons}
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'station') {
+                        const fields = [];
+                        if (item.линия) fields.push(`✳️ ${item.линия}`);
+                        if (item.станция) fields.push(`🟠 ${item.станция}`);
+                        if (item.кросс) fields.push(`🔹 КРОСС: ${item.кросс}`);
+                        if (item.радиоузел) fields.push(`🔹 РАДИОУЗЕЛ: ${item.радиоузел}`);
+                        if (item.бск) fields.push(`🔹 БСК: ${item.бск}`);
+                        if (item.код) fields.push(`🔹 КОД: ${item.код}`);
+                        if (item.дсп) fields.push(`🔻 ДСП: ${item.дсп}`);
+                        if (item.блокпост) fields.push(`🔻 БЛОК-ПОСТ: ${item.блокпост}`);
+                        if (item.туалет) fields.push(`🚾 с/у: ${item.туалет}`);
+                        if (item.инфа) fields.push(`💬 ИНФА: ${item.инфа}`);
+                        if (item.обновлено) fields.push(`✅ Обновлено: ${item.обновлено}`);
+                        const phone = item.телефон 
+                            ? `<div class="result-contact"><a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">📞 ${this.escapeHtml(item.телефон)}</a></div>` 
+                            : '';
+                        const stationHtml = this.highlightText(item.станция || item.линия, currentQ, '#ffb347');
+                        return `<div class="result-card station">
+                            <div class="result-icon">🚇</div>
+                            <div class="result-content">
+                                <div class="result-title">${stationHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                ${fields.map(f => `<div class="result-detail">${this.formatTextWithLinks(f)}</div>`).join('')}${phone}
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'document') {
+                        const fileLink = item.ссылка 
+                            ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ОТКРЫТЬ ФАЙЛ</a></div>` 
+                            : '';
+                        const titleHtml = this.highlightText(item.название, currentQ, '#ffb347');
+                        return `<div class="result-card document">
+                            <div class="result-icon">📄</div>
+                            <div class="result-content">
+                                <div class="result-title">${titleHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                ${fileLink}
+                            </div>
+                        </div>`;
+                    }
+                    return '';
+                }).join('');
+
+                this.applyZoom(this.currentZoom);
+
+                document.querySelectorAll('.parking-yes-btn, .parking-no-btn').forEach(btn => {
+                    btn.removeEventListener('click', this.parkingHandler);
+                    this.parkingHandler = (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.getAttribute('data-id'));
+                        const status = btn.classList.contains('parking-yes-btn') ? 'yes' : 'no';
+                        const today = new Date().toLocaleDateString('ru-RU');
+                        const newNote = status === 'yes' 
+                            ? `✅ проверено ${today}` 
+                            : `❌ не актуально ${today}`;
+                        if (ParkingUI.updateParkingNote(id, newNote)) {
+                            this.showNotification(`Статус парковки обновлен: ${newNote}`, 'success');
+                            this.performSearch();
+                        } else {
+                            this.showNotification('Ошибка обновления', 'error');
+                        }
+                    };
+                    btn.addEventListener('click', this.parkingHandler);
+                });
+            }
+
+            showNotification(msg, type = 'success') {
                 if (!this.notification) return;
                 this.notification.textContent = msg;
                 this.notification.className = `notification ${type}`;
                 setTimeout(() => this.notification.classList.add('show'), 10);
-                setTimeout(() => this.notification.classList.remove('show'), 3000);
+                setTimeout(() => {
+                    if (this.notification) this.notification.classList.remove('show');
+                }, 3000);
             }
 
-            showLoadingMessage(msg) { if (this.loadingText) this.loadingText.textContent = msg; }
-            escapeHtml(t) { if (!t) return ''; const div = document.createElement('div'); div.textContent = t; return div.innerHTML; }
-
-            openDrawer() { this.drawerOverlay?.classList.add('active'); this.drawer?.classList.add('active'); }
-            closeDrawer() { this.drawerOverlay?.classList.remove('active'); this.drawer?.classList.remove('active'); }
-            showAddSubmenu() { this.drawerMenuMain.style.display = 'none'; this.drawerSubmenuAdd.classList.add('active'); }
-            hideAddSubmenu() { this.drawerMenuMain.style.display = 'flex'; this.drawerSubmenuAdd.classList.remove('active'); }
+            escapeHtml(t) {
+                if (!t) return '';
+                const div = document.createElement('div');
+                div.textContent = t;
+                return div.innerHTML;
+            }
 
             bindEvents() {
-                this.searchInput?.addEventListener('input', () => this.liveSearch());
-                this.menuBtn?.addEventListener('click', () => this.openDrawer());
-                this.drawerClose?.addEventListener('click', () => this.closeDrawer());
-                this.drawerOverlay?.addEventListener('click', () => this.closeDrawer());
-                this.zoomInBtn?.addEventListener('click', () => this.applyZoom(this.currentZoom + 10));
-                this.zoomOutBtn?.addEventListener('click', () => this.applyZoom(this.currentZoom - 10));
-                this.drawerRefresh?.addEventListener('click', () => { this.refreshData(); this.closeDrawer(); });
-                this.drawerCheckUpdate?.addEventListener('click', () => { this.checkForUpdates(); this.closeDrawer(); });
-                this.drawerError?.addEventListener('click', () => { window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank'); this.closeDrawer(); });
-                this.drawerAddData?.addEventListener('click', () => this.showAddSubmenu());
-                this.drawerLogout?.addEventListener('click', () => { this.handleLogout(); this.closeDrawer(); });
-                this.drawerBackMain?.addEventListener('click', () => this.hideAddSubmenu());
-                this.drawerAddStation?.addEventListener('click', () => { window.open(this.drawerAddStation.getAttribute('data-url'), '_blank'); this.closeDrawer(); });
-                this.drawerAddParking?.addEventListener('click', () => { window.open(this.drawerAddParking.getAttribute('data-url'), '_blank'); this.closeDrawer(); });
-                this.drawerAddContact?.addEventListener('click', () => { window.open(this.drawerAddContact.getAttribute('data-url'), '_blank'); this.closeDrawer(); });
+                if (this.searchInput) {
+                    this.searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            this.performSearch();
+                            this.searchInput.blur();
+                        }
+                    });
+                    this.searchInput.addEventListener('input', () => this.liveSearch());
+                }
+
+                if (this.menuBtn) {
+                    this.menuBtn.addEventListener('click', () => this.openDrawer());
+                }
+                if (this.drawerClose) {
+                    this.drawerClose.addEventListener('click', () => this.closeDrawer());
+                }
+                if (this.drawerOverlay) {
+                    this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
+                }
+
+                if (this.zoomInBtn) {
+                    this.zoomInBtn.addEventListener('click', () => this.zoomIn());
+                }
+                if (this.zoomOutBtn) {
+                    this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
+                }
+
+                if (this.drawerRefresh) {
+                    this.drawerRefresh.addEventListener('click', () => {
+                        this.refreshData();
+                        localStorage.setItem('update_performed_since_last_sw', 'true');
+                        sessionStorage.setItem('force_update_banner_shown', 'true');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerError) {
+                    this.drawerError.addEventListener('click', () => {
+                        window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerAddData) {
+                    this.drawerAddData.addEventListener('click', () => this.showAddSubmenu());
+                }
+                if (this.drawerLogout) {
+                    this.drawerLogout.addEventListener('click', () => {
+                        this.handleLogout();
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerBackMain) {
+                    this.drawerBackMain.addEventListener('click', () => this.hideAddSubmenu());
+                }
+                if (this.drawerAddStation) {
+                    this.drawerAddStation.addEventListener('click', () => {
+                        window.open(this.drawerAddStation.getAttribute('data-url'), '_blank');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerAddParking) {
+                    this.drawerAddParking.addEventListener('click', () => {
+                        window.open(this.drawerAddParking.getAttribute('data-url'), '_blank');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerAddContact) {
+                    this.drawerAddContact.addEventListener('click', () => {
+                        window.open(this.drawerAddContact.getAttribute('data-url'), '_blank');
+                        this.closeDrawer();
+                    });
+                }
+
+                document.addEventListener('click', (e) => {
+                    if (this.drawer && this.drawer.classList.contains('active') && 
+                        !this.drawer.contains(e.target) && !this.menuBtn.contains(e.target)) {
+                        this.closeDrawer();
+                    }
+                });
+
+                this.setupKeyboardHideOnScroll();
             }
 
-            init() { this.cacheElements(); this.initPinPad(); this.bindEvents(); this.startLoading(); }
+            setupKeyboardHideOnScroll() {
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (!isMobile) return;
+
+                let scrollTimeout = null;
+                let activeElementBeforeScroll = null;
+
+                const handleScrollStart = () => {
+                    const focusedElement = document.activeElement;
+                    if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
+                        activeElementBeforeScroll = focusedElement;
+                    } else {
+                        activeElementBeforeScroll = null;
+                    }
+                };
+
+                const handleScrollEnd = () => {
+                    if (activeElementBeforeScroll) {
+                        activeElementBeforeScroll.blur();
+                        activeElementBeforeScroll = null;
+                    }
+                };
+
+                let isScrolling = false;
+                const onTouchMove = () => {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        handleScrollStart();
+                    }
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        handleScrollEnd();
+                    }, 150);
+                };
+
+                const onWheelOrScroll = () => {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        handleScrollStart();
+                    }
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        handleScrollEnd();
+                    }, 150);
+                };
+
+                window.addEventListener('touchmove', onTouchMove, { passive: false });
+                window.addEventListener('scroll', onWheelOrScroll);
+                window.addEventListener('wheel', onWheelOrScroll);
+                
+                if (this.resultsContainer) {
+                    this.resultsContainer.addEventListener('touchmove', onTouchMove, { passive: false });
+                    this.resultsContainer.addEventListener('scroll', onWheelOrScroll);
+                }
+                
+                if (this.drawer) {
+                    this.drawer.addEventListener('touchmove', onTouchMove, { passive: false });
+                    this.drawer.addEventListener('scroll', onWheelOrScroll);
+                }
+            }
+
+            init() {
+                this.cacheElements();
+                this.initPinPad();
+                this.bindEvents();
+                DATABASE.init();
+                this.startLoading();
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => { window.app = new InfaApp(); });
-        
-        // Регистрация SW
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new InfaApp();
+        });
+    </script>
+
+<script>
+    (function() {
         if ('serviceWorker' in navigator && location.protocol === 'https:') {
-            window.addEventListener('load', () => {
+            window.addEventListener('load', function() {
+               
                 const path = window.location.pathname;
                 const basePath = path.substring(0, path.lastIndexOf('/') + 1);
-                navigator.serviceWorker.register(basePath + 'sw.js?v=' + Date.now())
-                    .then(reg => {
+                const swPath = basePath + 'sw.js';
+                
+                console.log('Регистрация SW по пути:', swPath);
+                console.log('Базовый путь:', basePath);
+                
+                const swUrl = swPath + '?v=' + Date.now();
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(function(reg) {
+                        console.log('✅ Service Worker зарегистрирован:', reg);
+                        
                         reg.addEventListener('updatefound', () => {
-                            reg.installing?.addEventListener('statechange', () => {
-                                if (reg.installing?.state === 'installed' && navigator.serviceWorker.controller) {
-                                    localStorage.removeItem('update_performed_since_last_sw');
-                                    sessionStorage.removeItem('force_update_banner_shown');
-                                    setTimeout(() => window.app?.showUpdateBanner(), 1000);
+                            const newWorker = reg.installing;
+                            console.log('🔄 Найдено обновление SW');
+                            
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('✅ Новая версия SW установлена');
+                                    
+                                    const updatePerformed = localStorage.getItem('update_performed_since_last_sw') === 'true';
+                                    const bannerShown = sessionStorage.getItem('force_update_banner_shown') === 'true';
+                                    
+                                    if (!updatePerformed && !bannerShown) {
+                                        if (window.app) {
+                                            window.app.showNotification('🔔 В базу данных добавлена новая информация! Нажмите "Обновить БД"', 'success');
+                                        }
+                                    } else {
+                                        console.log('Уведомление об обновлении пропущено (уже обновлялись)');
+                                    }
                                 }
                             });
                         });
                     })
-                    .catch(e => console.error('SW Error:', e));
+                    .catch(function(err) {
+                        console.error('❌ Ошибка регистрации SW:', err);
+                    });
             });
         }
-    </script>
+    })();
+</script>
 </body>
 </html>
