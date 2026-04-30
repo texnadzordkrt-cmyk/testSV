@@ -1,10 +1,7 @@
-// Автоматическое определение базового пути
-
 const basePath = self.location.pathname.replace('sw.js', '');
-const CACHE_VERSION = 'v.30.04';  // Измените версию при обновлении
+const CACHE_VERSION = 'v.30.04.1';  // Измените версию при обновлении
 const CACHE_NAME = `infa-cache-${CACHE_VERSION}`;
 
-// Файлы для кеширования
 const urlsToCache = [
   basePath,
   basePath + 'index.html',
@@ -16,13 +13,11 @@ const urlsToCache = [
   basePath + 'logo.png'
 ];
 
-// INSTALL - кешируем файлы
 self.addEventListener('install', event => {
-  console.log('[SW] Installing new version:', CACHE_VERSION);
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        // Добавляем каждый файл индивидуально, чтобы один неудачный не ломал всё
+  
         return Promise.allSettled(
           urlsToCache.map(url => 
             cache.add(url).catch(e => console.warn(`[SW] Failed to cache ${url}:`, e))
@@ -33,16 +28,14 @@ self.addEventListener('install', event => {
   );
 });
 
-// FETCH - стратегия: для HTML - network first, для остального - cache first
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   
-  // Для HTML-страниц - сначала сеть, потом кеш (чтобы всегда видеть свежие данные)
   if (url.pathname === basePath || url.pathname === basePath + 'index.html') {
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          // Кешируем свежую версию
+    
           const responseToCache = response.clone();
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, responseToCache);
@@ -54,7 +47,6 @@ self.addEventListener('fetch', event => {
     return;
   }
   
-  // Для статических файлов - сначала кеш, потом сеть
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -75,15 +67,12 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// ACTIVATE - удаляем старые кеши
 self.addEventListener('activate', event => {
-  console.log('[SW] Activating new version:', CACHE_VERSION);
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(name => {
           if (name !== CACHE_NAME) {
-            console.log('[SW] Deleting old cache:', name);
             return caches.delete(name);
           }
         })
