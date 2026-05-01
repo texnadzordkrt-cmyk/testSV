@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Инфа 2.0</title>
+    <title>Тест 2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Инфа 2.0">
+    <meta name="apple-mobile-web-app-title" content="Тест 2.0">
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2.4.5">
@@ -19,7 +19,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png?v=2.4.5">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-    <script src="data.js?v=2.4.5"></script>
+    <script src="data.js?v=30.04.3"></script>
     
     <style>
         * {
@@ -576,15 +576,6 @@
             width: 100%;
             border-bottom: 1px solid var(--border-color);
         }
-        .drawer-item:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-        .drawer-item:disabled:hover {
-            background: transparent;
-            color: var(--text-primary);
-            padding-left: 20px;
-        }
         .drawer-item:hover {
             background: rgba(0, 240, 255, 0.1);
             color: var(--accent-cyan);
@@ -771,7 +762,7 @@
             left: 16px;
             right: 16px;
             background: #2c3e50;
-            border-left: 4px solid #00f0ff;
+            border-left: 4px solid #f97316;
             border-radius: 12px;
             padding: 14px 16px;
             display: flex;
@@ -795,7 +786,7 @@
             gap: 8px;
         }
         .update-banner-btn {
-            background: #00f0ff;
+            background: #f97316;
             border: none;
             border-radius: 20px;
             padding: 6px 16px;
@@ -806,28 +797,22 @@
             transition: all 0.2s;
         }
         .update-banner-btn:hover {
-            background: #4ade80;
+            background: #ea580c;
             transform: scale(1.02);
-        }
-        .update-banner-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .version-badge {
             position: fixed;
             bottom: 10px;
             right: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            color: var(--text-muted);
-            font-size: 10px;
             padding: 4px 8px;
             border-radius: 8px;
             z-index: 999;
             font-family: monospace;
+            font-size: 10px;
             pointer-events: none;
             backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
         }
 
         .pin-modal {
@@ -980,7 +965,6 @@
             <button id="drawer-close" class="drawer-close"></button>
         </div>
         <div id="drawer-menu-main" class="drawer-menu">
-            <button id="drawer-refresh" class="drawer-item"><span class="item-icon">🌐</span><span>Обновить БД</span></button>
             <button id="drawer-error" class="drawer-item"><span class="item-icon">✍️</span><span>Написать об ошибке</span></button>
             <button id="drawer-add-data" class="drawer-item"><span class="item-icon">📝</span><span>Добавить новые данные</span></button>
             <button id="drawer-logout" class="drawer-item"><span class="item-icon">🆔</span><span>Выход</span></button>
@@ -995,11 +979,9 @@
 
     <div id="notification" class="notification hidden"></div>
     
-    <div class="version-badge" id="app-version-badge">v2.4.5</div>
+    <div class="version-badge" id="app-version-badge"></div>
 
     <script>
-        const APP_VERSION = '.30.04.3';
-        
         const ACCESS_LEVELS = {
             '83e19a9ce479dc064bab4bd50134db14918cc967debd3ad223bb8993c523788d': {
                 level: 3,
@@ -1035,7 +1017,6 @@
 
         let SESSION_DATA = null;
         
-        // ==================== SecurePinStorage Class ====================
         class SecurePinStorage {
             constructor() {
                 this.storageKey = 'encrypted_user_pin';
@@ -1361,7 +1342,7 @@
                 this.pinCode = "";
                 this.maxPinLength = 4;
                 this.isRestoredResults = false;
-                this.currentDataVersion = DATA_VERSION || null;
+                this.currentDataVersion = CACHE_VERSION || null;
                 this.init();
             }
 
@@ -1378,7 +1359,6 @@
                 this.zoomInBtn = document.getElementById('zoom-in-btn');
                 this.zoomOutBtn = document.getElementById('zoom-out-btn');
                 this.zoomIndicator = document.getElementById('zoom-indicator');
-                this.drawerRefresh = document.getElementById('drawer-refresh');
                 
                 this.pinPad = document.getElementById('pin-pad');
                 this.pinDots = document.getElementById('pin-dots');
@@ -1727,7 +1707,7 @@
                     modal.className = 'pin-modal';
                     modal.innerHTML = `
                         <div class="pin-modal-card">
-                            <div class="pin-modal-title">Для обновления введите Ваш код доступа</div>
+                            <div class="pin-modal-title">Для обновления введи Ваш код доступа</div>
                             <input type="password" id="pin-modal-input" class="pin-modal-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="****" autocomplete="off">
                             <div class="pin-modal-buttons">
                                 <button id="pin-modal-cancel" class="pin-modal-btn cancel">Отмена</button>
@@ -1830,6 +1810,7 @@
                     this.saveSearchResults(results, query);
                 }
                 
+                this.updateVersionBadgeColor();
                 this.showNotification('✅ Данные успешно обновлены!', 'success');
                 return true;
             }
@@ -1868,45 +1849,18 @@
                 return await this.executeDataRefresh(userData, savedPin);
             }
 
-            async updateRefreshButtonState() {
-                if (!this.drawerRefresh) return;
+            updateVersionBadgeColor() {
+                if (!this.versionBadge) return;
                 
-                try {
-                    const registration = await navigator.serviceWorker.getRegistration();
-                    if (!registration || !registration.active) {
-                        if (this.drawerRefresh.disabled) this.drawerRefresh.disabled = false;
-                        return;
-                    }
-                    
-                    const swUrl = registration.active.scriptURL;
-                    const response = await fetch(swUrl + '?t=' + Date.now());
-                    const swContent = await response.text();
-                    
-                    let swVersion = null;
-                    let match = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/);
-                    if (match) swVersion = match[1];
-                    
-                    if (!swVersion) {
-                        match = swContent.match(/CACHE_NAME\s*=\s*['"][^'"]*-([^'"]+)['"]/);
-                        if (match) swVersion = match[1];
-                    }
-                    
-                    if (swVersion) {
-                        this.currentDataVersion = swVersion;
-                        const lastUpdated = localStorage.getItem('last_updated_version');
-                        
-                        if (lastUpdated === swVersion) {
-                            this.drawerRefresh.disabled = true;
-                            this.drawerRefresh.style.opacity = '0.5';
-                        } else {
-                            this.drawerRefresh.disabled = false;
-                            this.drawerRefresh.style.opacity = '1';
-                        }
-                    } else {
-                        if (this.drawerRefresh.disabled) this.drawerRefresh.disabled = false;
-                    }
-                } catch(e) {
-                    if (this.drawerRefresh.disabled) this.drawerRefresh.disabled = false;
+                const lastUpdated = localStorage.getItem('last_updated_version');
+                if (lastUpdated === CACHE_VERSION) {
+                    this.versionBadge.style.background = 'rgba(74, 222, 128, 0.25)';
+                    this.versionBadge.style.color = '#4ade80';
+                    this.versionBadge.style.border = '1px solid rgba(74, 222, 128, 0.5)';
+                } else {
+                    this.versionBadge.style.background = 'rgba(248, 113, 113, 0.25)';
+                    this.versionBadge.style.color = '#f87171';
+                    this.versionBadge.style.border = '1px solid rgba(248, 113, 113, 0.5)';
                 }
             }
 
@@ -1958,14 +1912,8 @@
                 this.loadZoomSetting();
                 
                 if (this.versionBadge) {
-                    this.versionBadge.textContent = `v${APP_VERSION}`;
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.getRegistration().then(reg => {
-                            if (reg && reg.active) {
-                                this.versionBadge.style.background = 'rgba(0, 240, 255, 0.25)';
-                            }
-                        });
-                    }
+                    this.versionBadge.textContent = CACHE_VERSION;
+                    this.updateVersionBadgeColor();
                 }
                 
                 if (this.searchInput) {
@@ -1989,7 +1937,6 @@
                 DATABASE.init();
                 ParkingUI.init();
                 
-                this.updateRefreshButtonState();
                 this.showForceUpdateBanner();
             }
             
@@ -1997,9 +1944,7 @@
                 if (!FORCE_UPDATE_BANNER) return;
                 
                 if (!this.currentDataVersion) {
-                    this.updateRefreshButtonState().then(() => {
-                        this.checkAndShowBanner();
-                    });
+                    this.checkAndShowBanner();
                 } else {
                     this.checkAndShowBanner();
                 }
@@ -2050,6 +1995,7 @@
                         }
                         
                         sessionStorage.setItem(`banner_shown_${this.currentDataVersion}`, 'true');
+                        this.updateVersionBadgeColor();
                     });
                 }
             }
@@ -2186,7 +2132,7 @@
                 this.resultsContainer.innerHTML = results.map(item => {
                     if (item.type === 'contact') {
                         const phone = item.телефон 
-                            ? `<a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">☎️ ${this.escapeHtml(item.телефон)}</a>` 
+                            ? `<a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">☎️  ${this.escapeHtml(item.телефон)}</a>` 
                             : '';
                         const nameHtml = this.highlightText(item.имя, currentQ, '#ffb347');
                         const jobHtml = this.highlightText(item.должность, currentQ);
@@ -2330,25 +2276,6 @@
                     this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
                 }
 
-                if (this.drawerRefresh) {
-                    this.drawerRefresh.addEventListener('click', async () => {
-                        if (this.drawerRefresh.disabled) {
-                            this.showNotification('Нет доступных обновлений', 'error');
-                            return;
-                        }
-                        
-                        const originalText = this.drawerRefresh.innerHTML;
-                        this.drawerRefresh.innerHTML = '<span class="item-icon">⏳</span><span>Обновление...</span>';
-                        this.drawerRefresh.disabled = true;
-                        
-                        await this.refreshData();
-                        
-                        this.drawerRefresh.innerHTML = originalText;
-                        await this.updateRefreshButtonState();
-                        
-                        this.closeDrawer();
-                    });
-                }
                 if (this.drawerError) {
                     this.drawerError.addEventListener('click', () => {
                         window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank');
@@ -2394,12 +2321,6 @@
                 });
 
                 this.setupKeyboardHideOnScroll();
-                
-                window.addEventListener('focus', () => {
-                    if (this.isLoggedIn) {
-                        this.updateRefreshButtonState();
-                    }
-                });
             }
 
             setupKeyboardHideOnScroll() {
@@ -2495,7 +2416,7 @@
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                                     if (window.app) {
-                                        window.app.updateRefreshButtonState();
+                                        window.app.checkAndShowBanner();
                                     }
                                 }
                             });
