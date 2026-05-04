@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Инфа 2.0</title>
+    <title>Тест 2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Инфа 2.0">
+    <meta name="apple-mobile-web-app-title" content="Тест 2.0">
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -822,6 +822,7 @@
             transition: all 0.3s ease;
         }
 
+        /* Стили для модального окна PIN (как при входе) */
         .pin-modal {
             position: fixed;
             top: 0;
@@ -829,7 +830,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
+            z-index: 10050;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -838,58 +839,90 @@
         .pin-modal-card {
             background: var(--bg-card);
             border-radius: 24px;
-            padding: 30px;
+            padding: 30px 25px;
             width: 90%;
-            max-width: 320px;
+            max-width: 340px;
             text-align: center;
             border: 1px solid var(--accent-cyan);
             box-shadow: 0 0 40px var(--accent-cyan-glow);
         }
         .pin-modal-title {
             color: var(--accent-cyan);
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 20px;
+            font-weight: 500;
         }
-        .pin-modal-input {
-            background: var(--bg-secondary);
+        .pin-modal-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .pin-modal-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
             border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px;
-            color: var(--text-primary);
-            font-size: 24px;
-            text-align: center;
-            letter-spacing: 8px;
-            width: 100%;
-            margin-bottom: 20px;
-            outline: none;
+            background: transparent;
+            transition: all 0.2s ease;
         }
-        .pin-modal-input:focus {
+        .pin-modal-dot.filled {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 12px var(--accent-cyan-glow);
+        }
+        .pin-modal-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto 20px auto;
+        }
+        .pin-modal-btn {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        .pin-modal-btn:active {
+            transform: scale(0.92);
             border-color: var(--accent-cyan);
             box-shadow: 0 0 20px var(--accent-cyan-glow);
         }
-        .pin-modal-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
+        .pin-modal-btn.empty {
+            visibility: hidden;
+            pointer-events: none;
         }
-        .pin-modal-btn {
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .pin-modal-btn.cancel {
-            background: transparent;
-            border: 1px solid var(--border-color);
+        .pin-modal-btn.backspace {
+            font-size: 22px;
             color: var(--text-secondary);
         }
         .pin-modal-error {
             color: var(--error-red);
             font-size: 12px;
             margin-top: 10px;
+            min-height: 32px;
+        }
+        .pin-modal-cancel {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 10px;
+            padding: 8px 16px;
         }
     </style>
 <base target="_blank">
@@ -987,11 +1020,6 @@
     <div id="notification" class="notification hidden"></div>
     
     <div class="version-badge" id="app-version-badge"></div>
-    <div style="position: fixed; bottom: 10px; left: 10px; z-index: 999; font-family: monospace; font-size: 11px; background: rgba(0, 0, 0, 0.6); padding: 4px 12px; border-radius: 8px; backdrop-filter: blur(4px); color: #9ca3af;">
-    <span>Приложением воспользовались</span>
-    <img src="https://visitor-badge.laobi.icu/badge?page_id=texnadzordkrt-cmyk.github.io/testSV/" alt="visitor counter" style="vertical-align: middle; margin: 0 4px;">
-    <span>раз(а)</span>
-</div>
 
     <script>
         const ACCESS_LEVELS = {
@@ -1714,59 +1742,127 @@
                 this.resetDrawerAutoClose();
             }
 
+            // НОВОЕ МОДАЛЬНОЕ ОКНО С ПИН-ПАДОМ (как при входе)
             async requestPinForUpdate() {
                 return new Promise((resolve) => {
                     const modal = document.createElement('div');
                     modal.className = 'pin-modal';
+                    
+                    // HTML с точками и панелью цифр
                     modal.innerHTML = `
                         <div class="pin-modal-card">
-                            <div class="pin-modal-title">Для обновления введите Ваш код доступа</div>
-                            <input type="password" id="pin-modal-input" class="pin-modal-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="****" autocomplete="off">
-                            <div class="pin-modal-buttons">
-                                <button id="pin-modal-cancel" class="pin-modal-btn cancel">Отмена</button>
+                            <div class="pin-modal-title">Для обновления введите ваш код доступа</div>
+                            <div class="pin-modal-dots" id="pin-modal-dots">
+                                <div class="pin-modal-dot" data-index="0"></div>
+                                <div class="pin-modal-dot" data-index="1"></div>
+                                <div class="pin-modal-dot" data-index="2"></div>
+                                <div class="pin-modal-dot" data-index="3"></div>
+                            </div>
+                            <div class="pin-modal-pad" id="pin-modal-pad">
+                                <button class="pin-modal-btn" data-digit="1">1</button>
+                                <button class="pin-modal-btn" data-digit="2">2</button>
+                                <button class="pin-modal-btn" data-digit="3">3</button>
+                                <button class="pin-modal-btn" data-digit="4">4</button>
+                                <button class="pin-modal-btn" data-digit="5">5</button>
+                                <button class="pin-modal-btn" data-digit="6">6</button>
+                                <button class="pin-modal-btn" data-digit="7">7</button>
+                                <button class="pin-modal-btn" data-digit="8">8</button>
+                                <button class="pin-modal-btn" data-digit="9">9</button>
+                                <button class="pin-modal-btn empty"></button>
+                                <button class="pin-modal-btn" data-digit="0">0</button>
+                                <button class="pin-modal-btn backspace" data-action="backspace">⌫</button>
                             </div>
                             <div id="pin-modal-error" class="pin-modal-error"></div>
+                            <button class="pin-modal-cancel" id="pin-modal-cancel">Отмена</button>
                         </div>
                     `;
                     document.body.appendChild(modal);
                     
-                    const input = document.getElementById('pin-modal-input');
-                    const cancelBtn = document.getElementById('pin-modal-cancel');
+                    const dotsContainer = document.getElementById('pin-modal-dots');
+                    const pad = document.getElementById('pin-modal-pad');
                     const errorDiv = document.getElementById('pin-modal-error');
+                    const cancelBtn = document.getElementById('pin-modal-cancel');
                     
-                    input.focus();
+                    let currentPin = "";
+                    const maxLen = 4;
                     
-                    const cleanup = () => {
-                        if (modal && modal.remove) modal.remove();
+                    const updateDots = () => {
+                        const dots = dotsContainer.querySelectorAll('.pin-modal-dot');
+                        dots.forEach((dot, idx) => {
+                            dot.classList.toggle('filled', idx < currentPin.length);
+                        });
                     };
                     
-                    const handleAutoSubmit = () => {
-                        const pin = input.value.trim();
-                        if (pin.length !== 4) return;
-                        
-                        const userData = verifyAccessCode(pin);
-                        if (!userData) {
-                            errorDiv.textContent = 'Неверный код доступа';
-                            input.value = '';
-                            input.focus();
-                            return;
+                    const handleDigit = (digit) => {
+                        if (currentPin.length < maxLen) {
+                            currentPin += digit;
+                            updateDots();
+                            errorDiv.textContent = '';
+                            
+                            if (currentPin.length === maxLen) {
+                                // Автоматическая проверка
+                                const userData = verifyAccessCode(currentPin);
+                                if (!userData) {
+                                    errorDiv.textContent = 'Неверный код доступа';
+                                    currentPin = "";
+                                    updateDots();
+                                } else {
+                                    modal.remove();
+                                    resolve(currentPin);
+                                }
+                            }
                         }
-                        cleanup();
-                        resolve(pin);
+                    };
+                    
+                    const handleBackspace = () => {
+                        if (currentPin.length > 0) {
+                            currentPin = currentPin.slice(0, -1);
+                            updateDots();
+                            errorDiv.textContent = '';
+                        }
                     };
                     
                     const handleCancel = () => {
-                        cleanup();
+                        modal.remove();
                         resolve(null);
                     };
                     
-                    cancelBtn.addEventListener('click', handleCancel);
-                    input.addEventListener('input', (e) => {
-                        errorDiv.textContent = '';
-                        if (e.target.value.length === 4) {
-                            handleAutoSubmit();
-                        }
+                    // Обработка кликов по кнопкам
+                    pad.querySelectorAll('.pin-modal-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const digit = btn.getAttribute('data-digit');
+                            const action = btn.getAttribute('data-action');
+                            if (digit !== null) {
+                                handleDigit(digit);
+                            } else if (action === 'backspace') {
+                                handleBackspace();
+                            }
+                        });
                     });
+                    
+                    cancelBtn.addEventListener('click', handleCancel);
+                    
+                    // Физическая клавиатура
+                    const keyHandler = (e) => {
+                        if (!modal.isConnected) {
+                            document.removeEventListener('keydown', keyHandler);
+                            return;
+                        }
+                        if (e.key >= '0' && e.key <= '9') {
+                            e.preventDefault();
+                            handleDigit(e.key);
+                        } else if (e.key === 'Backspace') {
+                            e.preventDefault();
+                            handleBackspace();
+                        } else if (e.key === 'Escape') {
+                            handleCancel();
+                        }
+                    };
+                    document.addEventListener('keydown', keyHandler);
+                    
+                    // Сохраняем ссылку для очистки
+                    modal._keyHandler = keyHandler;
                 });
             }
 
