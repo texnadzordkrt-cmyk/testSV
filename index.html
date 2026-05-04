@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Тест 2.0</title>
+    <title>Инфа 2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Тест 2.0">
+    <meta name="apple-mobile-web-app-title" content="Инфа 2.0">
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -22,7 +22,6 @@
     <script src="data.js?v=30.04.3"></script>
     
     <style>
-        /* ... все стили остаются без изменений ... */
         * {
             margin: 0;
             padding: 0;
@@ -378,16 +377,22 @@
             position: relative;
             z-index: 1;
         }
-        .sticky-search-wrapper {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg-primary);
-            padding-top: 0;
-            margin: 0 -16px;
-            padding-left: 16px;
-            padding-right: 16px;
-        }
+.sticky-search-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-primary);
+    padding-top: 0;
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.search-input {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
         .header-info {
             display: flex;
             flex-direction: row;
@@ -759,7 +764,7 @@
         
         .update-banner {
             position: fixed;
-            bottom: 20px;
+            bottom: 40px;
             left: 16px;
             right: 16px;
             background: #2c3e50;
@@ -798,8 +803,9 @@
             transition: all 0.2s;
         }
         .update-banner-btn:hover {
-            background: #ea580c;
+            background: #4ade80;
             transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
         }
 
         .version-badge {
@@ -940,7 +946,7 @@
                     <h2 class="greeting">Инфа под рукой 2.0</h2>
                     <h3 class="greeting"><span id="username">доступ ⭐️⭐️⭐️</span></h3>
                 </div>
-                <button id="menu-btn" class="menu-btn">Меню</button>
+                <button id="menu-btn" class="menu-btn">Управление</button>
             </div>
 
             <div id="zoom-panel" class="zoom-panel">
@@ -951,7 +957,7 @@
 
             <div class="sticky-search-wrapper">
                 <div class="search-section">
-                    <input type="text" id="search-input" class="search-input" placeholder="Напишите название: станции, документа или фамилию" autocomplete="off">
+                    <input type="text" id="search-input" class="search-input" placeholder="Что будем искать сегодня 🧐" autocomplete="off">
                 </div>
             </div>
 
@@ -981,6 +987,11 @@
     <div id="notification" class="notification hidden"></div>
     
     <div class="version-badge" id="app-version-badge"></div>
+    <div style="position: fixed; bottom: 10px; left: 10px; z-index: 999; font-family: monospace; font-size: 11px; background: rgba(0, 0, 0, 0.6); padding: 4px 12px; border-radius: 8px; backdrop-filter: blur(4px); color: #9ca3af;">
+    <span>Приложением воспользовались</span>
+    <img src="https://visitor-badge.laobi.icu/badge?page_id=texnadzordkrt-cmyk.github.io/testSV/" alt="visitor counter" style="vertical-align: middle; margin: 0 4px;">
+    <span>раз(а)</span>
+</div>
 
     <script>
         const ACCESS_LEVELS = {
@@ -1563,7 +1574,7 @@
                 this.pinCode = "";
                 this.updatePinDots();
                 this.showMainScreen();
-                this.showNotification(`Добро пожаловать, ${fullUserData.greeting}!`, 'success');
+                this.showNotification(`✅ Всё готово, можно начинать поиск`, 'success');
             }
 
             updateZoomIndicator() {
@@ -1843,7 +1854,7 @@
                 const userData = verifyAccessCode(savedPin);
                 if (!userData) {
                     pinStorage.clear();
-                    this.showNotification('PIN устарел. Выполните повторный вход.', 'error');
+                    this.showNotification('Срок действия кода-доступа истёк! Введите код-доступа ещё раз', 'error');
                     this.handleLogout();
                     return false;
                 }
@@ -1887,7 +1898,7 @@
                 this.pinCode = "";
                 this.updatePinDots();
                 this.showLoginScreen();
-                this.showNotification('Вы вышли из системы', 'success');
+                this.showNotification('Вы вышли из аккаунта', 'success');
             }
 
             showLoginScreen() {
@@ -2028,7 +2039,7 @@
                     this.isLoggedIn = true;
                     DATABASE.setCurrentUser(restoredUser);
                     this.showMainScreen();
-                    this.showNotification('Сессия восстановлена', 'success');
+                    this.showNotification('✅ Всё готово, можно продолжать поиск', 'success');
                 } else {
                     this.showLoginScreen();
                 }
@@ -2097,7 +2108,7 @@
                 if (!this.searchInput) return;
                 const q = this.searchInput.value.trim();
                 if (!q) {
-                    this.showNotification('Введите текст для поиска', 'error');
+                    this.showNotification('Сначала напишите свой вопрос!', 'error');
                     this.searchInput.focus();
                     return;
                 }
@@ -2106,9 +2117,9 @@
                 this.saveSearchResults(results, q);
                 
                 if (results.length === 0) {
-                    this.showNotification('Ничего не найдено', 'error');
+                     console.log('Ничего не найдено');
                 } else {
-                    this.showNotification(`Найдено: ${results.length}`, 'success');
+                    console.log(`Найдено: ${results.length}`);
                 }
             }
 
@@ -2240,7 +2251,7 @@
                             ? `✅ проверено ${today}` 
                             : `❌ не актуально ${today}`;
                         if (ParkingUI.updateParkingNote(id, newNote)) {
-                            this.showNotification(`Статус парковки обновлен: ${newNote}`, 'success');
+                            this.showNotification(`Спасибо за Ваш отзыв: ${newNote}`, 'success');
                             this.performSearch();
                         } else {
                             this.showNotification('Ошибка обновления', 'error');
