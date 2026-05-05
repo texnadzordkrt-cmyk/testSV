@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Тест 2.0</title>
+    <title>Инфа 2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Тест 2.0">
+    <meta name="apple-mobile-web-app-title" content="Инфа 2.0">
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -2029,7 +2029,7 @@
                 
                 if (this.searchInput) {
                     this.searchInput.value = '';
-                    setTimeout(() => this.searchInput.focus(), 100);
+                    //setTimeout(() => this.searchInput.focus(), 100);
                 }
                 
                 if (this.resultsContainer) {
@@ -2379,11 +2379,7 @@
             bindEvents() {
                 if (this.searchInput) {
                     this.searchInput.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            this.performSearch();
-                            this.searchInput.blur();
-                        }
+                       isProgrammaticFocus = false;
                     });
                     this.searchInput.addEventListener('input', () => this.liveSearch());
                 }
