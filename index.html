@@ -2268,7 +2268,7 @@
                         return `<div class="result-card contact">
                             <div class="result-icon">👤</div>
                             <div class="result-content">
-                                <div class="result-title">${nameHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                <div class="result-title">${nameHtml}</div>
                                 <div class="result-detail">💼 ${jobHtml}</div>
                                 ${phone ? `<div class="result-contact">${phone}</div>` : ''}
                             </div>
@@ -2294,7 +2294,7 @@
                         return `<div class="result-card parking" data-parking-id="${item.id}">
                             <div class="result-icon">🅿️</div>
                             <div class="result-content">
-                                <div class="result-title">${titleHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                <div class="result-title">${titleHtml}</div>
                                 ${contextHtml}${noteHtml}${mapLink}${buttons}
                             </div>
                         </div>`;
@@ -2316,7 +2316,7 @@
                         return `<div class="result-card station">
                             <div class="result-icon">🚇</div>
                             <div class="result-content">
-                                <div class="result-title">${stationHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                <div class="result-title">${stationHtml}</div>
                                 ${fields.map(f => `<div class="result-detail">${this.formatTextWithLinks(f)}</div>`).join('')}
                             </div>
                         </div>`;
@@ -2328,7 +2328,7 @@
                         return `<div class="result-card document">
                             <div class="result-icon">📄</div>
                             <div class="result-content">
-                                <div class="result-title">${titleHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>
+                                <div class="result-title">${titleHtml}</div>
                                 ${fileLink}
                             </div>
                         </div>`;
