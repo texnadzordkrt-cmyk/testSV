@@ -97,8 +97,14 @@
             letter-spacing: -0.5px;
         }
         @keyframes pulse-title {
-            0%, 100% { opacity: 1; text-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 40px var(--accent-cyan-glow); }
-            50% { opacity: 0.85; text-shadow: 0 0 30px var(--accent-cyan-glow), 0 0 60px var(--accent-cyan), 0 0 80px var(--accent-cyan-glow); }
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 40px var(--accent-cyan-glow);
+            }
+            50% {
+                opacity: 0.85;
+                text-shadow: 0 0 30px var(--accent-cyan-glow), 0 0 60px var(--accent-cyan), 0 0 80px var(--accent-cyan-glow);
+            }
         }
         .app-version {
             color: var(--text-secondary);
@@ -138,7 +144,9 @@
             animation: spin 1s linear infinite;
             box-shadow: 0 0 10px var(--accent-cyan-glow);
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         .loading-text {
             color: var(--text-secondary);
             font-size: 15px;
@@ -302,17 +310,31 @@
             transition: color 0.2s;
             margin-top: 10px;
         }
-        .forgot-pin:hover { color: var(--accent-cyan); }
+        .forgot-pin:hover {
+            color: var(--accent-cyan);
+        }
 
         @media (max-width: 380px) {
-            .pin-pad { gap: 12px; }
-            .pin-btn { font-size: 24px; }
-            .login-card { padding: 30px 20px; }
+            .pin-pad {
+                gap: 12px;
+            }
+            .pin-btn {
+                font-size: 24px;
+            }
+            .login-card {
+                padding: 30px 20px;
+            }
         }
         @media (max-height: 700px) {
-            .login-card { padding: 25px 20px; }
-            .pin-dots-container { margin-bottom: 25px; }
-            .pin-pad { margin-bottom: 20px; }
+            .login-card {
+                padding: 25px 20px;
+            }
+            .pin-dots-container {
+                margin-bottom: 25px;
+            }
+            .pin-pad {
+                margin-bottom: 20px;
+            }
         }
 
         #main-screen {
@@ -339,8 +361,14 @@
             animation: logoPulse 3s ease-in-out infinite;
         }
         @keyframes logoPulse {
-            0%, 100% { opacity: 0.25; filter: brightness(1) drop-shadow(0 0 0px rgba(0, 240, 255, 0)); }
-            50% { opacity: 0.55; filter: brightness(1.2) drop-shadow(0 0 15px rgba(0, 240, 255, 0.3)); }
+            0%, 100% {
+                opacity: 0.25;
+                filter: brightness(1) drop-shadow(0 0 0px rgba(0, 240, 255, 0));
+            }
+            50% {
+                opacity: 0.55;
+                filter: brightness(1.2) drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+            }
         }
         .main-container {
             max-width: 480px;
@@ -359,6 +387,7 @@
             padding-left: 16px;
             padding-right: 16px;
         }
+
         .search-input {
             text-align: center;
             width: 100%;
@@ -453,7 +482,9 @@
             box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
             background: transparent;
         }
-        .zoom-btn:active { transform: scale(0.95); }
+        .zoom-btn:active {
+            transform: scale(0.95);
+        }
         .zoom-indicator {
             color: var(--accent-green);
             font-size: 14px;
@@ -495,9 +526,15 @@
             flex-direction: column;
             overflow-y: auto;
         }
-        .drawer.active { right: 0; }
-        @media (max-width: 768px) { .drawer { width: 50%; right: -50%; } }
-        @media (max-width: 480px) { .drawer { width: 50%; right: -50%; } }
+        .drawer.active {
+            right: 0;
+        }
+        @media (max-width: 768px) {
+            .drawer { width: 50%; right: -50%; }
+        }
+        @media (max-width: 480px) {
+            .drawer { width: 50%; right: -50%; }
+        }
         .drawer-header {
             padding: 24px 20px;
             border-bottom: 1px solid var(--border-color);
@@ -520,7 +557,9 @@
             padding: 0 8px;
             transition: color 0.2s;
         }
-        .drawer-close:hover { color: var(--error-red); }
+        .drawer-close:hover {
+            color: var(--error-red);
+        }
         .drawer-menu {
             flex: 1;
             padding: 16px 0;
@@ -559,7 +598,9 @@
             margin: 0;
             border-radius: 0;
         }
-        .drawer-submenu.active { display: flex; }
+        .drawer-submenu.active {
+            display: flex;
+        }
         .drawer-submenu .drawer-item {
             padding-left: 48px;
             font-size: 14px;
@@ -569,8 +610,13 @@
             margin-top: 8px;
             color: var(--text-secondary);
         }
-        .drawer-back:hover { color: var(--accent-cyan); }
-        .search-section { margin-bottom: 16px; width: 100%; }
+        .drawer-back:hover {
+            color: var(--accent-cyan);
+        }
+        .search-section {
+            margin-bottom: 16px;
+            width: 100%;
+        }
         .search-input {
             width: 100%;
             background: var(--bg-secondary);
@@ -584,10 +630,15 @@
             box-shadow: 0 0 20px var(--accent-cyan-glow), inset 0 0 8px var(--accent-cyan-dim);
             text-align: left;
         }
-        .search-input:hover, .search-input:focus {
+        .search-input:hover {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 28px var(--accent-cyan-glow), inset 0 0 12px var(--accent-cyan-dim);
             background: var(--bg-card);
+        }
+        .search-input:focus {
+            border-color: var(--accent-cyan);
+            background: var(--bg-card);
+            box-shadow: 0 0 32px var(--accent-cyan-glow), inset 0 0 14px var(--accent-cyan-dim);
         }
         @keyframes marquee {
             0% { text-indent: 0; }
@@ -611,12 +662,30 @@
             position: relative;
             z-index: 1;
         }
-        .results-container.restored-result .result-card * { color: var(--text-secondary) !important; }
-        .results-container.restored-result .match-percent { display: none !important; }
-        .results-container.restored-result .parking-buttons { display: none !important; }
-        .results-container.restored-result .result-icon { opacity: 0.5; }
-        .results-container.restored-result .contact-link { color: var(--text-secondary) !important; }
-        .results-container.restored-result .contact-link:hover { color: var(--accent-cyan) !important; }
+        
+        .results-container.restored-result .result-card * {
+            color: var(--text-secondary) !important;
+        }
+
+        .results-container.restored-result .match-percent {
+            display: none !important;
+        }
+
+        .results-container.restored-result .parking-buttons {
+            display: none !important;
+        }
+
+        .results-container.restored-result .result-icon {
+            color: inherit !important;
+            opacity: 0.5;
+        }
+
+        .results-container.restored-result .contact-link {
+            color: var(--text-secondary) !important;
+        }
+        .results-container.restored-result .contact-link:hover {
+            color: var(--accent-cyan) !important;
+        }
         
         .result-card {
             background: var(--bg-card);
@@ -652,7 +721,7 @@
         .match-percent { display: inline-block; background: var(--accent-green); color: var(--bg-primary); font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 12px; margin-left: 8px; vertical-align: middle; transition: font-size 0.3s ease; }
         .result-context { font-size: var(--base-font-size-context); color: var(--text-secondary); margin-top: 4px; margin-bottom: 4px; padding: 4px 8px; background: rgba(0, 240, 255, 0.05); border-radius: 6px; transition: font-size 0.3s ease; }
         .parking-buttons { display: flex; gap: 12px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border-color); justify-content: flex-start; }
-        .parking-yes-btn, .parking-no-btn {
+        .parking-yes-btn {
             background: transparent;
             border: 1px solid var(--border-color);
             border-radius: 20px;
@@ -670,15 +739,31 @@
             border-color: var(--accent-green);
             color: var(--accent-green);
             box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+            background: transparent;
+        }
+        .parking-yes-btn:active { transform: scale(0.95); }
+        .parking-no-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         .parking-no-btn:hover {
             border-color: var(--error-red);
             color: var(--error-red);
             box-shadow: 0 0 15px var(--error-red-glow);
+            background: transparent;
         }
-        .parking-yes-btn:active, .parking-no-btn:active { transform: scale(0.95); }
+        .parking-no-btn:active { transform: scale(0.95); }
         
-        /* Баннер обновления */
         .update-banner {
             position: fixed;
             bottom: 40px;
@@ -693,17 +778,16 @@
             justify-content: space-between;
             z-index: 10000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transform: translateY(120px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
             backdrop-filter: blur(10px);
             background: rgba(26, 26, 26, 0.95);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            transform: translateY(120px);
-            opacity: 0;
+            opacity: 1;
         }
         .update-banner.show {
             transform: translateY(0);
-            opacity: 1;
         }
-        .update-banner.hide {
+        .update-banner.hiding {
             transform: translateY(120px);
             opacity: 0;
         }
@@ -731,42 +815,10 @@
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
         }
 
-        /* Мини-кнопка обновления (левый нижний угол) */
-        .update-mini-btn {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background: #f97316;
-            border: none;
-            border-radius: 8px;
-            padding: 4px 12px;
-            font-size: 10px;
-            font-family: monospace;
-            color: #0a0a0a;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateX(-30px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-        .update-mini-btn.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .update-mini-btn:hover {
-            background: #ff8540;
-            transform: scale(1.02);
-        }
-        .update-mini-btn:active {
-            transform: scale(0.96);
-        }
-
         .version-badge {
             position: fixed;
             bottom: 10px;
-            right: 10px;
+            left: 10px;
             padding: 4px 8px;
             border-radius: 8px;
             z-index: 999;
@@ -776,8 +828,44 @@
             backdrop-filter: blur(4px);
             transition: all 0.3s ease;
         }
+        
+        .manual-update-btn {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: rgba(249, 115, 22, 0.85);
+            border: 1px solid #f97316;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            display: none;
+            animation: fadeInUp 0.4s ease;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+            pointer-events: auto;
+        }
+        .manual-update-btn:hover {
+            background: #f97316;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        /* Модальное окно PIN */
         .pin-modal {
             position: fixed;
             top: 0;
@@ -880,7 +968,7 @@
             padding: 6px 12px;
         }
     </style>
-<base target="_blank">
+    <base target="_blank">
 </head>
 <body>
     <div id="loading-screen" class="screen active">
@@ -898,13 +986,16 @@
                 <h1 class="login-title">Инфа под рукой 2.0</h1>
                 <p class="login-subtitle">Введите код доступа</p>
             </div>
+
             <div class="pin-dots-container" id="pin-dots">
                 <div class="pin-dot" data-index="0"></div>
                 <div class="pin-dot" data-index="1"></div>
                 <div class="pin-dot" data-index="2"></div>
                 <div class="pin-dot" data-index="3"></div>
             </div>
+
             <input type="password" id="login-password-hidden" class="pin-hidden-input" autocomplete="current-password" inputmode="numeric" pattern="[0-9]*">
+
             <div class="pin-pad" id="pin-pad">
                 <button class="pin-btn" data-digit="1">1</button>
                 <button class="pin-btn" data-digit="2">2</button>
@@ -919,6 +1010,7 @@
                 <button class="pin-btn" data-digit="0">0</button>
                 <button class="pin-btn backspace" data-action="backspace">⌫</button>
             </div>
+
             <button class="forgot-pin" id="forgot-pin-btn">Забыли код-доступа?</button>
         </div>
     </div>
@@ -932,16 +1024,19 @@
                 </div>
                 <button id="menu-btn" class="menu-btn">Управление</button>
             </div>
+
             <div id="zoom-panel" class="zoom-panel">
                 <button id="zoom-out-btn" class="zoom-btn" title="Уменьшить текст">🔍−</button>
                 <span id="zoom-indicator" class="zoom-indicator">Масштаб</span>
                 <button id="zoom-in-btn" class="zoom-btn" title="Увеличить текст">🔍+</button>
             </div>
+
             <div class="sticky-search-wrapper">
                 <div class="search-section">
                     <input type="text" id="search-input" class="search-input" placeholder="Что будем искать сегодня 🧐" autocomplete="off">
                 </div>
             </div>
+
             <div id="results-container" class="results-container hidden"></div>
         </div>
     </div>
@@ -967,325 +1062,1596 @@
 
     <div id="notification" class="notification hidden"></div>
     
-    <!-- Мини-кнопка обновления (левый нижний угол) -->
-    <button id="update-mini-btn" class="update-mini-btn">Обновление</button>
     <div class="version-badge" id="app-version-badge"></div>
+    <button id="manual-update-btn" class="manual-update-btn">🔔 Есть обновление</button>
 
     <script>
         const ACCESS_LEVELS = {
-            '83e19a9ce479dc064bab4bd50134db14918cc967debd3ad223bb8993c523788d': { level: 3, name: 'Администратор', greeting: 'доступ ⭐️⭐️⭐️', permissions: ['contacts', 'stations', 'parking', 'documents'] },
-            '775988758f13f17d20e083ed112c78ad3b62be322f501d4a61ca174a704be1a7': { level: 2, name: 'Оператор', greeting: 'доступ ⭐️⭐️', permissions: ['contacts', 'stations', 'parking'] },
-            'c5165083befc92b41c6c93d615f2b0239c2f7f1d7232991f3edb6f15cc638794': { level: 1, name: 'Пользователь', greeting: 'доступ ⭐️', permissions: ['contacts', 'parking'] }
+            '83e19a9ce479dc064bab4bd50134db14918cc967debd3ad223bb8993c523788d': {
+                level: 3,
+                name: 'Администратор',
+                greeting: 'доступ ⭐️⭐️⭐️',
+                permissions: ['contacts', 'stations', 'parking', 'documents']
+            },
+            '775988758f13f17d20e083ed112c78ad3b62be322f501d4a61ca174a704be1a7': {
+                level: 2,
+                name: 'Оператор',
+                greeting: 'доступ ⭐️⭐️',
+                permissions: ['contacts', 'stations', 'parking']
+            },
+            'c5165083befc92b41c6c93d615f2b0239c2f7f1d7232991f3edb6f15cc638794': {
+                level: 1,
+                name: 'Пользователь',
+                greeting: 'доступ ⭐️',
+                permissions: ['contacts', 'parking']
+            }
         };
         
-        const STORAGE_KEYS = { LAST_RESULTS: 'infa_last_results_raw', LAST_QUERY: 'infa_last_query' };
+        const STORAGE_KEYS = {
+            LAST_RESULTS: 'infa_last_results_raw',
+            LAST_QUERY: 'infa_last_query'
+        };
+
         const FORCE_UPDATE_BANNER = true;
 
-        let CONTACTS_DATA = [], STATIONS_DATA = [], DOCUMENTS_DATA = [], PARKING_DATA = [];
+        let CONTACTS_DATA = [];
+        let STATIONS_DATA = [];
+        let DOCUMENTS_DATA = [];
+        let PARKING_DATA = [];
+
         let SESSION_DATA = null;
         
         class SecurePinStorage {
-            constructor() { this.storageKey = 'encrypted_user_pin'; this.salt = this.generateNewSalt(); }
+            constructor() {
+                this.storageKey = 'encrypted_user_pin';
+                this.salt = this.generateNewSalt();
+            }
+            
             generateNewSalt() {
-                try { const salt = CryptoJS.lib.WordArray.random(32); if (salt && salt.toString()) return salt.toString(); throw new Error('Salt generation failed'); }
-                catch(e) { return CryptoJS.SHA256(Date.now() + navigator.userAgent).toString(); }
+                try {
+                    const salt = CryptoJS.lib.WordArray.random(32);
+                    if (salt && salt.toString()) {
+                        return salt.toString();
+                    }
+                    throw new Error('Salt generation failed');
+                } catch(e) {
+                    return CryptoJS.SHA256(Date.now() + navigator.userAgent).toString();
+                }
             }
+            
             storeEncryptedPin(enteredPin, userLevel) {
-                try { const pinData = { pin: enteredPin, level: userLevel, timestamp: Date.now() }; const encrypted = CryptoJS.AES.encrypt(JSON.stringify(pinData), this.salt).toString(); sessionStorage.setItem(this.storageKey, encrypted); return true; }
-                catch(e) { return false; }
+                try {
+                    const pinData = {
+                        pin: enteredPin,
+                        level: userLevel,
+                        timestamp: Date.now()
+                    };
+                    
+                    const encrypted = CryptoJS.AES.encrypt(
+                        JSON.stringify(pinData),
+                        this.salt
+                    ).toString();
+                    
+                    sessionStorage.setItem(this.storageKey, encrypted);
+                    return true;
+                } catch(e) {
+                    return false;
+                }
             }
+            
             retrievePin() {
-                const encrypted = sessionStorage.getItem(this.storageKey); if (!encrypted) return null;
-                try { const decrypted = CryptoJS.AES.decrypt(encrypted, this.salt); const pinData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)); const maxAge = 7 * 24 * 60 * 60 * 1000; if (Date.now() - pinData.timestamp > maxAge) { this.clear(); return null; } return pinData.pin; }
-                catch(e) { this.clear(); return null; }
+                const encrypted = sessionStorage.getItem(this.storageKey);
+                if (!encrypted) return null;
+                
+                try {
+                    const decrypted = CryptoJS.AES.decrypt(encrypted, this.salt);
+                    const pinData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+                    
+                    const maxAge = 7 * 24 * 60 * 60 * 1000;
+                    
+                    if (Date.now() - pinData.timestamp > maxAge) {
+                        this.clear();
+                        return null;
+                    }
+                    
+                    return pinData.pin;
+                } catch(e) {
+                    this.clear();
+                    return null;
+                }
             }
-            clear() { sessionStorage.removeItem(this.storageKey); }
-            hasValidPin() { return this.retrievePin() !== null; }
+            
+            clear() {
+                sessionStorage.removeItem(this.storageKey);
+            }
+            
+            hasValidPin() {
+                return this.retrievePin() !== null;
+            }
         }
         
         function verifyAccessCode(inputCode) {
             if (!inputCode) return null;
             const hash = CryptoJS.SHA256(inputCode.trim()).toString();
             const userData = ACCESS_LEVELS[hash];
-            if (userData) return { ...userData, enteredCode: inputCode.trim() };
+            if (userData) {
+                return { ...userData, enteredCode: inputCode.trim() };
+            }
             return null;
         }
         
         function decryptData(encryptedBase64, password) {
-            if (!encryptedBase64 || encryptedBase64.trim() === "") return [];
-            try { const decrypted = CryptoJS.AES.decrypt(encryptedBase64, password); const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8); if (!decryptedStr) return []; return JSON.parse(decryptedStr); }
-            catch(e) { return []; }
+            if (!encryptedBase64 || encryptedBase64.trim() === "") {
+                return [];
+            }
+            try {
+                const decrypted = CryptoJS.AES.decrypt(encryptedBase64, password);
+                const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+                if (!decryptedStr) return [];
+                return JSON.parse(decryptedStr);
+            } catch(e) {
+                return [];
+            }
         }
 
         function decryptAllDataWithCode(userData) {
-            const accessCode = userData.enteredCode; const level = userData.level;
-            if (level === 3) { CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL3, accessCode); STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL3, accessCode); PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL3, accessCode); DOCUMENTS_DATA = decryptData(ENCRYPTED_DOCUMENTS_LEVEL3, accessCode); }
-            else if (level === 2) { CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL2, accessCode); STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL2, accessCode); PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL2, accessCode); DOCUMENTS_DATA = []; }
-            else if (level === 1) { CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL1, accessCode); PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL1, accessCode); STATIONS_DATA = []; DOCUMENTS_DATA = []; }
+            const accessCode = userData.enteredCode;
+            const level = userData.level;
+            
+            if (level === 3) {
+                CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL3, accessCode);
+                STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL3, accessCode);
+                PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL3, accessCode);
+                DOCUMENTS_DATA = decryptData(ENCRYPTED_DOCUMENTS_LEVEL3, accessCode);
+            } 
+            else if (level === 2) {
+                CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL2, accessCode);
+                STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL2, accessCode);
+                PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL2, accessCode);
+                DOCUMENTS_DATA = [];
+            } 
+            else if (level === 1) {
+                CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL1, accessCode);
+                PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL1, accessCode);
+                STATIONS_DATA = [];
+                DOCUMENTS_DATA = [];
+            }
+            
             return true;
         }
         
         function saveSession(userData) {
-            const pinStorage = new SecurePinStorage(); pinStorage.storeEncryptedPin(userData.enteredCode, userData.level);
-            const sessionData = { accessCodeHash: CryptoJS.SHA256(userData.enteredCode).toString(), level: userData.level, permissions: userData.permissions, contacts: CONTACTS_DATA, stations: STATIONS_DATA, parking: PARKING_DATA, documents: DOCUMENTS_DATA, timestamp: Date.now(), appVersion: APP_VERSION };
-            localStorage.setItem('access_session_data', JSON.stringify(sessionData)); localStorage.setItem('access_session_timestamp', sessionData.timestamp); sessionStorage.setItem('access_session_data', JSON.stringify(sessionData));
+            const pinStorage = new SecurePinStorage();
+            pinStorage.storeEncryptedPin(userData.enteredCode, userData.level);
+            
+            const sessionData = {
+                accessCodeHash: CryptoJS.SHA256(userData.enteredCode).toString(),
+                level: userData.level,
+                permissions: userData.permissions,
+                contacts: CONTACTS_DATA,
+                stations: STATIONS_DATA,
+                parking: PARKING_DATA,
+                documents: DOCUMENTS_DATA,
+                timestamp: Date.now(),
+                appVersion: typeof APP_VERSION !== 'undefined' ? APP_VERSION : '1.0'
+            };
+            
+            localStorage.setItem('access_session_data', JSON.stringify(sessionData));
+            localStorage.setItem('access_session_timestamp', sessionData.timestamp);
+            sessionStorage.setItem('access_session_data', JSON.stringify(sessionData));
         }
 
-        function isSessionValid() { const timestamp = localStorage.getItem('access_session_timestamp'); if (!timestamp) return false; const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000; return (Date.now() - parseInt(timestamp)) < THIRTY_DAYS; }
+        function isSessionValid() {
+            const timestamp = localStorage.getItem('access_session_timestamp');
+            if (!timestamp) return false;
+            const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+            return (Date.now() - parseInt(timestamp)) < THIRTY_DAYS;
+        }
 
         function restoreSessionFromStorage() {
-            if (!isSessionValid()) { localStorage.removeItem('access_session_data'); localStorage.removeItem('access_session_timestamp'); sessionStorage.removeItem('access_session_data'); return null; }
-            let sessionData = sessionStorage.getItem('access_session_data'); if (!sessionData) sessionData = localStorage.getItem('access_session_data');
+            if (!isSessionValid()) {
+                localStorage.removeItem('access_session_data');
+                localStorage.removeItem('access_session_timestamp');
+                sessionStorage.removeItem('access_session_data');
+                return null;
+            }
+            
+            let sessionData = sessionStorage.getItem('access_session_data');
+            if (!sessionData) {
+                sessionData = localStorage.getItem('access_session_data');
+            }
+            
             if (!sessionData) return null;
-            try { const data = JSON.parse(sessionData); CONTACTS_DATA = data.contacts || []; STATIONS_DATA = data.stations || []; PARKING_DATA = data.parking || []; DOCUMENTS_DATA = data.documents || []; const userData = ACCESS_LEVELS[data.accessCodeHash]; if (userData) return { ...userData, enteredCode: null }; return null; }
-            catch(e) { return null; }
+            
+            try {
+                const data = JSON.parse(sessionData);
+                CONTACTS_DATA = data.contacts || [];
+                STATIONS_DATA = data.stations || [];
+                PARKING_DATA = data.parking || [];
+                DOCUMENTS_DATA = data.documents || [];
+                
+                const userData = ACCESS_LEVELS[data.accessCodeHash];
+                if (userData) {
+                    return { ...userData, enteredCode: null };
+                }
+                return null;
+            } catch(e) {
+                return null;
+            }
         }
         
         const DATABASE = {
-            users: [], stations: [], contacts: [], documents: [], parking: [], currentUser: null, isInitialized: false,
-            init() { this.users = Object.values(ACCESS_LEVELS); this.contacts = CONTACTS_DATA; this.stations = STATIONS_DATA; this.documents = DOCUMENTS_DATA; this.parking = PARKING_DATA; this.isInitialized = true; },
-            calculateMatchPercent(text, query) { if (!text || !query) return 0; const t = text.toLowerCase(); const q = query.toLowerCase(); if (t === q) return 100; if (t.includes(q)) return Math.min((q.length / t.length) * 100, 99); return 0; },
-            hasPermission(perm) { return this.currentUser && this.currentUser.permissions.includes(perm); },
-            searchStationsRanked(q) { if (!q || !this.hasPermission('stations')) return []; const lq = q.toLowerCase().trim(); const res = []; this.stations.forEach(s => { let best = 0; if (s.searchName) best = Math.max(best, this.calculateMatchPercent(s.searchName, lq)); if (s.телефон) best = Math.max(best, this.calculateMatchPercent(s.телефон, lq)); if (best > 0) res.push({ ...s, type: 'station', matchPercent: best }); }); return res; },
-            searchParkingRanked(q) { if (!q || !this.hasPermission('parking')) return []; const lq = q.toLowerCase().trim(); const res = []; this.parking.forEach(p => { let best = 0; if (p.searchName) best = Math.max(best, this.calculateMatchPercent(p.searchName, lq)); if (best > 0) res.push({ ...p, type: 'parking', matchPercent: best }); }); return res; },
-            searchContactsRanked(q) { if (!q || !this.hasPermission('contacts')) return []; const lq = q.toLowerCase().trim(); const res = []; this.contacts.forEach(c => { let best = 0; if (c.searchName) best = Math.max(best, this.calculateMatchPercent(c.searchName, lq)); if (c.телефон) best = Math.max(best, this.calculateMatchPercent(c.телефон, lq)); if (best > 0) res.push({ ...c, type: 'contact', matchPercent: best }); }); return res; },
-            searchDocumentsRanked(q) { if (!q || !this.hasPermission('documents')) return []; const lq = q.toLowerCase().trim(); const res = []; this.documents.forEach(d => { let best = 0; if (d.searchName) best = Math.max(best, this.calculateMatchPercent(d.searchName, lq)); if (best > 0) res.push({ ...d, type: 'document', matchPercent: best }); }); return res; },
-            searchAllRanked(q) { let allResults = [...this.searchStationsRanked(q), ...this.searchParkingRanked(q), ...this.searchContactsRanked(q), ...this.searchDocumentsRanked(q)]; allResults.sort((a, b) => b.matchPercent - a.matchPercent); return allResults; },
-            setCurrentUser(u) { this.currentUser = u; }
+            users: [],
+            stations: [],
+            contacts: [],
+            documents: [],
+            parking: [],
+            currentUser: null,
+            isInitialized: false,
+
+            init() {
+                this.users = Object.values(ACCESS_LEVELS);
+                this.contacts = CONTACTS_DATA;
+                this.stations = STATIONS_DATA;
+                this.documents = DOCUMENTS_DATA;
+                this.parking = PARKING_DATA;
+                this.isInitialized = true;
+            },
+
+            calculateMatchPercent(text, query) {
+                if (!text || !query) return 0;
+                const t = text.toLowerCase();
+                const q = query.toLowerCase();
+                if (t === q) return 100;
+                if (t.includes(q)) return Math.min((q.length / t.length) * 100, 99);
+                return 0;
+            },
+
+            hasPermission(perm) {
+                return this.currentUser && this.currentUser.permissions.includes(perm);
+            },
+
+            searchStationsRanked(q) {
+                if (!q || !this.hasPermission('stations')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.stations.forEach(s => {
+                    let best = 0;
+                    if (s.searchName) best = Math.max(best, this.calculateMatchPercent(s.searchName, lq));
+                    if (s.телефон) best = Math.max(best, this.calculateMatchPercent(s.телефон, lq));
+                    if (best > 0) res.push({ ...s, type: 'station', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchParkingRanked(q) {
+                if (!q || !this.hasPermission('parking')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.parking.forEach(p => {
+                    let best = 0;
+                    if (p.searchName) best = Math.max(best, this.calculateMatchPercent(p.searchName, lq));
+                    if (best > 0) res.push({ ...p, type: 'parking', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchContactsRanked(q) {
+                if (!q || !this.hasPermission('contacts')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.contacts.forEach(c => {
+                    let best = 0;
+                    if (c.searchName) best = Math.max(best, this.calculateMatchPercent(c.searchName, lq));
+                    if (c.телефон) best = Math.max(best, this.calculateMatchPercent(c.телефон, lq));
+                    if (best > 0) res.push({ ...c, type: 'contact', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchDocumentsRanked(q) {
+                if (!q || !this.hasPermission('documents')) return [];
+                const lq = q.toLowerCase().trim();
+                const res = [];
+                this.documents.forEach(d => {
+                    let best = 0;
+                    if (d.searchName) best = Math.max(best, this.calculateMatchPercent(d.searchName, lq));
+                    if (best > 0) res.push({ ...d, type: 'document', matchPercent: best });
+                });
+                return res;
+            },
+
+            searchAllRanked(q) {
+                let allResults = [
+                    ...this.searchStationsRanked(q),
+                    ...this.searchParkingRanked(q),
+                    ...this.searchContactsRanked(q),
+                    ...this.searchDocumentsRanked(q)
+                ];
+                allResults.sort((a, b) => b.matchPercent - a.matchPercent);
+                return allResults;
+            },
+
+            setCurrentUser(u) {
+                this.currentUser = u;
+            }
         };
         
         const ParkingUI = {
             userParkingData: {},
-            init() { this.loadUserData(); },
-            loadUserData() { try { const saved = localStorage.getItem('infa_parking_user_data'); if (saved) this.userParkingData = JSON.parse(saved); } catch(e) { this.userParkingData = {}; } },
-            saveUserData() { localStorage.setItem('infa_parking_user_data', JSON.stringify(this.userParkingData)); },
-            getUserNote(parkingId) { return (this.userParkingData[parkingId] && this.userParkingData[parkingId].note !== undefined) ? this.userParkingData[parkingId].note : null; },
-            updateParkingNote(parkingId, newNote) { if (!parkingId) return false; if (!PARKING_DATA.find(p => p.id === parkingId)) return false; if (!this.userParkingData[parkingId]) this.userParkingData[parkingId] = {}; this.userParkingData[parkingId].note = newNote; this.userParkingData[parkingId].updatedAt = new Date().toISOString(); this.saveUserData(); return true; }
+
+            init() {
+                this.loadUserData();
+            },
+
+            loadUserData() {
+                try {
+                    const saved = localStorage.getItem('infa_parking_user_data');
+                    if (saved) this.userParkingData = JSON.parse(saved);
+                } catch(e) {
+                    this.userParkingData = {};
+                }
+            },
+
+            saveUserData() {
+                localStorage.setItem('infa_parking_user_data', JSON.stringify(this.userParkingData));
+            },
+
+            getUserNote(parkingId) {
+                return (this.userParkingData[parkingId] && this.userParkingData[parkingId].note !== undefined) 
+                    ? this.userParkingData[parkingId].note 
+                    : null;
+            },
+
+            updateParkingNote(parkingId, newNote) {
+                if (!parkingId) return false;
+                if (!PARKING_DATA.find(p => p.id === parkingId)) return false;
+                if (!this.userParkingData[parkingId]) this.userParkingData[parkingId] = {};
+                this.userParkingData[parkingId].note = newNote;
+                this.userParkingData[parkingId].updatedAt = new Date().toISOString();
+                this.saveUserData();
+                return true;
+            }
         };
         
         class InfaApp {
             constructor() {
-                this.currentUser = null; this.isLoggedIn = false; this.currentZoom = 100; this.minZoom = 70; this.maxZoom = 150; this.zoomStep = 10;
-                this.drawerCloseTimer = null; this.pinCode = ""; this.maxPinLength = 4; this.isRestoredResults = false; this.currentDataVersion = null;
-                this.bannerShown = false; this.updateMiniBtn = null; this.updateBanner = null; this.init();
+                this.currentUser = null;
+                this.isLoggedIn = false;
+                this.currentZoom = 100;
+                this.minZoom = 70;
+                this.maxZoom = 150;
+                this.zoomStep = 10;
+                this.drawerCloseTimer = null;
+                this.pinCode = "";
+                this.maxPinLength = 4;
+                this.isRestoredResults = false;
+                this.currentDataVersion = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : null;
+                this.bannerShown = false;
+                this.bannerHiddenBySwipe = false;
+                this.init();
             }
 
             cacheElements() {
-                this.loadingScreen = document.getElementById('loading-screen'); this.loginScreen = document.getElementById('login-screen'); this.mainScreen = document.getElementById('main-screen');
-                this.loadingText = document.querySelector('.loading-text'); this.usernameSpan = document.getElementById('username'); this.menuBtn = document.getElementById('menu-btn');
-                this.searchInput = document.getElementById('search-input'); this.resultsContainer = document.getElementById('results-container'); this.notification = document.getElementById('notification');
-                this.zoomInBtn = document.getElementById('zoom-in-btn'); this.zoomOutBtn = document.getElementById('zoom-out-btn'); this.zoomIndicator = document.getElementById('zoom-indicator');
-                this.pinPad = document.getElementById('pin-pad'); this.pinDots = document.getElementById('pin-dots'); this.pinHiddenInput = document.getElementById('login-password-hidden');
-                this.forgotPinBtn = document.getElementById('forgot-pin-btn'); this.drawerOverlay = document.getElementById('drawer-overlay'); this.drawer = document.getElementById('drawer');
-                this.drawerClose = document.getElementById('drawer-close'); this.drawerError = document.getElementById('drawer-error'); this.drawerAddData = document.getElementById('drawer-add-data');
-                this.drawerLogout = document.getElementById('drawer-logout'); this.drawerSubmenuAdd = document.getElementById('drawer-submenu-add'); this.drawerMenuMain = document.getElementById('drawer-menu-main');
-                this.drawerBackMain = document.getElementById('drawer-back-main'); this.drawerAddStation = document.getElementById('drawer-add-station'); this.drawerAddParking = document.getElementById('drawer-add-parking');
-                this.drawerAddContact = document.getElementById('drawer-add-contact'); this.versionBadge = document.getElementById('app-version-badge');
-                this.updateMiniBtn = document.getElementById('update-mini-btn');
+                this.loadingScreen = document.getElementById('loading-screen');
+                this.loginScreen = document.getElementById('login-screen');
+                this.mainScreen = document.getElementById('main-screen');
+                this.loadingText = document.querySelector('.loading-text');
+                this.usernameSpan = document.getElementById('username');
+                this.menuBtn = document.getElementById('menu-btn');
+                this.searchInput = document.getElementById('search-input');
+                this.resultsContainer = document.getElementById('results-container');
+                this.notification = document.getElementById('notification');
+                this.zoomInBtn = document.getElementById('zoom-in-btn');
+                this.zoomOutBtn = document.getElementById('zoom-out-btn');
+                this.zoomIndicator = document.getElementById('zoom-indicator');
+                
+                this.pinPad = document.getElementById('pin-pad');
+                this.pinDots = document.getElementById('pin-dots');
+                this.pinHiddenInput = document.getElementById('login-password-hidden');
+                this.forgotPinBtn = document.getElementById('forgot-pin-btn');
+                
+                this.drawerOverlay = document.getElementById('drawer-overlay');
+                this.drawer = document.getElementById('drawer');
+                this.drawerClose = document.getElementById('drawer-close');
+                this.drawerError = document.getElementById('drawer-error');
+                this.drawerAddData = document.getElementById('drawer-add-data');
+                this.drawerLogout = document.getElementById('drawer-logout');
+                this.drawerSubmenuAdd = document.getElementById('drawer-submenu-add');
+                this.drawerMenuMain = document.getElementById('drawer-menu-main');
+                this.drawerBackMain = document.getElementById('drawer-back-main');
+                this.drawerAddStation = document.getElementById('drawer-add-station');
+                this.drawerAddParking = document.getElementById('drawer-add-parking');
+                this.drawerAddContact = document.getElementById('drawer-add-contact');
+                
+                this.versionBadge = document.getElementById('app-version-badge');
+                this.manualUpdateBtn = document.getElementById('manual-update-btn');
             }
 
             saveSearchResults(results, query) {
-                if (!results || results.length === 0) { this.clearSavedResults(); return; }
-                try { const rawResults = results.map(item => { const clone = { ...item }; if (clone.userNote) delete clone.userNote; return clone; }); localStorage.setItem(STORAGE_KEYS.LAST_RESULTS, JSON.stringify(rawResults)); localStorage.setItem(STORAGE_KEYS.LAST_QUERY, query); } catch(e) {}
+                if (!results || results.length === 0) {
+                    this.clearSavedResults();
+                    return;
+                }
+                try {
+                    const rawResults = results.map(item => {
+                        const clone = { ...item };
+                        if (clone.userNote) delete clone.userNote;
+                        return clone;
+                    });
+                    localStorage.setItem(STORAGE_KEYS.LAST_RESULTS, JSON.stringify(rawResults));
+                    localStorage.setItem(STORAGE_KEYS.LAST_QUERY, query);
+                } catch (e) {}
             }
+
             restoreSearchResults() {
-                try { const savedResultsRaw = localStorage.getItem(STORAGE_KEYS.LAST_RESULTS); const savedQuery = localStorage.getItem(STORAGE_KEYS.LAST_QUERY); if (savedResultsRaw && savedQuery) { const rawResults = JSON.parse(savedResultsRaw); const restoredResults = rawResults.map(item => { if (item.type === 'parking' && item.id) return { ...item, userNote: ParkingUI.getUserNote(item.id) }; return item; }); this.displayResults(restoredResults, savedQuery); if (this.resultsContainer) this.resultsContainer.classList.add('restored-result'); this.isRestoredResults = true; this.showNotification(`Показаны сохранённые результаты: "${savedQuery}"`, 'success'); return true; } } catch(e) {} return false; }
-            clearSavedResults() { localStorage.removeItem(STORAGE_KEYS.LAST_RESULTS); localStorage.removeItem(STORAGE_KEYS.LAST_QUERY); }
+                try {
+                    const savedResultsRaw = localStorage.getItem(STORAGE_KEYS.LAST_RESULTS);
+                    const savedQuery = localStorage.getItem(STORAGE_KEYS.LAST_QUERY);
+                    
+                    if (savedResultsRaw && savedQuery) {
+                        const rawResults = JSON.parse(savedResultsRaw);
+                        const restoredResults = rawResults.map(item => {
+                            if (item.type === 'parking' && item.id) {
+                                return { ...item, userNote: ParkingUI.getUserNote(item.id) };
+                            }
+                            return item;
+                        });
+                        this.displayResults(restoredResults, savedQuery);
+                        if (this.resultsContainer) {
+                            this.resultsContainer.classList.add('restored-result');
+                        }
+                        this.isRestoredResults = true;
+                        this.showNotification(`Показаны сохранённые результаты: "${savedQuery}"`, 'success');
+                        return true;
+                    }
+                } catch (e) {}
+                return false;
+            }
+
+            clearSavedResults() {
+                localStorage.removeItem(STORAGE_KEYS.LAST_RESULTS);
+                localStorage.removeItem(STORAGE_KEYS.LAST_QUERY);
+            }
 
             initPinPad() {
                 if (!this.pinPad) return;
-                this.pinPad.addEventListener('click', (e) => { const btn = e.target.closest('.pin-btn'); if (!btn) return; const digit = btn.getAttribute('data-digit'); const action = btn.getAttribute('data-action'); if (digit !== null) this.addPinDigit(digit); else if (action === 'backspace') this.removePinDigit(); });
-                document.addEventListener('keydown', (e) => { if (!this.loginScreen.classList.contains('active')) return; if (e.key >= '0' && e.key <= '9') { e.preventDefault(); this.addPinDigit(e.key); } else if (e.key === 'Backspace') { e.preventDefault(); this.removePinDigit(); } else if (e.key === 'Enter') { e.preventDefault(); this.submitPin(); } });
-                if (this.pinHiddenInput) this.pinHiddenInput.addEventListener('input', (e) => { const val = e.target.value.replace(/\D/g, ''); if (val) { this.pinCode = val.slice(0, this.maxPinLength); this.updatePinDots(); if (this.pinCode.length >= this.maxPinLength) this.submitPin(); } });
-                if (this.forgotPinBtn) this.forgotPinBtn.addEventListener('click', () => { window.location.href = 'tel:89169002420'; });
-            }
-            addPinDigit(digit) { if (this.pinCode.length < this.maxPinLength) { this.pinCode += digit; this.updatePinDots(); if (this.pinHiddenInput) this.pinHiddenInput.value = this.pinCode; if (this.pinCode.length >= this.maxPinLength) setTimeout(() => this.submitPin(), 200); } }
-            removePinDigit() { if (this.pinCode.length > 0) { this.pinCode = this.pinCode.slice(0, -1); this.updatePinDots(); if (this.pinHiddenInput) this.pinHiddenInput.value = this.pinCode; } }
-            updatePinDots() { if (!this.pinDots) return; const dots = this.pinDots.querySelectorAll('.pin-dot'); dots.forEach((dot, index) => dot.classList.toggle('filled', index < this.pinCode.length)); }
-            showPinError() { if (!this.pinDots) return; const dots = this.pinDots.querySelectorAll('.pin-dot'); dots.forEach(dot => dot.classList.add('error')); setTimeout(() => { this.pinCode = ""; this.updatePinDots(); if (this.pinHiddenInput) this.pinHiddenInput.value = ""; }, 500); }
-            async submitPin() { if (this.pinCode.length === 0) return; const userData = verifyAccessCode(this.pinCode); if (!userData) { this.showPinError(); this.showNotification('Неверный код доступа', 'error'); return; } this.showLoadingMessage('Расшифровка данных...'); const fullUserData = { ...userData, enteredCode: this.pinCode }; const decryptSuccess = decryptAllDataWithCode(fullUserData); if (!decryptSuccess) { this.showNotification('Ошибка расшифровки данных. Обратитесь к администратору.', 'error'); this.pinCode = ""; this.updatePinDots(); return; } this.currentUser = fullUserData; this.isLoggedIn = true; DATABASE.setCurrentUser(fullUserData); const pinStorage = new SecurePinStorage(); pinStorage.storeEncryptedPin(this.pinCode, userData.level); saveSession(fullUserData); this.pinCode = ""; this.updatePinDots(); this.showMainScreen(); this.showNotification(`✅ Всё готово, можно начинать поиск`, 'success'); }
+                
+                this.pinPad.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.pin-btn');
+                    if (!btn) return;
+                    
+                    const digit = btn.getAttribute('data-digit');
+                    const action = btn.getAttribute('data-action');
+                    
+                    if (digit !== null) {
+                        this.addPinDigit(digit);
+                    } else if (action === 'backspace') {
+                        this.removePinDigit();
+                    }
+                });
 
-            updateZoomIndicator() { if (this.zoomIndicator) this.zoomIndicator.textContent = this.currentZoom === 100 ? 'Масштаб' : `${this.currentZoom}%`; }
-            applyZoomToDrawer() { const scale = this.currentZoom / 100; const drawer = this.drawer; if (!drawer) return; const drawerItems = drawer.querySelectorAll('.drawer-item, .drawer-header h3, .drawer-close'); drawerItems.forEach(el => { let baseSize = 15; if (el.classList.contains('drawer-item')) baseSize = 15; else if (el.tagName === 'H3') baseSize = 18; else if (el.classList.contains('drawer-close')) baseSize = 24; else baseSize = 14; el.style.fontSize = `${baseSize * scale}px`; }); const icons = drawer.querySelectorAll('.item-icon'); icons.forEach(icon => icon.style.fontSize = `${18 * scale}px`); }
-            applyZoom(percent) { percent = Math.max(this.minZoom, Math.min(this.maxZoom, percent)); this.currentZoom = percent; const scale = percent / 100; if (this.searchInput) this.searchInput.style.fontSize = `${1.3 * scale}rem`; document.querySelectorAll('.result-card').forEach(card => { const title = card.querySelector('.result-title'); if (title) title.style.fontSize = `${1 * scale}rem`; card.querySelectorAll('.result-detail, .result-contact').forEach(el => el.style.fontSize = `${0.8125 * scale}rem`); const ctx = card.querySelector('.result-context'); if (ctx) ctx.style.fontSize = `${0.85 * scale}rem`; const mp = card.querySelector('.match-percent'); if (mp) mp.style.fontSize = `${0.7 * scale}rem`; }); const nores = document.querySelector('.no-results'); if (nores) nores.style.fontSize = `${0.875 * scale}rem`; if (this.zoomIndicator) this.zoomIndicator.style.fontSize = `${0.875 * scale}rem`; document.querySelectorAll('.zoom-btn').forEach(btn => btn.style.fontSize = `${0.875 * scale}rem`); this.updateZoomIndicator(); this.applyZoomToDrawer(); localStorage.setItem('infa_zoom', this.currentZoom); }
-            zoomIn() { let nz = this.currentZoom + this.zoomStep; if (nz > this.maxZoom) { this.showNotification(`Максимальный масштаб: ${this.maxZoom}%`, 'error'); return; } this.applyZoom(nz); this.showNotification(`Масштаб: ${nz}%`, 'success'); }
-            zoomOut() { let nz = this.currentZoom - this.zoomStep; if (nz < this.minZoom) { this.showNotification(`Минимальный масштаб: ${this.minZoom}%`, 'error'); return; } this.applyZoom(nz); this.showNotification(`Масштаб: ${nz}%`, 'success'); }
-            loadZoomSetting() { const saved = localStorage.getItem('infa_zoom'); if (saved) { let z = parseInt(saved); if (!isNaN(z) && z >= this.minZoom && z <= this.maxZoom) this.currentZoom = z; else this.currentZoom = 100; } this.applyZoom(this.currentZoom); }
-            openDrawer() { if (this.drawerOverlay && this.drawer) { this.drawerOverlay.classList.add('active'); this.drawer.classList.add('active'); this.startDrawerAutoClose(); this.drawerMenuMain.style.display = 'flex'; this.drawerSubmenuAdd.classList.remove('active'); } }
-            closeDrawer() { if (this.drawerOverlay && this.drawer) { this.drawerOverlay.classList.remove('active'); this.drawer.classList.remove('active'); this.stopDrawerAutoClose(); } }
-            startDrawerAutoClose() { this.stopDrawerAutoClose(); this.drawerCloseTimer = setTimeout(() => this.closeDrawer(), 30000); }
-            stopDrawerAutoClose() { if (this.drawerCloseTimer) { clearTimeout(this.drawerCloseTimer); this.drawerCloseTimer = null; } }
-            resetDrawerAutoClose() { if (this.drawer && this.drawer.classList.contains('active')) this.startDrawerAutoClose(); }
-            showAddSubmenu() { this.drawerMenuMain.style.display = 'none'; this.drawerSubmenuAdd.classList.add('active'); this.resetDrawerAutoClose(); }
-            hideAddSubmenu() { this.drawerMenuMain.style.display = 'flex'; this.drawerSubmenuAdd.classList.remove('active'); this.resetDrawerAutoClose(); }
+                document.addEventListener('keydown', (e) => {
+                    if (!this.loginScreen.classList.contains('active')) return;
+                    
+                    if (e.key >= '0' && e.key <= '9') {
+                        e.preventDefault();
+                        this.addPinDigit(e.key);
+                    } else if (e.key === 'Backspace') {
+                        e.preventDefault();
+                        this.removePinDigit();
+                    } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.submitPin();
+                    }
+                });
+
+                if (this.pinHiddenInput) {
+                    this.pinHiddenInput.addEventListener('input', (e) => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        if (val) {
+                            this.pinCode = val.slice(0, this.maxPinLength);
+                            this.updatePinDots();
+                            if (this.pinCode.length >= this.maxPinLength) {
+                                this.submitPin();
+                            }
+                        }
+                    });
+                }
+
+                if (this.forgotPinBtn) {
+                    this.forgotPinBtn.addEventListener('click', () => {
+                        window.location.href = 'tel:89169002420';
+                    });
+                }
+            }
+
+            addPinDigit(digit) {
+                if (this.pinCode.length < this.maxPinLength) {
+                    this.pinCode += digit;
+                    this.updatePinDots();
+                    
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.value = this.pinCode;
+                    }
+                    
+                    if (this.pinCode.length >= this.maxPinLength) {
+                        setTimeout(() => this.submitPin(), 200);
+                    }
+                }
+            }
+
+            removePinDigit() {
+                if (this.pinCode.length > 0) {
+                    this.pinCode = this.pinCode.slice(0, -1);
+                    this.updatePinDots();
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.value = this.pinCode;
+                    }
+                }
+            }
+
+            updatePinDots() {
+                if (!this.pinDots) return;
+                const dots = this.pinDots.querySelectorAll('.pin-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('filled', index < this.pinCode.length);
+                    dot.classList.remove('error');
+                });
+            }
+
+            showPinError() {
+                if (!this.pinDots) return;
+                const dots = this.pinDots.querySelectorAll('.pin-dot');
+                dots.forEach(dot => dot.classList.add('error'));
+                
+                setTimeout(() => {
+                    this.pinCode = "";
+                    this.updatePinDots();
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.value = "";
+                    }
+                }, 500);
+            }
+
+            async submitPin() {
+                if (this.pinCode.length === 0) return;
+                
+                const userData = verifyAccessCode(this.pinCode);
+                if (!userData) {
+                    this.showPinError();
+                    this.showNotification('Неверный код доступа', 'error');
+                    return;
+                }
+
+                this.showLoadingMessage('Расшифровка данных...');
+                
+                const fullUserData = { ...userData, enteredCode: this.pinCode };
+                const decryptSuccess = decryptAllDataWithCode(fullUserData);
+
+                if (!decryptSuccess) {
+                    this.showNotification('Ошибка расшифровки данных. Обратитесь к администратору.', 'error');
+                    this.pinCode = "";
+                    this.updatePinDots();
+                    return;
+                }
+
+                this.currentUser = fullUserData;
+                this.isLoggedIn = true;
+                DATABASE.setCurrentUser(fullUserData);
+                
+                const pinStorage = new SecurePinStorage();
+                pinStorage.storeEncryptedPin(this.pinCode, userData.level);
+                
+                saveSession(fullUserData);
+                
+                this.pinCode = "";
+                this.updatePinDots();
+                this.showMainScreen();
+                this.showNotification(`✅ Всё готово, можно начинать поиск`, 'success');
+            }
+
+            updateZoomIndicator() {
+                const text = this.currentZoom === 100 ? 'Масштаб' : `${this.currentZoom}%`;
+                if (this.zoomIndicator) this.zoomIndicator.textContent = text;
+            }
+
+            applyZoomToDrawer() {
+                const scale = this.currentZoom / 100;
+                const drawer = this.drawer;
+                if (!drawer) return;
+                const drawerItems = drawer.querySelectorAll('.drawer-item, .drawer-header h3, .drawer-close');
+                drawerItems.forEach(el => {
+                    let baseSize = 15;
+                    if (el.classList.contains('drawer-item')) baseSize = 15;
+                    else if (el.tagName === 'H3') baseSize = 18;
+                    else if (el.classList.contains('drawer-close')) baseSize = 24;
+                    else baseSize = 14;
+                    el.style.fontSize = `${baseSize * scale}px`;
+                });
+                const icons = drawer.querySelectorAll('.item-icon');
+                icons.forEach(icon => {
+                    icon.style.fontSize = `${18 * scale}px`;
+                });
+            }
+
+            applyZoom(percent) {
+                percent = Math.max(this.minZoom, Math.min(this.maxZoom, percent));
+                this.currentZoom = percent;
+                const scale = percent / 100;
+
+                if (this.searchInput) this.searchInput.style.fontSize = `${1.3 * scale}rem`;
+                
+                document.querySelectorAll('.result-card').forEach(card => {
+                    const title = card.querySelector('.result-title');
+                    if (title) title.style.fontSize = `${1 * scale}rem`;
+                    card.querySelectorAll('.result-detail, .result-contact').forEach(el => {
+                        el.style.fontSize = `${0.8125 * scale}rem`;
+                    });
+                    const ctx = card.querySelector('.result-context');
+                    if (ctx) ctx.style.fontSize = `${0.85 * scale}rem`;
+                    const mp = card.querySelector('.match-percent');
+                    if (mp) mp.style.fontSize = `${0.7 * scale}rem`;
+                });
+
+                const nores = document.querySelector('.no-results');
+                if (nores) nores.style.fontSize = `${0.875 * scale}rem`;
+                
+                if (this.zoomIndicator) this.zoomIndicator.style.fontSize = `${0.875 * scale}rem`;
+                document.querySelectorAll('.zoom-btn').forEach(btn => btn.style.fontSize = `${0.875 * scale}rem`);
+
+                this.updateZoomIndicator();
+                this.applyZoomToDrawer();
+                localStorage.setItem('infa_zoom', this.currentZoom);
+            }
+
+            zoomIn() {
+                let nz = this.currentZoom + this.zoomStep;
+                if (nz > this.maxZoom) {
+                    this.showNotification(`Максимальный масштаб: ${this.maxZoom}%`, 'error');
+                    return;
+                }
+                this.applyZoom(nz);
+                this.showNotification(`Масштаб: ${nz}%`, 'success');
+            }
+
+            zoomOut() {
+                let nz = this.currentZoom - this.zoomStep;
+                if (nz < this.minZoom) {
+                    this.showNotification(`Минимальный масштаб: ${this.minZoom}%`, 'error');
+                    return;
+                }
+                this.applyZoom(nz);
+                this.showNotification(`Масштаб: ${nz}%`, 'success');
+            }
+
+            loadZoomSetting() {
+                const saved = localStorage.getItem('infa_zoom');
+                if (saved) {
+                    let z = parseInt(saved);
+                    if (!isNaN(z) && z >= this.minZoom && z <= this.maxZoom) {
+                        this.currentZoom = z;
+                    } else {
+                        this.currentZoom = 100;
+                    }
+                }
+                this.applyZoom(this.currentZoom);
+            }
+
+            openDrawer() {
+                if (this.drawerOverlay && this.drawer) {
+                    this.drawerOverlay.classList.add('active');
+                    this.drawer.classList.add('active');
+                    this.startDrawerAutoClose();
+                    this.drawerMenuMain.style.display = 'flex';
+                    this.drawerSubmenuAdd.classList.remove('active');
+                }
+            }
+
+            closeDrawer() {
+                if (this.drawerOverlay && this.drawer) {
+                    this.drawerOverlay.classList.remove('active');
+                    this.drawer.classList.remove('active');
+                    this.stopDrawerAutoClose();
+                }
+            }
+
+            startDrawerAutoClose() {
+                this.stopDrawerAutoClose();
+                this.drawerCloseTimer = setTimeout(() => {
+                    this.closeDrawer();
+                }, 30000);
+            }
+
+            stopDrawerAutoClose() {
+                if (this.drawerCloseTimer) {
+                    clearTimeout(this.drawerCloseTimer);
+                    this.drawerCloseTimer = null;
+                }
+            }
+
+            resetDrawerAutoClose() {
+                if (this.drawer && this.drawer.classList.contains('active')) {
+                    this.startDrawerAutoClose();
+                }
+            }
+
+            showAddSubmenu() {
+                this.drawerMenuMain.style.display = 'none';
+                this.drawerSubmenuAdd.classList.add('active');
+                this.resetDrawerAutoClose();
+            }
+
+            hideAddSubmenu() {
+                this.drawerMenuMain.style.display = 'flex';
+                this.drawerSubmenuAdd.classList.remove('active');
+                this.resetDrawerAutoClose();
+            }
 
             async requestPinForUpdate() {
                 return new Promise((resolve) => {
-                    const modal = document.createElement('div'); modal.className = 'pin-modal';
-                    modal.innerHTML = `<div class="pin-modal-card"><div class="pin-modal-title" style="color: #f97316;">Для обновления введите ваш код доступа</div><div class="pin-modal-dots" id="pin-modal-dots"><div class="pin-modal-dot" data-index="0"></div><div class="pin-modal-dot" data-index="1"></div><div class="pin-modal-dot" data-index="2"></div><div class="pin-modal-dot" data-index="3"></div></div><div class="pin-modal-pad" id="pin-modal-pad"><button class="pin-modal-btn" data-digit="1">1</button><button class="pin-modal-btn" data-digit="2">2</button><button class="pin-modal-btn" data-digit="3">3</button><button class="pin-modal-btn" data-digit="4">4</button><button class="pin-modal-btn" data-digit="5">5</button><button class="pin-modal-btn" data-digit="6">6</button><button class="pin-modal-btn" data-digit="7">7</button><button class="pin-modal-btn" data-digit="8">8</button><button class="pin-modal-btn" data-digit="9">9</button><button class="pin-modal-btn empty"></button><button class="pin-modal-btn" data-digit="0">0</button><button class="pin-modal-btn backspace" data-action="backspace">⌫</button></div><div id="pin-modal-error" class="pin-modal-error"></div><button class="pin-modal-cancel" id="pin-modal-cancel">Отмена</button></div>`;
+                    const modal = document.createElement('div');
+                    modal.className = 'pin-modal';
+                    
+                    modal.innerHTML = `
+                        <div class="pin-modal-card">
+                            <div class="pin-modal-title" style="color: #f97316;">Для обновления введите ваш код доступа</div>
+                            <div class="pin-modal-dots" id="pin-modal-dots">
+                                <div class="pin-modal-dot" data-index="0"></div>
+                                <div class="pin-modal-dot" data-index="1"></div>
+                                <div class="pin-modal-dot" data-index="2"></div>
+                                <div class="pin-modal-dot" data-index="3"></div>
+                            </div>
+                            <div class="pin-modal-pad" id="pin-modal-pad">
+                                <button class="pin-modal-btn" data-digit="1">1</button>
+                                <button class="pin-modal-btn" data-digit="2">2</button>
+                                <button class="pin-modal-btn" data-digit="3">3</button>
+                                <button class="pin-modal-btn" data-digit="4">4</button>
+                                <button class="pin-modal-btn" data-digit="5">5</button>
+                                <button class="pin-modal-btn" data-digit="6">6</button>
+                                <button class="pin-modal-btn" data-digit="7">7</button>
+                                <button class="pin-modal-btn" data-digit="8">8</button>
+                                <button class="pin-modal-btn" data-digit="9">9</button>
+                                <button class="pin-modal-btn empty"></button>
+                                <button class="pin-modal-btn" data-digit="0">0</button>
+                                <button class="pin-modal-btn backspace" data-action="backspace">⌫</button>
+                            </div>
+                            <div id="pin-modal-error" class="pin-modal-error"></div>
+                            <button class="pin-modal-cancel" id="pin-modal-cancel">Отмена</button>
+                        </div>
+                    `;
                     document.body.appendChild(modal);
-                    const dotsContainer = document.getElementById('pin-modal-dots'); const pad = document.getElementById('pin-modal-pad'); const errorDiv = document.getElementById('pin-modal-error'); const cancelBtn = document.getElementById('pin-modal-cancel');
-                    let currentPin = ""; const maxLen = 4;
-                    const updateDots = () => { const dots = dotsContainer.querySelectorAll('.pin-modal-dot'); dots.forEach((dot, idx) => dot.classList.toggle('filled', idx < currentPin.length)); };
-                    const handleDigit = (digit) => { if (currentPin.length < maxLen) { currentPin += digit; updateDots(); errorDiv.textContent = ''; if (currentPin.length === maxLen) { const userData = verifyAccessCode(currentPin); if (!userData) { errorDiv.textContent = 'Неверный код доступа'; currentPin = ""; updateDots(); } else { modal.remove(); resolve(currentPin); } } } };
-                    const handleBackspace = () => { if (currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updateDots(); errorDiv.textContent = ''; } };
-                    const handleCancel = () => { modal.remove(); resolve(null); };
-                    pad.querySelectorAll('.pin-modal-btn').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); const digit = btn.getAttribute('data-digit'); const action = btn.getAttribute('data-action'); if (digit !== null) handleDigit(digit); else if (action === 'backspace') handleBackspace(); }); });
+                    
+                    const dotsContainer = document.getElementById('pin-modal-dots');
+                    const pad = document.getElementById('pin-modal-pad');
+                    const errorDiv = document.getElementById('pin-modal-error');
+                    const cancelBtn = document.getElementById('pin-modal-cancel');
+                    
+                    let currentPin = "";
+                    const maxLen = 4;
+                    
+                    const updateDots = () => {
+                        const dots = dotsContainer.querySelectorAll('.pin-modal-dot');
+                        dots.forEach((dot, idx) => {
+                            dot.classList.toggle('filled', idx < currentPin.length);
+                        });
+                    };
+                    
+                    const handleDigit = (digit) => {
+                        if (currentPin.length < maxLen) {
+                            currentPin += digit;
+                            updateDots();
+                            errorDiv.textContent = '';
+                            
+                            if (currentPin.length === maxLen) {
+                                const userData = verifyAccessCode(currentPin);
+                                if (!userData) {
+                                    errorDiv.textContent = 'Неверный код доступа';
+                                    currentPin = "";
+                                    updateDots();
+                                } else {
+                                    modal.remove();
+                                    resolve(currentPin);
+                                }
+                            }
+                        }
+                    };
+                    
+                    const handleBackspace = () => {
+                        if (currentPin.length > 0) {
+                            currentPin = currentPin.slice(0, -1);
+                            updateDots();
+                            errorDiv.textContent = '';
+                        }
+                    };
+                    
+                    const handleCancel = () => {
+                        modal.remove();
+                        resolve(null);
+                    };
+                    
+                    pad.querySelectorAll('.pin-modal-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const digit = btn.getAttribute('data-digit');
+                            const action = btn.getAttribute('data-action');
+                            if (digit !== null) {
+                                handleDigit(digit);
+                            } else if (action === 'backspace') {
+                                handleBackspace();
+                            }
+                        });
+                    });
+                    
                     cancelBtn.addEventListener('click', handleCancel);
-                    const keyHandler = (e) => { if (!modal.isConnected) { document.removeEventListener('keydown', keyHandler); return; } if (e.key >= '0' && e.key <= '9') { e.preventDefault(); handleDigit(e.key); } else if (e.key === 'Backspace') { e.preventDefault(); handleBackspace(); } else if (e.key === 'Escape') handleCancel(); };
-                    document.addEventListener('keydown', keyHandler); modal._keyHandler = keyHandler;
+                    
+                    const keyHandler = (e) => {
+                        if (!modal.isConnected) {
+                            document.removeEventListener('keydown', keyHandler);
+                            return;
+                        }
+                        if (e.key >= '0' && e.key <= '9') {
+                            e.preventDefault();
+                            handleDigit(e.key);
+                        } else if (e.key === 'Backspace') {
+                            e.preventDefault();
+                            handleBackspace();
+                        } else if (e.key === 'Escape') {
+                            handleCancel();
+                        }
+                    };
+                    document.addEventListener('keydown', keyHandler);
+                    
+                    modal._keyHandler = keyHandler;
                 });
             }
 
             async executeDataRefresh(userData, pin) {
-                this.showNotification('🌐 Обновление данных...', 'success'); this.showLoadingMessage('Обновление данных...'); this.loadingScreen.classList.add('active'); this.mainScreen.classList.remove('active');
-                this.clearSavedResults(); CONTACTS_DATA = []; STATIONS_DATA = []; PARKING_DATA = []; DOCUMENTS_DATA = [];
+                this.showNotification('🌐 Обновление данных...', 'success');
+                this.showLoadingMessage('Обновление данных...');
+                this.loadingScreen.classList.add('active');
+                this.mainScreen.classList.remove('active');
+                
+                this.clearSavedResults();
+                CONTACTS_DATA = [];
+                STATIONS_DATA = [];
+                PARKING_DATA = [];
+                DOCUMENTS_DATA = [];
+                
                 await new Promise(resolve => setTimeout(resolve, 100));
-                const fullUserData = { ...userData, enteredCode: pin }; const decryptSuccess = decryptAllDataWithCode(fullUserData);
-                if (!decryptSuccess) { this.loadingScreen.classList.remove('active'); this.showMainScreen(); this.showNotification('❌ Ошибка расшифровки данных.', 'error'); return false; }
-                const pinStorage = new SecurePinStorage(); pinStorage.storeEncryptedPin(pin, userData.level);
-                DATABASE.contacts = CONTACTS_DATA; DATABASE.stations = STATIONS_DATA; DATABASE.parking = PARKING_DATA; DATABASE.documents = DOCUMENTS_DATA;
-                saveSession(fullUserData); this.currentUser = fullUserData; this.isLoggedIn = true; DATABASE.setCurrentUser(fullUserData);
-                if (this.currentDataVersion) { localStorage.setItem('last_updated_version', this.currentDataVersion); sessionStorage.setItem(`banner_shown_${this.currentDataVersion}`, 'true'); }
-                this.loadingScreen.classList.remove('active'); this.showMainScreen();
-                if (this.searchInput && this.searchInput.value.trim()) { const query = this.searchInput.value.trim(); const results = DATABASE.searchAllRanked(query.toLowerCase()); this.displayResults(results, query); this.saveSearchResults(results, query); }
-                this.updateVersionBadgeColor(); this.showNotification('✅ Данные успешно обновлены!', 'success');
-                // Скрываем мини-кнопку после успешного обновления
-                if (this.updateMiniBtn) this.updateMiniBtn.classList.remove('show');
+                
+                const fullUserData = { ...userData, enteredCode: pin };
+                const decryptSuccess = decryptAllDataWithCode(fullUserData);
+                
+                if (!decryptSuccess) {
+                    this.loadingScreen.classList.remove('active');
+                    this.showMainScreen();
+                    this.showNotification('❌ Ошибка расшифровки данных.', 'error');
+                    return false;
+                }
+                
+                const pinStorage = new SecurePinStorage();
+                pinStorage.storeEncryptedPin(pin, userData.level);
+                
+                DATABASE.contacts = CONTACTS_DATA;
+                DATABASE.stations = STATIONS_DATA;
+                DATABASE.parking = PARKING_DATA;
+                DATABASE.documents = DOCUMENTS_DATA;
+                
+                saveSession(fullUserData);
+                
+                this.currentUser = fullUserData;
+                this.isLoggedIn = true;
+                DATABASE.setCurrentUser(fullUserData);
+                
+                if (this.currentDataVersion) {
+                    localStorage.setItem('last_updated_version', this.currentDataVersion);
+                    sessionStorage.setItem(`banner_shown_${this.currentDataVersion}`, 'true');
+                }
+                
+                this.hideUpdateBanner();
+                this.hideManualUpdateButton();
+                this.bannerShown = false;
+                this.bannerHiddenBySwipe = false;
+                
+                this.loadingScreen.classList.remove('active');
+                this.showMainScreen();
+                
+                if (this.searchInput && this.searchInput.value.trim()) {
+                    const query = this.searchInput.value.trim();
+                    const results = DATABASE.searchAllRanked(query.toLowerCase());
+                    this.displayResults(results, query);
+                    this.saveSearchResults(results, query);
+                }
+                
+                this.updateVersionBadgeColor();
+                this.showNotification('✅ Данные успешно обновлены!', 'success');
                 return true;
             }
 
             async refreshData() {
-                const pinStorage = new SecurePinStorage(); let savedPin = pinStorage.retrievePin();
-                if (!savedPin) { const userPin = await this.requestPinForUpdate(); if (!userPin) return false; const userData = verifyAccessCode(userPin); if (!userData) { this.showNotification('Неверный код доступа', 'error'); return false; } pinStorage.storeEncryptedPin(userPin, userData.level); return await this.executeDataRefresh(userData, userPin); }
-                const userData = verifyAccessCode(savedPin); if (!userData) { pinStorage.clear(); this.showNotification('Срок действия кода-доступа истёк! Введите код-доступа ещё раз', 'error'); this.handleLogout(); return false; }
+                const pinStorage = new SecurePinStorage();
+                const savedPin = pinStorage.retrievePin();
+                
+                if (!savedPin) {
+                    const userPin = await this.requestPinForUpdate();
+                    
+                    if (!userPin) {
+                        this.showNotification('Обновление отменено.', 'error');
+                        this.showManualUpdateButton();
+                        return false;
+                    }
+                    
+                    const userData = verifyAccessCode(userPin);
+                    if (!userData) {
+                        this.showNotification('Неверный код доступа', 'error');
+                        this.showManualUpdateButton();
+                        return false;
+                    }
+                    
+                    pinStorage.storeEncryptedPin(userPin, userData.level);
+                    
+                    return await this.executeDataRefresh(userData, userPin);
+                }
+                
+                const userData = verifyAccessCode(savedPin);
+                if (!userData) {
+                    pinStorage.clear();
+                    this.showNotification('Срок действия кода-доступа истёк! Введите код-доступа ещё раз', 'error');
+                    this.handleLogout();
+                    this.showManualUpdateButton();
+                    return false;
+                }
+                
                 return await this.executeDataRefresh(userData, savedPin);
             }
 
-            updateVersionBadgeColor() { if (!this.versionBadge) return; const lastUpdated = localStorage.getItem('last_updated_version'); if (lastUpdated === CACHE_VERSION) { this.versionBadge.style.background = 'rgba(74, 222, 128, 0.25)'; this.versionBadge.style.color = '#4ade80'; this.versionBadge.style.border = '1px solid rgba(74, 222, 128, 0.5)'; } else { this.versionBadge.style.background = 'rgba(248, 113, 113, 0.25)'; this.versionBadge.style.color = '#f87171'; this.versionBadge.style.border = '1px solid rgba(248, 113, 113, 0.5)'; } }
-            showLoadingMessage(msg) { if (this.loadingText) this.loadingText.textContent = msg; }
-            handleLogout() {
-                this.isLoggedIn = false; this.currentUser = null; DATABASE.setCurrentUser(null); const pinStorage = new SecurePinStorage(); pinStorage.clear();
-                localStorage.removeItem('access_session_data'); localStorage.removeItem('access_session_timestamp'); sessionStorage.removeItem('access_session_data'); this.clearSavedResults();
-                this.pinCode = ""; this.updatePinDots(); this.showLoginScreen(); this.showNotification('Вы вышли из аккаунта', 'success');
-                // Скрываем баннер и мини-кнопку при выходе
-                if (this.updateBanner && this.updateBanner.remove) this.updateBanner.remove();
-                if (this.updateMiniBtn) this.updateMiniBtn.classList.remove('show');
-                this.bannerShown = false;
-            }
-            showLoginScreen() { this.loadingScreen.classList.remove('active'); this.mainScreen.classList.remove('active'); this.loginScreen.classList.add('active'); this.closeDrawer(); this.pinCode = ""; this.updatePinDots(); if (this.pinHiddenInput) this.pinHiddenInput.value = ""; }
-            showMainScreen() {
-                this.loadingScreen.classList.remove('active'); this.loginScreen.classList.remove('active'); this.mainScreen.classList.add('active');
-                if (this.usernameSpan && this.currentUser) this.usernameSpan.textContent = this.currentUser.greeting;
-                this.loadZoomSetting(); if (this.versionBadge) { this.versionBadge.textContent = CACHE_VERSION; this.updateVersionBadgeColor(); }
-                if (this.searchInput) { this.searchInput.value = ''; setTimeout(() => this.searchInput.focus(), 100); }
-                if (this.resultsContainer) { const hasRestored = this.restoreSearchResults(); if (!hasRestored) { this.resultsContainer.innerHTML = ''; this.resultsContainer.classList.add('hidden'); if (this.resultsContainer.classList.contains('restored-result')) this.resultsContainer.classList.remove('restored-result'); this.isRestoredResults = false; } }
-                DATABASE.init(); ParkingUI.init(); this.showForceUpdateBanner();
+            updateVersionBadgeColor() {
+                if (!this.versionBadge) return;
+                const currentVer = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : null;
+                const lastUpdated = localStorage.getItem('last_updated_version');
+                if (currentVer && lastUpdated === currentVer) {
+                    this.versionBadge.style.background = 'rgba(74, 222, 128, 0.25)';
+                    this.versionBadge.style.color = '#4ade80';
+                    this.versionBadge.style.border = '1px solid rgba(74, 222, 128, 0.5)';
+                } else {
+                    this.versionBadge.style.background = 'rgba(248, 113, 113, 0.25)';
+                    this.versionBadge.style.color = '#f87171';
+                    this.versionBadge.style.border = '1px solid rgba(248, 113, 113, 0.5)';
+                }
             }
             
-            // НОВАЯ ЛОГИКА БАННЕРА С ВОЗМОЖНОСТЬЮ СМАХИВАНИЯ
+            showManualUpdateButton() {
+                if (!this.manualUpdateBtn) return;
+                if (this.manualUpdateBtn.style.display === 'block') return;
+                this.manualUpdateBtn.style.display = 'block';
+                this.manualUpdateBtn.style.animation = 'fadeInUp 0.4s ease';
+            }
+            
+            hideManualUpdateButton() {
+                if (!this.manualUpdateBtn) return;
+                this.manualUpdateBtn.style.display = 'none';
+            }
+            
+            hideUpdateBanner() {
+                const banner = document.getElementById('force-update-banner');
+                if (banner) {
+                    banner.classList.add('hiding');
+                    setTimeout(() => {
+                        if (banner && banner.parentNode) banner.remove();
+                    }, 300);
+                }
+            }
+            
+            showUpdateBanner() {
+                if (this.bannerShown) return;
+                if (!this.isLoggedIn) return;
+                if (!FORCE_UPDATE_BANNER) return;
+                if (!this.currentDataVersion) {
+                    if (typeof CACHE_VERSION !== 'undefined') {
+                        this.currentDataVersion = CACHE_VERSION;
+                    } else {
+                        return;
+                    }
+                }
+                const lastUpdated = localStorage.getItem('last_updated_version');
+                if (lastUpdated === this.currentDataVersion) return;
+                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') return;
+                if (document.getElementById('force-update-banner')) return;
+                
+                this.bannerShown = true;
+                
+                const banner = document.createElement('div');
+                banner.className = 'update-banner';
+                banner.id = 'force-update-banner';
+                banner.innerHTML = `
+                    <div class="update-banner-text">
+                       🔔 В базу данных добавлена новая информация!
+                    </div>
+                    <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
+                `;
+                document.body.appendChild(banner);
+                
+                setTimeout(() => banner.classList.add('show'), 100);
+                
+                let startY = 0;
+                banner.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                }, { passive: true });
+                banner.addEventListener('touchmove', (e) => {
+                    if (!startY) return;
+                    const deltaY = e.touches[0].clientY - startY;
+                    if (deltaY > 50) {
+                        e.preventDefault();
+                        this.handleBannerSwipeClose();
+                    }
+                }, { passive: false });
+                
+                const btn = document.getElementById('force-update-btn');
+                if (btn) {
+                    btn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const originalText = btn.textContent;
+                        btn.textContent = '⏳ Обновление...';
+                        btn.disabled = true;
+                        
+                        await this.refreshData();
+                        
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    });
+                }
+            }
+            
+            handleBannerSwipeClose() {
+                if (this.bannerHiddenBySwipe) return;
+                this.bannerHiddenBySwipe = true;
+                this.hideUpdateBanner();
+                this.showManualUpdateButton();
+            }
+            
+            showLoadingMessage(msg) {
+                if (this.loadingText) this.loadingText.textContent = msg;
+            }
+
+            handleLogout() {
+                this.isLoggedIn = false;
+                this.currentUser = null;
+                DATABASE.setCurrentUser(null);
+                
+                const pinStorage = new SecurePinStorage();
+                pinStorage.clear();
+                
+                localStorage.removeItem('access_session_data');
+                localStorage.removeItem('access_session_timestamp');
+                sessionStorage.removeItem('access_session_data');
+                
+                this.clearSavedResults();
+                
+                this.hideUpdateBanner();
+                this.hideManualUpdateButton();
+                this.bannerShown = false;
+                this.bannerHiddenBySwipe = false;
+                
+                this.pinCode = "";
+                this.updatePinDots();
+                this.showLoginScreen();
+                this.showNotification('Вы вышли из аккаунта', 'success');
+            }
+
+            showLoginScreen() {
+                this.loadingScreen.classList.remove('active');
+                this.mainScreen.classList.remove('active');
+                this.loginScreen.classList.add('active');
+                this.closeDrawer();
+                this.pinCode = "";
+                this.updatePinDots();
+                if (this.pinHiddenInput) {
+                    this.pinHiddenInput.value = "";
+                }
+            }
+
+            showMainScreen() {
+                this.loadingScreen.classList.remove('active');
+                this.loginScreen.classList.remove('active');
+                this.mainScreen.classList.add('active');
+                
+                if (this.usernameSpan && this.currentUser) {
+                    this.usernameSpan.textContent = this.currentUser.greeting;
+                }
+                
+                this.loadZoomSetting();
+                
+                if (this.versionBadge) {
+                    this.versionBadge.textContent = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : '?';
+                    this.updateVersionBadgeColor();
+                }
+                
+                if (this.searchInput) {
+                    this.searchInput.value = '';
+                    setTimeout(() => this.searchInput.focus(), 100);
+                }
+                
+                if (this.resultsContainer) {
+                    const hasRestored = this.restoreSearchResults();
+                    
+                    if (!hasRestored) {
+                        this.resultsContainer.innerHTML = '';
+                        this.resultsContainer.classList.add('hidden');
+                        if (this.resultsContainer.classList.contains('restored-result')) {
+                            this.resultsContainer.classList.remove('restored-result');
+                        }
+                        this.isRestoredResults = false;
+                    }
+                }
+                
+                DATABASE.init();
+                ParkingUI.init();
+                
+                this.showForceUpdateBanner();
+            }
+            
             showForceUpdateBanner() {
                 if (!FORCE_UPDATE_BANNER) return;
                 if (this.bannerShown) return;
-                if (!this.currentDataVersion) { setTimeout(() => this.checkAndShowBanner(), 500); } else { this.checkAndShowBanner(); }
-            }
-            
-            hideUpdateBanner() { if (this.updateBanner) { this.updateBanner.classList.add('hide'); setTimeout(() => { if (this.updateBanner && this.updateBanner.remove) this.updateBanner.remove(); this.updateBanner = null; }, 300); } }
-            
-            showMiniUpdateButton() { if (this.updateMiniBtn && !this.updateMiniBtn.classList.contains('show')) this.updateMiniBtn.classList.add('show'); }
-            hideMiniUpdateButton() { if (this.updateMiniBtn) this.updateMiniBtn.classList.remove('show'); }
-            
-            setupBannerSwipe(bannerElement) {
-                if (!bannerElement) return;
-                let touchStartX = 0, touchStartY = 0;
-                const handleTouchStart = (e) => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; };
-                const handleTouchEnd = (e) => {
-                    const touchEndX = e.changedTouches[0].screenX; const touchEndY = e.changedTouches[0].screenY;
-                    const deltaX = touchEndX - touchStartX; const deltaY = touchEndY - touchStartY;
-                    if (Math.abs(deltaY) > 50 && deltaY > 0) { this.dismissBanner(); }
-                    if (Math.abs(deltaX) > 50) { this.dismissBanner(); }
-                };
-                bannerElement.addEventListener('touchstart', handleTouchStart, { passive: true });
-                bannerElement.addEventListener('touchend', handleTouchEnd, { passive: true });
-                bannerElement._swipeHandlers = { handleTouchStart, handleTouchEnd };
-            }
-            
-            dismissBanner() {
-                if (!this.updateBanner) return;
-                this.hideUpdateBanner();
-                this.showMiniUpdateButton();
-                this.bannerShown = false;
-                if (this.currentDataVersion) sessionStorage.setItem(`banner_dismissed_${this.currentDataVersion}`, 'true');
-            }
-            
-            async checkAndShowBanner() {
-                if (this.bannerShown) return;
-                if (typeof CACHE_VERSION !== 'undefined') this.currentDataVersion = CACHE_VERSION;
-                else return;
+                if (this.bannerHiddenBySwipe) return;
+                if (!this.isLoggedIn) return;
+                
+                if (!this.currentDataVersion) {
+                    if (typeof CACHE_VERSION !== 'undefined') {
+                        this.currentDataVersion = CACHE_VERSION;
+                    } else {
+                        return;
+                    }
+                }
+                
                 const lastUpdated = localStorage.getItem('last_updated_version');
-                if (lastUpdated === this.currentDataVersion) { this.hideMiniUpdateButton(); return; }
-                const dismissed = sessionStorage.getItem(`banner_dismissed_${this.currentDataVersion}`);
-                if (dismissed === 'true') { this.showMiniUpdateButton(); return; }
-                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') return;
-                if (document.getElementById('force-update-banner')) return;
-                this.bannerShown = true;
-                const banner = document.createElement('div'); banner.className = 'update-banner'; banner.id = 'force-update-banner';
-                banner.innerHTML = `<div class="update-banner-text">🔔 В базу данных добавлена новая информация!</div><button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>`;
-                document.body.appendChild(banner);
-                this.updateBanner = banner;
-                this.setupBannerSwipe(banner);
-                setTimeout(() => banner.classList.add('show'), 100);
-                const btn = document.getElementById('force-update-btn');
-                if (btn) btn.addEventListener('click', async (e) => { e.preventDefault(); e.stopPropagation(); const originalText = btn.textContent; btn.textContent = '⏳ Обновление...'; btn.disabled = true; const success = await this.refreshData(); btn.textContent = originalText; btn.disabled = false; if (success) { this.hideUpdateBanner(); this.hideMiniUpdateButton(); sessionStorage.setItem(`banner_shown_${this.currentDataVersion}`, 'true'); this.updateVersionBadgeColor(); this.bannerShown = false; } else { this.showNotification('Обновление не выполнено', 'error'); } });
-            }
-            
-            async checkSWVersionAndResetFlag() {
-                if (!('serviceWorker' in navigator)) return;
-                try { const registration = await navigator.serviceWorker.getRegistration(); if (registration && registration.active) { const swUrl = registration.active.scriptURL; const response = await fetch(swUrl + '?t=' + Date.now()); const swContent = await response.text(); let currentVersion = null; let match = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/); if (match) currentVersion = match[1]; if (!currentVersion) { match = swContent.match(/CACHE_NAME\s*=\s*['"][^'"]*-([^'"]+)['"]/); if (match) currentVersion = match[1]; } if (currentVersion) { this.currentDataVersion = currentVersion; const savedVersion = localStorage.getItem('sw_cache_version'); if (savedVersion !== currentVersion) localStorage.setItem('sw_cache_version', currentVersion); } } } catch(e) {}
+                
+                if (lastUpdated === this.currentDataVersion) {
+                    return;
+                }
+                
+                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') {
+                    return;
+                }
+                
+                this.showUpdateBanner();
             }
 
             liveSearch() {
                 if (!this.searchInput || !DATABASE) return;
                 const q = this.searchInput.value.trim().toLowerCase();
-                if (q.length >= 1 && this.resultsContainer && this.resultsContainer.classList.contains('restored-result')) { this.resultsContainer.classList.remove('restored-result'); this.isRestoredResults = false; }
-                if (q.length === 1) this.clearSavedResults();
-                if (q.length < 2) { if (this.resultsContainer) { this.resultsContainer.innerHTML = ''; this.resultsContainer.classList.add('hidden'); } return; }
-                const results = DATABASE.searchAllRanked(q); this.displayResults(results, q); this.saveSearchResults(results, this.searchInput.value.trim());
+                
+                if (q.length >= 1 && this.resultsContainer && this.resultsContainer.classList.contains('restored-result')) {
+                    this.resultsContainer.classList.remove('restored-result');
+                    this.isRestoredResults = false;
+                }
+                
+                if (q.length === 1) {
+                    this.clearSavedResults();
+                }
+                
+                if (q.length < 2) {
+                    if (this.resultsContainer) {
+                        this.resultsContainer.innerHTML = '';
+                        this.resultsContainer.classList.add('hidden');
+                    }
+                    return;
+                }
+                
+                const results = DATABASE.searchAllRanked(q);
+                this.displayResults(results, q);
+                this.saveSearchResults(results, this.searchInput.value.trim());
             }
-            performSearch() { if (!this.searchInput) return; const q = this.searchInput.value.trim(); if (!q) { this.showNotification('Сначала напишите свой вопрос!', 'error'); this.searchInput.focus(); return; } const results = DATABASE.searchAllRanked(q.toLowerCase()); this.displayResults(results, q); this.saveSearchResults(results, q); }
-            formatTextWithLinks(text) { if (!text) return ''; let t = this.escapeHtml(text).replace(/\n/g, '<br>'); t = t.replace(/(\+?[0-9][0-9\s\-\(\)]{8,}[0-9])/g, m => `<a href="tel:${m.replace(/[^\d+]/g,'')}" class="contact-link">${m}</a>`); t = t.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, m => `<a href="mailto:${m}" class="contact-link">${m}</a>`); t = t.replace(/(https?:\/\/[^\s]+)/g, m => `<a href="${m}" target="_blank" rel="noopener noreferrer" class="contact-link">${m}</a>`); return t; }
-            highlightText(text, query, color = null) { if (!text) return ''; if (!query) return color ? `<span style="color:${color};">${this.escapeHtml(text)}</span>` : this.escapeHtml(text); const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'); const highlighted = text.replace(regex, '<span style="color: #4ade80; font-weight: 700;">$1</span>'); if (color) return `<span style="color:${color}; ">${highlighted}</span>`; return highlighted; }
-            displayResults(results, query) { if (!this.resultsContainer) return; this.resultsContainer.classList.remove('hidden'); if (results.length === 0) { this.resultsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>'; this.applyZoom(this.currentZoom); return; } const currentQ = (query || '').toLowerCase(); this.resultsContainer.innerHTML = results.map(item => { if (item.type === 'contact') { const phone = item.телефон ? `<a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">☎️ ${this.escapeHtml(item.телефон)}</a>` : ''; const nameHtml = this.highlightText(item.имя, currentQ, '#ffb347'); const jobHtml = this.highlightText(item.должность, currentQ); return `<div class="result-card contact"><div class="result-icon">👤</div><div class="result-content"><div class="result-title">${nameHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div><div class="result-detail">💼 ${jobHtml}</div>${phone ? `<div class="result-contact">${phone}</div>` : ''}</div></div>`; } else if (item.type === 'parking') { const mapLink = item.ссылка ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ПОСТРОИТЬ МАРШРУТ</a></div>` : ''; let currentNote = item.примечание || ''; const userNote = item.userNote !== undefined ? item.userNote : ParkingUI.getUserNote(item.id); if (userNote !== null) currentNote = userNote; const noteHtml = currentNote ? `<div class="result-detail parking-note">${this.formatTextWithLinks(currentNote)}</div>` : ''; const contextHtml = item.контекст ? `<div class="result-context">${this.formatTextWithLinks(item.контекст)}</div>` : ''; const titleHtml = this.highlightText(item.название, currentQ, '#ffb347'); const buttons = `<div class="parking-buttons"><button class="parking-yes-btn" data-id="${item.id}">✅ Есть парковка</button><button class="parking-no-btn" data-id="${item.id}">❌ Нет парковки</button></div>`; return `<div class="result-card parking" data-parking-id="${item.id}"><div class="result-icon">🅿️</div><div class="result-content"><div class="result-title">${titleHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>${contextHtml}${noteHtml}${mapLink}${buttons}</div></div>`; } else if (item.type === 'station') { const fields = []; if (item.линия) fields.push(`✳️ ${item.линия}`); if (item.станция) fields.push(`🟠 ${item.станция}`); if (item.кросс) fields.push(`🔹 КРОСС: ${item.кросс}`); if (item.радиоузел) fields.push(`🔹 РАДИОУЗЕЛ: ${item.радиоузел}`); if (item.бск) fields.push(`🔹 БСК: ${item.бск}`); if (item.код) fields.push(`🔹 КОД: ${item.код}`); if (item.дсп) fields.push(`🔻 ДСП: ${item.дсп}`); if (item.телефон) fields.push(`☎️ ${item.телефон}`); if (item.блокпост) fields.push(`🔻 БЛОК-ПОСТ: ${item.блокпост}`); if (item.туалет) fields.push(`🚾 с/у: ${item.туалет}`); if (item.инфа) fields.push(`💬 ИНФА: ${item.инфа}`); if (item.обновлено) fields.push(`✅ Обновлено: ${item.обновлено}`); const stationHtml = this.highlightText(item.станция || item.линия, currentQ, '#ffb347'); return `<div class="result-card station"><div class="result-icon">🚇</div><div class="result-content"><div class="result-title">${stationHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>${fields.map(f => `<div class="result-detail">${this.formatTextWithLinks(f)}</div>`).join('')}</div></div>`; } else if (item.type === 'document') { const fileLink = item.ссылка ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ОТКРЫТЬ ФАЙЛ</a></div>` : ''; const titleHtml = this.highlightText(item.название, currentQ, '#ffb347'); return `<div class="result-card document"><div class="result-icon">📄</div><div class="result-content"><div class="result-title">${titleHtml} ${item.matchPercent ? `<span class="match-percent">${Math.round(item.matchPercent)}%</span>` : ''}</div>${fileLink}</div></div>`; } return ''; }).join(''); this.applyZoom(this.currentZoom); document.querySelectorAll('.parking-yes-btn, .parking-no-btn').forEach(btn => { btn.removeEventListener('click', this.parkingHandler); this.parkingHandler = (e) => { e.stopPropagation(); const id = parseInt(btn.getAttribute('data-id')); const status = btn.classList.contains('parking-yes-btn') ? 'yes' : 'no'; const today = new Date().toLocaleDateString('ru-RU'); const newNote = status === 'yes' ? `✅ проверено ${today}` : `❌ не актуально ${today}`; if (ParkingUI.updateParkingNote(id, newNote)) { this.showNotification(`Спасибо за Ваш отзыв: ${newNote}`, 'success'); this.performSearch(); } else this.showNotification('Ошибка обновления', 'error'); }; btn.addEventListener('click', this.parkingHandler); }); }
-            showNotification(msg, type = 'success') { if (!this.notification) return; this.notification.textContent = msg; this.notification.className = `notification ${type}`; setTimeout(() => this.notification.classList.add('show'), 10); setTimeout(() => { if (this.notification) this.notification.classList.remove('show'); }, 3000); }
-            escapeHtml(t) { if (!t) return ''; const div = document.createElement('div'); div.textContent = t; return div.innerHTML; }
+
+            performSearch() {
+                if (!this.searchInput) return;
+                const q = this.searchInput.value.trim();
+                if (!q) {
+                    this.showNotification('Сначала напишите свой вопрос!', 'error');
+                    this.searchInput.focus();
+                    return;
+                }
+                const results = DATABASE.searchAllRanked(q.toLowerCase());
+                this.displayResults(results, q);
+                this.saveSearchResults(results, q);
+                
+                if (results.length === 0) {
+                     console.log('Ничего не найдено');
+                } else {
+                    console.log(`Найдено: ${results.length}`);
+                }
+            }
+
+            formatTextWithLinks(text) {
+                if (!text) return '';
+                let t = this.escapeHtml(text).replace(/\n/g, '<br>');
+                t = t.replace(/(\+?[0-9][0-9\s\-\(\)]{8,}[0-9])/g, m => 
+                    `<a href="tel:${m.replace(/[^\d+]/g,'')}" class="contact-link">${m}</a>`);
+                t = t.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, m => 
+                    `<a href="mailto:${m}" class="contact-link">${m}</a>`);
+                t = t.replace(/(https?:\/\/[^\s]+)/g, m => 
+                    `<a href="${m}" target="_blank" rel="noopener noreferrer" class="contact-link">${m}</a>`);
+                return t;
+            }
+
+            highlightText(text, query, color = null) {
+                if (!text) return '';
+                if (!query) {
+                    return color 
+                        ? `<span style="color:${color};">${this.escapeHtml(text)}</span>` 
+                        : this.escapeHtml(text);
+                }
+                const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                const highlighted = text.replace(regex, '<span style="color: #4ade80; font-weight: 700;">$1</span>');
+                if (color) return `<span style="color:${color}; ">${highlighted}</span>`;
+                return highlighted;
+            }
+
+            displayResults(results, query) {
+                if (!this.resultsContainer) return;
+                this.resultsContainer.classList.remove('hidden');
+
+                if (results.length === 0) {
+                    this.resultsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                    this.applyZoom(this.currentZoom);
+                    return;
+                }
+
+                const currentQ = (query || '').toLowerCase();
+
+                this.resultsContainer.innerHTML = results.map(item => {
+                    if (item.type === 'contact') {
+                        const phone = item.телефон 
+                            ? `<a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">☎️ ${this.escapeHtml(item.телефон)}</a>` 
+                            : '';
+                        const nameHtml = this.highlightText(item.имя, currentQ, '#ffb347');
+                        const jobHtml = this.highlightText(item.должность, currentQ);
+                        return `<div class="result-card contact">
+                            <div class="result-icon">👤</div>
+                            <div class="result-content">
+                                <div class="result-title">${nameHtml}</div>
+                                <div class="result-detail">💼 ${jobHtml}</div>
+                                ${phone ? `<div class="result-contact">${phone}</div>` : ''}
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'parking') {
+                        const mapLink = item.ссылка 
+                            ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ПОСТРОИТЬ МАРШРУТ</a></div>` 
+                            : '';
+                        let currentNote = item.примечание || '';
+                        const userNote = item.userNote !== undefined ? item.userNote : ParkingUI.getUserNote(item.id);
+                        if (userNote !== null) currentNote = userNote;
+                        const noteHtml = currentNote 
+                            ? `<div class="result-detail parking-note">${this.formatTextWithLinks(currentNote)}</div>` 
+                            : '';
+                        const contextHtml = item.контекст 
+                            ? `<div class="result-context">${this.formatTextWithLinks(item.контекст)}</div>` 
+                            : '';
+                        const titleHtml = this.highlightText(item.название, currentQ, '#ffb347');
+                        const buttons = `<div class="parking-buttons">
+                            <button class="parking-yes-btn" data-id="${item.id}">✅ Есть парковка</button>
+                            <button class="parking-no-btn" data-id="${item.id}">❌ Нет парковки</button>
+                        </div>`;
+                        return `<div class="result-card parking" data-parking-id="${item.id}">
+                            <div class="result-icon">🅿️</div>
+                            <div class="result-content">
+                                <div class="result-title">${titleHtml}</div>
+                                ${contextHtml}${noteHtml}${mapLink}${buttons}
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'station') {
+                        const fields = [];
+                        if (item.линия) fields.push(`✳️ ${item.линия}`);
+                        if (item.станция) fields.push(`🟠 ${item.станция}`);
+                        if (item.кросс) fields.push(`🔹 КРОСС: ${item.кросс}`);
+                        if (item.радиоузел) fields.push(`🔹 РАДИОУЗЕЛ: ${item.радиоузел}`);
+                        if (item.бск) fields.push(`🔹 БСК: ${item.бск}`);
+                        if (item.код) fields.push(`🔹 КОД: ${item.код}`);
+                        if (item.дсп) fields.push(`🔻 ДСП: ${item.дсп}`);
+                        if (item.телефон) fields.push(`☎️ ${item.телефон}`);
+                        if (item.блокпост) fields.push(`🔻 БЛОК-ПОСТ: ${item.блокпост}`);
+                        if (item.туалет) fields.push(`🚾 с/у: ${item.туалет}`);
+                        if (item.инфа) fields.push(`💬 ИНФА: ${item.инфа}`);
+                        if (item.обновлено) fields.push(`✅ Обновлено: ${item.обновлено}`);
+                        const stationHtml = this.highlightText(item.станция || item.линия, currentQ, '#ffb347');
+                        return `<div class="result-card station">
+                            <div class="result-icon">🚇</div>
+                            <div class="result-content">
+                                <div class="result-title">${stationHtml}</div>
+                                ${fields.map(f => `<div class="result-detail">${this.formatTextWithLinks(f)}</div>`).join('')}
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'document') {
+                        const fileLink = item.ссылка 
+                            ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ОТКРЫТЬ ФАЙЛ</a></div>` 
+                            : '';
+                        const titleHtml = this.highlightText(item.название, currentQ, '#ffb347');
+                        return `<div class="result-card document">
+                            <div class="result-icon">📄</div>
+                            <div class="result-content">
+                                <div class="result-title">${titleHtml}</div>
+                                ${fileLink}
+                            </div>
+                        </div>`;
+                    }
+                    return '';
+                }).join('');
+
+                this.applyZoom(this.currentZoom);
+
+                document.querySelectorAll('.parking-yes-btn, .parking-no-btn').forEach(btn => {
+                    btn.removeEventListener('click', this.parkingHandler);
+                    this.parkingHandler = (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.getAttribute('data-id'));
+                        const status = btn.classList.contains('parking-yes-btn') ? 'yes' : 'no';
+                        const today = new Date().toLocaleDateString('ru-RU');
+                        const newNote = status === 'yes' 
+                            ? `✅ проверено ${today}` 
+                            : `❌ не актуально ${today}`;
+                        if (ParkingUI.updateParkingNote(id, newNote)) {
+                            this.showNotification(`Спасибо за Ваш отзыв: ${newNote}`, 'success');
+                            this.performSearch();
+                        } else {
+                            this.showNotification('Ошибка обновления', 'error');
+                        }
+                    };
+                    btn.addEventListener('click', this.parkingHandler);
+                });
+            }
+
+            showNotification(msg, type = 'success') {
+                if (!this.notification) return;
+                this.notification.textContent = msg;
+                this.notification.className = `notification ${type}`;
+                setTimeout(() => this.notification.classList.add('show'), 10);
+                setTimeout(() => {
+                    if (this.notification) this.notification.classList.remove('show');
+                }, 3000);
+            }
+
+            escapeHtml(t) {
+                if (!t) return '';
+                const div = document.createElement('div');
+                div.textContent = t;
+                return div.innerHTML;
+            }
+
             bindEvents() {
-                if (this.searchInput) { this.searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); this.performSearch(); this.searchInput.blur(); } }); this.searchInput.addEventListener('input', () => this.liveSearch()); }
-                if (this.menuBtn) this.menuBtn.addEventListener('click', () => this.openDrawer());
-                if (this.drawerClose) this.drawerClose.addEventListener('click', () => this.closeDrawer());
-                if (this.drawerOverlay) this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
-                if (this.zoomInBtn) this.zoomInBtn.addEventListener('click', () => this.zoomIn());
-                if (this.zoomOutBtn) this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
-                if (this.drawerError) this.drawerError.addEventListener('click', () => { window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank'); this.closeDrawer(); });
-                if (this.drawerAddData) this.drawerAddData.addEventListener('click', () => this.showAddSubmenu());
-                if (this.drawerLogout) this.drawerLogout.addEventListener('click', () => { this.handleLogout(); this.closeDrawer(); });
-                if (this.drawerBackMain) this.drawerBackMain.addEventListener('click', () => this.hideAddSubmenu());
-                if (this.drawerAddStation) this.drawerAddStation.addEventListener('click', () => { window.open(this.drawerAddStation.getAttribute('data-url'), '_blank'); this.closeDrawer(); });
-                if (this.drawerAddParking) this.drawerAddParking.addEventListener('click', () => { window.open(this.drawerAddParking.getAttribute('data-url'), '_blank'); this.closeDrawer(); });
-                if (this.drawerAddContact) this.drawerAddContact.addEventListener('click', () => { window.open(this.drawerAddContact.getAttribute('data-url'), '_blank'); this.closeDrawer(); });
-                document.addEventListener('click', (e) => { if (this.drawer && this.drawer.classList.contains('active') && !this.drawer.contains(e.target) && !this.menuBtn.contains(e.target)) this.closeDrawer(); });
-                if (this.updateMiniBtn) this.updateMiniBtn.addEventListener('click', async () => { await this.refreshData(); });
+                if (this.searchInput) {
+                    this.searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            this.performSearch();
+                            this.searchInput.blur();
+                        }
+                    });
+                    this.searchInput.addEventListener('input', () => this.liveSearch());
+                }
+
+                if (this.menuBtn) {
+                    this.menuBtn.addEventListener('click', () => this.openDrawer());
+                }
+                if (this.drawerClose) {
+                    this.drawerClose.addEventListener('click', () => this.closeDrawer());
+                }
+                if (this.drawerOverlay) {
+                    this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
+                }
+
+                if (this.zoomInBtn) {
+                    this.zoomInBtn.addEventListener('click', () => this.zoomIn());
+                }
+                if (this.zoomOutBtn) {
+                    this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
+                }
+
+                if (this.drawerError) {
+                    this.drawerError.addEventListener('click', () => {
+                        window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerAddData) {
+                    this.drawerAddData.addEventListener('click', () => this.showAddSubmenu());
+                }
+                if (this.drawerLogout) {
+                    this.drawerLogout.addEventListener('click', () => {
+                        this.handleLogout();
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerBackMain) {
+                    this.drawerBackMain.addEventListener('click', () => this.hideAddSubmenu());
+                }
+                if (this.drawerAddStation) {
+                    this.drawerAddStation.addEventListener('click', () => {
+                        window.open(this.drawerAddStation.getAttribute('data-url'), '_blank');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerAddParking) {
+                    this.drawerAddParking.addEventListener('click', () => {
+                        window.open(this.drawerAddParking.getAttribute('data-url'), '_blank');
+                        this.closeDrawer();
+                    });
+                }
+                if (this.drawerAddContact) {
+                    this.drawerAddContact.addEventListener('click', () => {
+                        window.open(this.drawerAddContact.getAttribute('data-url'), '_blank');
+                        this.closeDrawer();
+                    });
+                }
+
+                if (this.manualUpdateBtn) {
+                    this.manualUpdateBtn.addEventListener('click', async () => {
+                        await this.refreshData();
+                    });
+                }
+
+                document.addEventListener('click', (e) => {
+                    if (this.drawer && this.drawer.classList.contains('active') && 
+                        !this.drawer.contains(e.target) && !this.menuBtn.contains(e.target)) {
+                        this.closeDrawer();
+                    }
+                });
+
                 this.setupKeyboardHideOnScroll();
             }
-            setupKeyboardHideOnScroll() { const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); if (!isMobile) return; let scrollTimeout = null, activeElementBeforeScroll = null; const handleScrollStart = () => { const focusedElement = document.activeElement; if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) activeElementBeforeScroll = focusedElement; else activeElementBeforeScroll = null; }; const handleScrollEnd = () => { if (activeElementBeforeScroll) { activeElementBeforeScroll.blur(); activeElementBeforeScroll = null; } }; let isScrolling = false; const onTouchMove = () => { if (!isScrolling) { isScrolling = true; handleScrollStart(); } if (scrollTimeout) clearTimeout(scrollTimeout); scrollTimeout = setTimeout(() => { isScrolling = false; handleScrollEnd(); }, 150); }; const onWheelOrScroll = () => { if (!isScrolling) { isScrolling = true; handleScrollStart(); } if (scrollTimeout) clearTimeout(scrollTimeout); scrollTimeout = setTimeout(() => { isScrolling = false; handleScrollEnd(); }, 150); }; window.addEventListener('touchmove', onTouchMove, { passive: false }); window.addEventListener('scroll', onWheelOrScroll); window.addEventListener('wheel', onWheelOrScroll); if (this.resultsContainer) { this.resultsContainer.addEventListener('touchmove', onTouchMove, { passive: false }); this.resultsContainer.addEventListener('scroll', onWheelOrScroll); } if (this.drawer) { this.drawer.addEventListener('touchmove', onTouchMove, { passive: false }); this.drawer.addEventListener('scroll', onWheelOrScroll); } }
-            init() { this.cacheElements(); this.initPinPad(); this.bindEvents(); DATABASE.init(); this.startLoading(); }
-            startLoading() { const restoredUser = restoreSessionFromStorage(); if (restoredUser && isSessionValid()) { this.currentUser = restoredUser; this.isLoggedIn = true; DATABASE.setCurrentUser(restoredUser); this.showMainScreen(); this.showNotification('✅ Всё готово, можно продолжать поиск', 'success'); } else this.showLoginScreen(); this.checkSWVersionAndResetFlag(); }
+
+            setupKeyboardHideOnScroll() {
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (!isMobile) return;
+
+                let scrollTimeout = null;
+                let activeElementBeforeScroll = null;
+
+                const handleScrollStart = () => {
+                    const focusedElement = document.activeElement;
+                    if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
+                        activeElementBeforeScroll = focusedElement;
+                    } else {
+                        activeElementBeforeScroll = null;
+                    }
+                };
+
+                const handleScrollEnd = () => {
+                    if (activeElementBeforeScroll) {
+                        activeElementBeforeScroll.blur();
+                        activeElementBeforeScroll = null;
+                    }
+                };
+
+                let isScrolling = false;
+                const onTouchMove = () => {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        handleScrollStart();
+                    }
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        handleScrollEnd();
+                    }, 150);
+                };
+
+                const onWheelOrScroll = () => {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        handleScrollStart();
+                    }
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        handleScrollEnd();
+                    }, 150);
+                };
+
+                window.addEventListener('touchmove', onTouchMove, { passive: false });
+                window.addEventListener('scroll', onWheelOrScroll);
+                window.addEventListener('wheel', onWheelOrScroll);
+                
+                if (this.resultsContainer) {
+                    this.resultsContainer.addEventListener('touchmove', onTouchMove, { passive: false });
+                    this.resultsContainer.addEventListener('scroll', onWheelOrScroll);
+                }
+                
+                if (this.drawer) {
+                    this.drawer.addEventListener('touchmove', onTouchMove, { passive: false });
+                    this.drawer.addEventListener('scroll', onWheelOrScroll);
+                }
+            }
+
+            startLoading() {
+                const restoredUser = restoreSessionFromStorage();
+                
+                if (restoredUser && isSessionValid()) {
+                    this.currentUser = restoredUser;
+                    this.isLoggedIn = true;
+                    DATABASE.setCurrentUser(restoredUser);
+                    this.showMainScreen();
+                    this.showNotification('✅ Всё готово, можно продолжать поиск', 'success');
+                } else {
+                    this.showLoginScreen();
+                }
+                
+                this.checkSWVersionAndResetFlag();
+            }
+            
+            async checkSWVersionAndResetFlag() {
+                if (!('serviceWorker' in navigator)) return;
+                
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration && registration.active) {
+                        const swUrl = registration.active.scriptURL;
+                        const response = await fetch(swUrl + '?t=' + Date.now());
+                        const swContent = await response.text();
+                        
+                        let currentVersion = null;
+                        let match = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/);
+                        if (match) currentVersion = match[1];
+                        
+                        if (!currentVersion) {
+                            match = swContent.match(/CACHE_NAME\s*=\s*['"][^'"]*-([^'"]+)['"]/);
+                            if (match) currentVersion = match[1];
+                        }
+                        
+                        if (currentVersion) {
+                            this.currentDataVersion = currentVersion;
+                            const savedVersion = localStorage.getItem('sw_cache_version');
+                            
+                            if (savedVersion !== currentVersion) {
+                                localStorage.setItem('sw_cache_version', currentVersion);
+                            }
+                        }
+                    }
+                } catch(e) {}
+            }
+
+            init() {
+                this.cacheElements();
+                this.initPinPad();
+                this.bindEvents();
+                DATABASE.init();
+                this.startLoading();
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => { window.app = new InfaApp(); });
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new InfaApp();
+        });
     </script>
 
     <script>
-        (function() { if ('serviceWorker' in navigator && location.protocol === 'https:') { window.addEventListener('load', function() { const path = window.location.pathname; const basePath = path.substring(0, path.lastIndexOf('/') + 1); const swPath = basePath + 'sw.js'; const swUrl = swPath + '?v=' + Date.now(); navigator.serviceWorker.register(swUrl).then(function(reg) { reg.addEventListener('updatefound', () => { const newWorker = reg.installing; newWorker.addEventListener('statechange', () => { if (newWorker.state === 'installed' && navigator.serviceWorker.controller) { if (window.app) setTimeout(() => window.app.checkAndShowBanner(), 1000); } }); }); }).catch(function(err) {}); }); } })();
+        (function() {
+            if ('serviceWorker' in navigator && location.protocol === 'https:') {
+                window.addEventListener('load', function() {
+                    const path = window.location.pathname;
+                    const basePath = path.substring(0, path.lastIndexOf('/') + 1);
+                    const swPath = basePath + 'sw.js';
+                    const swUrl = swPath + '?v=' + Date.now();
+                    
+                    navigator.serviceWorker.register(swUrl)
+                        .then(function(reg) {
+                            reg.addEventListener('updatefound', () => {
+                                const newWorker = reg.installing;
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        if (window.app) {
+                                            setTimeout(() => window.app.checkAndShowBanner(), 1000);
+                                        }
+                                    }
+                                });
+                            });
+                        })
+                        .catch(function(err) {});
+                });
+            }
+        })();
     </script>
 </body>
 </html>
