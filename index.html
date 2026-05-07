@@ -1032,7 +1032,7 @@
 
             <div class="sticky-search-wrapper">
                 <div class="search-section">
-                    <input type="text" id="search-input" class="search-input" placeholder="Что будем искать сегодня 🧐" autocomplete="off">
+                    <input type="text" id="search-input" class="search-input" placeholder="Что будем искать сегодня?" autocomplete="off">
                 </div>
             </div>
 
@@ -1428,6 +1428,7 @@
                 this.currentDataVersion = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : null;
                 this.bannerShown = false;
                 this.bannerHiddenBySwipe = false;
+                this.bannerGlobalListenersActive = false; 
                 this.init();
             }
 
@@ -1816,7 +1817,7 @@
                                 <button class="pin-modal-btn backspace" data-action="backspace">⌫</button>
                             </div>
                             <div id="pin-modal-error" class="pin-modal-error"></div>
-                            <button class="pin-modal-cancel" id="pin-modal-cancel">Отмена</button>
+                            <button class="pin-modal-cancel" id="pin-modal-cancel">Обновить позже</button>
                         </div>
                     `;
                     document.body.appendChild(modal);
@@ -1952,6 +1953,7 @@
                 this.hideManualUpdateButton();
                 this.bannerShown = false;
                 this.bannerHiddenBySwipe = false;
+                this.removeBannerGlobalListeners();
                 
                 this.loadingScreen.classList.remove('active');
                 this.showMainScreen();
@@ -2024,9 +2026,9 @@
                 if (!this.manualUpdateBtn) return;
                 if (this.manualUpdateBtn.style.display === 'block') return;
                 
-                // При показе кнопки обязательно скрываем баннер
                 this.hideUpdateBanner();
                 this.bannerShown = false;
+                this.removeBannerGlobalListeners();
                 
                 this.manualUpdateBtn.style.display = 'block';
                 this.manualUpdateBtn.style.animation = 'fadeInUp 0.4s ease';
@@ -2047,72 +2049,53 @@
                 }
             }
             
-            showUpdateBanner() {
-                if (this.bannerShown) return;
-                if (!this.isLoggedIn) return;
-                if (!FORCE_UPDATE_BANNER) return;
-                if (!this.currentDataVersion) {
-                    if (typeof CACHE_VERSION !== 'undefined') {
-                        this.currentDataVersion = CACHE_VERSION;
-                    } else {
+            addBannerGlobalListeners() {
+                if (this.bannerGlobalListenersActive) return;
+                this.bannerGlobalListenersActive = true;
+                
+                this.bannerClickHandler = (e) => {
+                    const banner = document.getElementById('force-update-banner');
+                    if (!banner) {
+                        this.removeBannerGlobalListeners();
                         return;
                     }
-                }
-                const lastUpdated = localStorage.getItem('last_updated_version');
-                if (lastUpdated === this.currentDataVersion) return;
-                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') return;
-                if (document.getElementById('force-update-banner')) return;
-                
-                this.bannerShown = true;
-                
-                const banner = document.createElement('div');
-                banner.className = 'update-banner';
-                banner.id = 'force-update-banner';
-                banner.innerHTML = `
-                    <div class="update-banner-text">
-                       🔔 В базу данных добавлена новая информация!
-                    </div>
-                    <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
-                `;
-                document.body.appendChild(banner);
-                
-                setTimeout(() => banner.classList.add('show'), 100);
-                
-                let startY = 0;
-                banner.addEventListener('touchstart', (e) => {
-                    startY = e.touches[0].clientY;
-                }, { passive: true });
-                banner.addEventListener('touchmove', (e) => {
-                    if (!startY) return;
-                    const deltaY = e.touches[0].clientY - startY;
-                    if (deltaY > 50) {
-                        e.preventDefault();
-                        this.handleBannerSwipeClose();
+                    if (!banner.contains(e.target)) {
+                        this.handleBannerAutoClose();
                     }
-                }, { passive: false });
+                };
                 
-                const btn = document.getElementById('force-update-btn');
-                if (btn) {
-                    btn.addEventListener('click', async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        const originalText = btn.textContent;
-                        btn.textContent = '⏳ Обновление...';
-                        btn.disabled = true;
-                        
-                        await this.refreshData();
-                        
-                        btn.textContent = originalText;
-                        btn.disabled = false;
-                    });
+                this.bannerScrollHandler = () => {
+                    const banner = document.getElementById('force-update-banner');
+                    if (banner) {
+                        this.handleBannerAutoClose();
+                    } else {
+                        this.removeBannerGlobalListeners();
+                    }
+                };
+                
+                document.addEventListener('click', this.bannerClickHandler);
+                window.addEventListener('scroll', this.bannerScrollHandler);
+                window.addEventListener('touchmove', this.bannerScrollHandler, { passive: true });
+            }
+            
+            removeBannerGlobalListeners() {
+                if (!this.bannerGlobalListenersActive) return;
+                this.bannerGlobalListenersActive = false;
+                if (this.bannerClickHandler) {
+                    document.removeEventListener('click', this.bannerClickHandler);
+                    window.removeEventListener('scroll', this.bannerScrollHandler);
+                    window.removeEventListener('touchmove', this.bannerScrollHandler);
                 }
             }
             
-            handleBannerSwipeClose() {
+            handleBannerAutoClose() {
                 if (this.bannerHiddenBySwipe) return;
                 this.bannerHiddenBySwipe = true;
                 this.showManualUpdateButton();
+            }
+            
+            handleBannerSwipeClose() {
+                this.handleBannerAutoClose();
             }
             
             showLoadingMessage(msg) {
@@ -2137,6 +2120,7 @@
                 this.hideManualUpdateButton();
                 this.bannerShown = false;
                 this.bannerHiddenBySwipe = false;
+                this.removeBannerGlobalListeners();
                 
                 this.pinCode = "";
                 this.updatePinDots();
@@ -2154,6 +2138,10 @@
                 if (this.pinHiddenInput) {
                     this.pinHiddenInput.value = "";
                 }
+            }
+
+            isMobileDevice() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             }
 
             showMainScreen() {
@@ -2174,7 +2162,9 @@
                 
                 if (this.searchInput) {
                     this.searchInput.value = '';
-                    setTimeout(() => this.searchInput.focus(), 100);
+                    if (!this.isMobileDevice()) {
+                        setTimeout(() => this.searchInput.focus(), 100);
+                    }
                 }
                 
                 if (this.resultsContainer) {
@@ -2221,6 +2211,70 @@
                 }
                 
                 this.showUpdateBanner();
+            }
+            
+            showUpdateBanner() {
+                if (this.bannerShown) return;
+                if (!this.isLoggedIn) return;
+                if (!FORCE_UPDATE_BANNER) return;
+                if (!this.currentDataVersion) {
+                    if (typeof CACHE_VERSION !== 'undefined') {
+                        this.currentDataVersion = CACHE_VERSION;
+                    } else {
+                        return;
+                    }
+                }
+                const lastUpdated = localStorage.getItem('last_updated_version');
+                if (lastUpdated === this.currentDataVersion) return;
+                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') return;
+                if (document.getElementById('force-update-banner')) return;
+                
+                this.bannerShown = true;
+                
+                const banner = document.createElement('div');
+                banner.className = 'update-banner';
+                banner.id = 'force-update-banner';
+                banner.innerHTML = `
+                    <div class="update-banner-text">
+                       🔔 В базу данных добавлена новая информация!
+                    </div>
+                    <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
+                `;
+                document.body.appendChild(banner);
+                
+                setTimeout(() => banner.classList.add('show'), 100);
+                
+                this.addBannerGlobalListeners();
+                
+                let startY = 0;
+                banner.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                }, { passive: true });
+                banner.addEventListener('touchmove', (e) => {
+                    if (!startY) return;
+                    const deltaY = e.touches[0].clientY - startY;
+                    if (deltaY > 50) {
+                        e.preventDefault();
+                        this.handleBannerSwipeClose();
+                    }
+                }, { passive: false });
+                
+                const btn = document.getElementById('force-update-btn');
+                if (btn) {
+                    btn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const originalText = btn.textContent;
+                        btn.textContent = '⏳ Обновление...';
+                        btn.disabled = true;
+                        
+                        await this.refreshData();
+                        
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    });
+                }
             }
 
             liveSearch() {
