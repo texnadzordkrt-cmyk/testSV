@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Тест 2.0</title>
-    
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Тест 2.0">
     <meta name="mobile-web-app-capable" content="yes">
-    
+
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -20,7 +20,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <script src="data.js?v=30.04.3"></script>
-    
+
     <style>
         * {
             margin: 0;
@@ -77,81 +77,167 @@
             background: var(--bg-primary);
             padding: 20px;
         }
-        .loading-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 50px 30px;
-            width: 100%;
-            max-width: 340px;
-            text-align: center;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-        }
-        .app-title {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--accent-cyan);
-            text-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 40px var(--accent-cyan-glow);
-            animation: pulse-title 2s ease-in-out infinite;
-            letter-spacing: -0.5px;
-        }
-        @keyframes pulse-title {
-            0%, 100% {
-                opacity: 1;
-                text-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 40px var(--accent-cyan-glow);
-            }
-            50% {
-                opacity: 0.85;
-                text-shadow: 0 0 30px var(--accent-cyan-glow), 0 0 60px var(--accent-cyan), 0 0 80px var(--accent-cyan-glow);
-            }
-        }
-        .app-version {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-        .spinner-container {
-            margin: 30px 0;
-        }
-        .spinner {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto;
+
+        .neon-loader-container {
             position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .spinner::before {
-            content: '';
+        .neon-ring {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 3px solid var(--bg-secondary);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1);
+            animation: ringPulse 2s ease-in-out infinite;
         }
-        .spinner-progress {
+        .neon-ring:nth-child(2) {
+            width: 230px;
+            height: 230px;
+            border-color: rgba(0, 240, 255, 0.15);
+            animation-delay: -0.5s;
+            animation-duration: 2.5s;
+        }
+        .neon-ring:nth-child(3) {
+            width: 260px;
+            height: 260px;
+            border-color: rgba(0, 240, 255, 0.08);
+            animation-delay: -1s;
+            animation-duration: 3s;
+        }
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .version {
+            font-size: 90px;
+            font-weight: 900;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 40px #00f0ff, 0 0 80px #00f0ff;
+            z-index: 10;
+            animation: versionGlow 2s ease-in-out infinite;
+            letter-spacing: -2px;
+            font-family: inherit;
+        }
+        @keyframes versionGlow {
+            0%, 100% { text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 40px #00f0ff; }
+            50% { text-shadow: 0 0 20px #00f0ff, 0 0 40px #00f0ff, 0 0 80px #00f0ff, 0 0 120px #00f0ff; }
+        }
+        .scan-line {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            width: 250px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00f0ff, transparent);
+            box-shadow: 0 0 15px #00f0ff;
+            animation: scanMove 2s ease-in-out infinite;
+            z-index: 15;
+        }
+        @keyframes scanMove {
+            0%, 100% { top: 30%; opacity: 0; }
+            10% { opacity: 1; }
+            50% { top: 70%; }
+            90% { opacity: 1; }
+        }
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00f0ff;
             border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: var(--accent-cyan);
-            border-right-color: var(--accent-cyan);
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 10px var(--accent-cyan-glow);
+            box-shadow: 0 0 6px #00f0ff;
+            opacity: 0;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes particleOrbit {
+            0% { opacity: 0; transform: rotate(0deg) translateX(var(--orbit)) rotate(0deg); }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: rotate(360deg) translateX(var(--orbit)) rotate(-360deg); }
         }
-        .loading-text {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-top: 25px;
-            letter-spacing: 0.5px;
+        .status-text {
+            position: absolute;
+            bottom: 60px;
+            color: #00f0ff;
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #00f0ff;
+            animation: textPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .progress-container {
+            position: absolute;
+            bottom: 30px;
+            width: 200px;
+            height: 3px;
+            background: rgba(0, 240, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #00f0ff, #00cccc);
+            box-shadow: 0 0 10px #00f0ff;
+            border-radius: 2px;
+            animation: progressFill 3s ease-in-out infinite;
+        }
+        @keyframes progressFill {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+        .lock-icon {
+            position: absolute;
+            top: 50px;
+            font-size: 24px;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff;
+            animation: lockPulse 1s ease-in-out infinite;
+        }
+        @keyframes lockPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .matrix-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+        .matrix-char {
+            position: absolute;
+            color: #00f0ff;
+            font-size: 12px;
+            font-family: monospace;
+            animation: matrixFall 3s linear infinite;
+        }
+        @keyframes matrixFall {
+            0% { transform: translateY(-20px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(420px); opacity: 0; }
+        }
+        @media (max-width: 480px) {
+            .neon-loader-container { transform: scale(0.8); height: 350px; }
+            .version { font-size: 70px; }
         }
 
         #login-screen {
@@ -662,7 +748,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .results-container.restored-result .result-card * {
             color: var(--text-secondary) !important;
         }
@@ -686,7 +772,7 @@
         .results-container.restored-result .contact-link:hover {
             color: var(--accent-cyan) !important;
         }
-        
+
         .result-card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -763,7 +849,7 @@
             background: transparent;
         }
         .parking-no-btn:active { transform: scale(0.95); }
-        
+
         .update-banner {
             position: fixed;
             bottom: 40px;
@@ -828,7 +914,7 @@
             backdrop-filter: blur(4px);
             transition: all 0.3s ease;
         }
-        
+
         .manual-update-btn {
             position: fixed;
             bottom: 10px;
@@ -967,15 +1053,23 @@
             padding: 6px 12px;
         }
     </style>
-    <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <div id="loading-screen" class="screen active">
-        <div class="loading-card">
-            <h1 class="app-title">Инфа под рукой 2.0</h1>
-            <p class="app-version">web-приложение</p>
-            <div class="spinner-container"><div class="spinner"><div class="spinner-progress"></div></div></div>
-            <p class="loading-text">Проверка доступа</p>
+        <div class="neon-loader-container">
+            <div class="matrix-bg" id="matrixBg"></div>
+            <div class="neon-ring"></div>
+            <div class="neon-ring"></div>
+            <div class="neon-ring"></div>
+            <div class="particles" id="particles"></div>
+            <div class="scan-line"></div>
+
+            <div class="version">2.0</div>
+            <div class="status-text" id="loading-status-text">Проверка доступа</div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
         </div>
     </div>
 
@@ -1010,7 +1104,7 @@
                 <button class="pin-btn backspace" data-action="backspace">⌫</button>
             </div>
 
-            <button class="forgot-pin" id="forgot-pin-btn">Забыли код-доступа?</button>
+            <button class="forgot-pin" id="forgot-pin-btn">Нужна помощь?</button>
         </div>
     </div>
 
@@ -1025,9 +1119,9 @@
             </div>
 
             <div id="zoom-panel" class="zoom-panel">
-                <button id="zoom-out-btn" class="zoom-btn" title="Уменьшить текст">🔍−</button>
+                <button id="zoom-out-btn" class="zoom-btn" title="Уменьшить текст">➖</button>
                 <span id="zoom-indicator" class="zoom-indicator">Масштаб</span>
-                <button id="zoom-in-btn" class="zoom-btn" title="Увеличить текст">🔍+</button>
+                <button id="zoom-in-btn" class="zoom-btn" title="Увеличить текст">➕</button>
             </div>
 
             <div class="sticky-search-wrapper">
@@ -1043,8 +1137,8 @@
     <div id="drawer-overlay" class="drawer-overlay"></div>
     <div id="drawer" class="drawer">
         <div class="drawer-header">
-            <h3>Панель<br>управление</h3>
-            <button id="drawer-close" class="drawer-close"></button>
+            <h3>Панель<br>управления</h3>
+            <button id="drawer-close" class="drawer-close">&times;</button>
         </div>
         <div id="drawer-menu-main" class="drawer-menu">
             <button id="drawer-error" class="drawer-item"><span class="item-icon">✍️</span><span>Написать об ошибке</span></button>
@@ -1060,1652 +1154,1832 @@
     </div>
 
     <div id="notification" class="notification hidden"></div>
-    
+
     <div class="version-badge" id="app-version-badge"></div>
     <button id="manual-update-btn" class="manual-update-btn">🔔 Есть обновление</button>
 
     <script>
-        const ACCESS_LEVELS = {
-            '83e19a9ce479dc064bab4bd50134db14918cc967debd3ad223bb8993c523788d': {
-                level: 3,
-                name: 'Администратор',
-                greeting: 'доступ ⭐️⭐️⭐️',
-                permissions: ['contacts', 'stations', 'parking', 'documents']
-            },
-            '775988758f13f17d20e083ed112c78ad3b62be322f501d4a61ca174a704be1a7': {
-                level: 2,
-                name: 'Оператор',
-                greeting: 'доступ ⭐️⭐️',
-                permissions: ['contacts', 'stations', 'parking']
-            },
-            'c5165083befc92b41c6c93d615f2b0239c2f7f1d7232991f3edb6f15cc638794': {
-                level: 1,
-                name: 'Пользователь',
-                greeting: 'доступ ⭐️',
-                permissions: ['contacts', 'parking']
+        (function() {
+            'use strict';
+
+            // ======== КОНФИГУРАЦИЯ ========
+            const CONFIG = {
+                PIN_LENGTH: 4,
+                MIN_ZOOM: 70,
+                MAX_ZOOM: 150,
+                ZOOM_STEP: 10,
+                SESSION_DURATION: 30 * 24 * 60 * 60 * 1000,
+                PIN_MAX_AGE: 7 * 24 * 60 * 60 * 1000,
+                FORCE_UPDATE_BANNER: true,
+                SW_SCOPE: './'
+            };
+
+            // ======== УРОВНИ ДОСТУПА ========
+            const ACCESS_LEVELS = {
+                '83e19a9ce479dc064bab4bd50134db14918cc967debd3ad223bb8993c523788d': {
+                    level: 3,
+                    name: 'Администратор',
+                    greeting: 'доступ ⭐️⭐️⭐️',
+                    permissions: ['contacts', 'stations', 'parking', 'documents']
+                },
+                '775988758f13f17d20e083ed112c78ad3b62be322f501d4a61ca174a704be1a7': {
+                    level: 2,
+                    name: 'Оператор',
+                    greeting: 'доступ ⭐️⭐️',
+                    permissions: ['contacts', 'stations', 'parking']
+                },
+                'c5165083befc92b41c6c93d615f2b0239c2f7f1d7232991f3edb6f15cc638794': {
+                    level: 1,
+                    name: 'Пользователь',
+                    greeting: 'доступ ⭐️',
+                    permissions: ['contacts', 'parking']
+                }
+            };
+
+            // ======== КЛЮЧИ ХРАНИЛИЩА ========
+            const STORAGE_KEYS = {
+                LAST_RESULTS: 'infa_last_results_raw',
+                LAST_QUERY: 'infa_last_query',
+                ZOOM: 'infa_zoom',
+                PARKING_DATA: 'infa_parking_user_data',
+                SESSION_DATA: 'infa_session_data',
+                SESSION_TIMESTAMP: 'infa_session_timestamp',
+                LAST_UPDATED_VERSION: 'infa_last_updated_version',
+                SW_CACHE_VERSION: 'infa_sw_cache_version',
+                BANNER_SHOWN_PREFIX: 'infa_banner_shown_'
+            };
+
+            // ======== ГЛОБАЛЬНЫЕ ДАННЫЕ (из data.js) ========
+            let CONTACTS_DATA = [];
+            let STATIONS_DATA = [];
+            let DOCUMENTS_DATA = [];
+            let PARKING_DATA = [];
+
+            // ======== УТИЛИТЫ ========
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
             }
-        };
-        
-        const STORAGE_KEYS = {
-            LAST_RESULTS: 'infa_last_results_raw',
-            LAST_QUERY: 'infa_last_query'
-        };
 
-        const FORCE_UPDATE_BANNER = true;
-
-        let CONTACTS_DATA = [];
-        let STATIONS_DATA = [];
-        let DOCUMENTS_DATA = [];
-        let PARKING_DATA = [];
-
-        let SESSION_DATA = null;
-        
-        class SecurePinStorage {
-            constructor() {
-                this.storageKey = 'encrypted_user_pin';
-                this.salt = this.generateNewSalt();
+            function verifyAccessCode(inputCode) {
+                if (!inputCode || typeof inputCode !== 'string') return null;
+                const hash = CryptoJS.SHA256(inputCode.trim()).toString();
+                const userData = ACCESS_LEVELS[hash];
+                if (userData) {
+                    return { ...userData, enteredCode: inputCode.trim() };
+                }
+                return null;
             }
-            
-            generateNewSalt() {
+
+            function decryptData(encryptedBase64, password) {
+                if (!encryptedBase64 || !password || encryptedBase64.trim() === '') {
+                    return [];
+                }
                 try {
-                    const salt = CryptoJS.lib.WordArray.random(32);
-                    if (salt && salt.toString()) {
-                        return salt.toString();
+                    const decrypted = CryptoJS.AES.decrypt(encryptedBase64, password);
+                    const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+                    if (!decryptedStr) {
+                        console.warn('Decrypt returned empty string');
+                        return [];
                     }
-                    throw new Error('Salt generation failed');
+                    return JSON.parse(decryptedStr);
                 } catch(e) {
-                    return CryptoJS.SHA256(Date.now() + navigator.userAgent).toString();
+                    console.error('Decrypt error:', e);
+                    return [];
                 }
             }
-            
-            storeEncryptedPin(enteredPin, userLevel) {
-                try {
-                    const pinData = {
-                        pin: enteredPin,
-                        level: userLevel,
-                        timestamp: Date.now()
-                    };
-                    
-                    const encrypted = CryptoJS.AES.encrypt(
-                        JSON.stringify(pinData),
-                        this.salt
-                    ).toString();
-                    
-                    sessionStorage.setItem(this.storageKey, encrypted);
-                    return true;
-                } catch(e) {
-                    return false;
-                }
+
+            function isSessionValid() {
+                const timestamp = localStorage.getItem(STORAGE_KEYS.SESSION_TIMESTAMP);
+                if (!timestamp) return false;
+                const ts = parseInt(timestamp, 10);
+                if (isNaN(ts)) return false;
+                return (Date.now() - ts) < CONFIG.SESSION_DURATION;
             }
-            
-            retrievePin() {
-                const encrypted = sessionStorage.getItem(this.storageKey);
-                if (!encrypted) return null;
-                
-                try {
-                    const decrypted = CryptoJS.AES.decrypt(encrypted, this.salt);
-                    const pinData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
-                    
-                    const maxAge = 7 * 24 * 60 * 60 * 1000;
-                    
-                    if (Date.now() - pinData.timestamp > maxAge) {
+
+            // ======== БЕЗОПАСНОЕ ХРАНЕНИЕ PIN ========
+            class SecurePinStorage {
+                constructor() {
+                    this.storageKey = 'infa_encrypted_pin';
+                    this.saltKey = 'infa_pin_salt';
+                }
+
+                _getSalt() {
+                    let salt = sessionStorage.getItem(this.saltKey);
+                    if (!salt) {
+                        salt = CryptoJS.lib.WordArray.random(32).toString();
+                        sessionStorage.setItem(this.saltKey, salt);
+                    }
+                    return salt;
+                }
+
+                storeEncryptedPin(enteredPin, userLevel) {
+                    try {
+                        const salt = this._getSalt();
+                        const pinData = {
+                            pin: enteredPin,
+                            level: userLevel,
+                            timestamp: Date.now()
+                        };
+
+                        const encrypted = CryptoJS.AES.encrypt(
+                            JSON.stringify(pinData),
+                            salt
+                        ).toString();
+
+                        sessionStorage.setItem(this.storageKey, encrypted);
+                        return true;
+                    } catch(e) {
+                        console.error('Pin storage error:', e);
+                        return false;
+                    }
+                }
+
+                retrievePin() {
+                    const encrypted = sessionStorage.getItem(this.storageKey);
+                    if (!encrypted) return null;
+
+                    try {
+                        const salt = this._getSalt();
+                        const decrypted = CryptoJS.AES.decrypt(encrypted, salt);
+                        const pinData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+
+                        if (Date.now() - pinData.timestamp > CONFIG.PIN_MAX_AGE) {
+                            this.clear();
+                            return null;
+                        }
+
+                        return pinData.pin;
+                    } catch(e) {
                         this.clear();
                         return null;
                     }
-                    
-                    return pinData.pin;
+                }
+
+                clear() {
+                    sessionStorage.removeItem(this.storageKey);
+                    sessionStorage.removeItem(this.saltKey);
+                }
+
+                hasValidPin() {
+                    return this.retrievePin() !== null;
+                }
+            }
+
+            // ======== РАБОТА С ДАННЫМИ ========
+            function decryptAllDataWithCode(userData) {
+                if (!userData || !userData.enteredCode) {
+                    console.error('No access code provided for decryption');
+                    return false;
+                }
+
+                const accessCode = userData.enteredCode;
+                const level = userData.level;
+
+                const hasLevel3Data = typeof ENCRYPTED_CONTACTS_LEVEL3 !== 'undefined';
+                const hasLevel2Data = typeof ENCRYPTED_CONTACTS_LEVEL2 !== 'undefined';
+                const hasLevel1Data = typeof ENCRYPTED_CONTACTS_LEVEL1 !== 'undefined';
+
+                if (level === 3) {
+                    if (!hasLevel3Data) {
+                        console.error('Level 3 data not available');
+                        return false;
+                    }
+                    CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL3, accessCode);
+                    STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL3, accessCode);
+                    PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL3, accessCode);
+                    DOCUMENTS_DATA = decryptData(ENCRYPTED_DOCUMENTS_LEVEL3, accessCode);
+                } else if (level === 2) {
+                    if (!hasLevel2Data) {
+                        console.error('Level 2 data not available');
+                        return false;
+                    }
+                    CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL2, accessCode);
+                    STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL2, accessCode);
+                    PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL2, accessCode);
+                    DOCUMENTS_DATA = [];
+                } else if (level === 1) {
+                    if (!hasLevel1Data) {
+                        console.error('Level 1 data not available');
+                        return false;
+                    }
+                    CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL1, accessCode);
+                    PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL1, accessCode);
+                    STATIONS_DATA = [];
+                    DOCUMENTS_DATA = [];
+                }
+
+                const hasAnyData = CONTACTS_DATA.length > 0 || STATIONS_DATA.length > 0 || 
+                                   PARKING_DATA.length > 0 || DOCUMENTS_DATA.length > 0;
+
+                if (!hasAnyData) {
+                    console.warn('All decrypted arrays are empty - possible wrong PIN or corrupted data');
+                }
+
+                return true;
+            }
+
+            function saveSession(userData) {
+                if (!userData || !userData.enteredCode) return;
+
+                const pinStorage = new SecurePinStorage();
+                pinStorage.storeEncryptedPin(userData.enteredCode, userData.level);
+
+                const sessionData = {
+                    accessCodeHash: CryptoJS.SHA256(userData.enteredCode).toString(),
+                    level: userData.level,
+                    permissions: userData.permissions,
+                    timestamp: Date.now(),
+                    appVersion: typeof APP_VERSION !== 'undefined' ? APP_VERSION : '1.0'
+                };
+
+                localStorage.setItem(STORAGE_KEYS.SESSION_DATA, JSON.stringify(sessionData));
+                localStorage.setItem(STORAGE_KEYS.SESSION_TIMESTAMP, sessionData.timestamp);
+            }
+
+            function restoreSessionFromStorage() {
+                if (!isSessionValid()) {
+                    localStorage.removeItem(STORAGE_KEYS.SESSION_DATA);
+                    localStorage.removeItem(STORAGE_KEYS.SESSION_TIMESTAMP);
+                    return null;
+                }
+
+                const sessionData = localStorage.getItem(STORAGE_KEYS.SESSION_DATA);
+                if (!sessionData) return null;
+
+                try {
+                    const data = JSON.parse(sessionData);
+                    const userData = ACCESS_LEVELS[data.accessCodeHash];
+
+                    if (!userData) {
+                        console.warn('Session hash not found in access levels');
+                        return null;
+                    }
+
+                    return { ...userData, enteredCode: null };
                 } catch(e) {
-                    this.clear();
+                    console.error('Session restore error:', e);
                     return null;
                 }
             }
-            
-            clear() {
-                sessionStorage.removeItem(this.storageKey);
-            }
-            
-            hasValidPin() {
-                return this.retrievePin() !== null;
-            }
-        }
-        
-        function verifyAccessCode(inputCode) {
-            if (!inputCode) return null;
-            const hash = CryptoJS.SHA256(inputCode.trim()).toString();
-            const userData = ACCESS_LEVELS[hash];
-            if (userData) {
-                return { ...userData, enteredCode: inputCode.trim() };
-            }
-            return null;
-        }
-        
-        function decryptData(encryptedBase64, password) {
-            if (!encryptedBase64 || encryptedBase64.trim() === "") {
-                return [];
-            }
-            try {
-                const decrypted = CryptoJS.AES.decrypt(encryptedBase64, password);
-                const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
-                if (!decryptedStr) return [];
-                return JSON.parse(decryptedStr);
-            } catch(e) {
-                return [];
-            }
-        }
 
-        function decryptAllDataWithCode(userData) {
-            const accessCode = userData.enteredCode;
-            const level = userData.level;
-            
-            if (level === 3) {
-                CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL3, accessCode);
-                STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL3, accessCode);
-                PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL3, accessCode);
-                DOCUMENTS_DATA = decryptData(ENCRYPTED_DOCUMENTS_LEVEL3, accessCode);
-            } 
-            else if (level === 2) {
-                CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL2, accessCode);
-                STATIONS_DATA = decryptData(ENCRYPTED_STATIONS_LEVEL2, accessCode);
-                PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL2, accessCode);
-                DOCUMENTS_DATA = [];
-            } 
-            else if (level === 1) {
-                CONTACTS_DATA = decryptData(ENCRYPTED_CONTACTS_LEVEL1, accessCode);
-                PARKING_DATA = decryptData(ENCRYPTED_PARKING_LEVEL1, accessCode);
-                STATIONS_DATA = [];
-                DOCUMENTS_DATA = [];
-            }
-            
-            return true;
-        }
-        
-        function saveSession(userData) {
-            const pinStorage = new SecurePinStorage();
-            pinStorage.storeEncryptedPin(userData.enteredCode, userData.level);
-            
-            const sessionData = {
-                accessCodeHash: CryptoJS.SHA256(userData.enteredCode).toString(),
-                level: userData.level,
-                permissions: userData.permissions,
-                contacts: CONTACTS_DATA,
-                stations: STATIONS_DATA,
-                parking: PARKING_DATA,
-                documents: DOCUMENTS_DATA,
-                timestamp: Date.now(),
-                appVersion: typeof APP_VERSION !== 'undefined' ? APP_VERSION : '1.0'
+            // ======== БАЗА ДАННЫХ ========
+            const DATABASE = {
+                users: [],
+                stations: [],
+                contacts: [],
+                documents: [],
+                parking: [],
+                currentUser: null,
+                isInitialized: false,
+
+                init() {
+                    this.users = Object.values(ACCESS_LEVELS);
+                    this.contacts = CONTACTS_DATA || [];
+                    this.stations = STATIONS_DATA || [];
+                    this.documents = DOCUMENTS_DATA || [];
+                    this.parking = PARKING_DATA || [];
+                    this.isInitialized = true;
+                },
+
+                calculateMatchPercent(text, query) {
+                    if (!text || !query) return 0;
+                    const t = text.toLowerCase();
+                    const q = query.toLowerCase();
+                    if (t === q) return 100;
+                    if (t.includes(q)) return Math.min((q.length / t.length) * 100, 99);
+                    return 0;
+                },
+
+                hasPermission(perm) {
+                    return this.currentUser && this.currentUser.permissions && 
+                           this.currentUser.permissions.includes(perm);
+                },
+
+                searchStationsRanked(q) {
+                    if (!q || !this.hasPermission('stations')) return [];
+                    const lq = q.toLowerCase().trim();
+                    const res = [];
+                    (this.stations || []).forEach(s => {
+                        let best = 0;
+                        if (s.searchName) best = Math.max(best, this.calculateMatchPercent(s.searchName, lq));
+                        if (s['телефон']) best = Math.max(best, this.calculateMatchPercent(s['телефон'], lq));
+                        if (best > 0) res.push({ ...s, type: 'station', matchPercent: best });
+                    });
+                    return res;
+                },
+
+                searchParkingRanked(q) {
+                    if (!q || !this.hasPermission('parking')) return [];
+                    const lq = q.toLowerCase().trim();
+                    const res = [];
+                    (this.parking || []).forEach(p => {
+                        let best = 0;
+                        if (p.searchName) best = Math.max(best, this.calculateMatchPercent(p.searchName, lq));
+                        if (best > 0) res.push({ ...p, type: 'parking', matchPercent: best });
+                    });
+                    return res;
+                },
+
+                searchContactsRanked(q) {
+                    if (!q || !this.hasPermission('contacts')) return [];
+                    const lq = q.toLowerCase().trim();
+                    const res = [];
+                    (this.contacts || []).forEach(c => {
+                        let best = 0;
+                        if (c.searchName) best = Math.max(best, this.calculateMatchPercent(c.searchName, lq));
+                        if (c['телефон']) best = Math.max(best, this.calculateMatchPercent(c['телефон'], lq));
+                        if (best > 0) res.push({ ...c, type: 'contact', matchPercent: best });
+                    });
+                    return res;
+                },
+
+                searchDocumentsRanked(q) {
+                    if (!q || !this.hasPermission('documents')) return [];
+                    const lq = q.toLowerCase().trim();
+                    const res = [];
+                    (this.documents || []).forEach(d => {
+                        let best = 0;
+                        if (d.searchName) best = Math.max(best, this.calculateMatchPercent(d.searchName, lq));
+                        if (best > 0) res.push({ ...d, type: 'document', matchPercent: best });
+                    });
+                    return res;
+                },
+
+                searchAllRanked(q) {
+                    let allResults = [
+                        ...this.searchStationsRanked(q),
+                        ...this.searchParkingRanked(q),
+                        ...this.searchContactsRanked(q),
+                        ...this.searchDocumentsRanked(q)
+                    ];
+                    allResults.sort((a, b) => b.matchPercent - a.matchPercent);
+                    return allResults;
+                },
+
+                setCurrentUser(u) {
+                    this.currentUser = u;
+                }
             };
-            
-            localStorage.setItem('access_session_data', JSON.stringify(sessionData));
-            localStorage.setItem('access_session_timestamp', sessionData.timestamp);
-            sessionStorage.setItem('access_session_data', JSON.stringify(sessionData));
-        }
 
-        function isSessionValid() {
-            const timestamp = localStorage.getItem('access_session_timestamp');
-            if (!timestamp) return false;
-            const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-            return (Date.now() - parseInt(timestamp)) < THIRTY_DAYS;
-        }
+            // ======== UI ПАРКОВКИ ========
+            const ParkingUI = {
+                userParkingData: {},
 
-        function restoreSessionFromStorage() {
-            if (!isSessionValid()) {
-                localStorage.removeItem('access_session_data');
-                localStorage.removeItem('access_session_timestamp');
-                sessionStorage.removeItem('access_session_data');
-                return null;
-            }
-            
-            let sessionData = sessionStorage.getItem('access_session_data');
-            if (!sessionData) {
-                sessionData = localStorage.getItem('access_session_data');
-            }
-            
-            if (!sessionData) return null;
-            
-            try {
-                const data = JSON.parse(sessionData);
-                CONTACTS_DATA = data.contacts || [];
-                STATIONS_DATA = data.stations || [];
-                PARKING_DATA = data.parking || [];
-                DOCUMENTS_DATA = data.documents || [];
-                
-                const userData = ACCESS_LEVELS[data.accessCodeHash];
-                if (userData) {
-                    return { ...userData, enteredCode: null };
+                init() {
+                    this.loadUserData();
+                },
+
+                loadUserData() {
+                    try {
+                        const saved = localStorage.getItem(STORAGE_KEYS.PARKING_DATA);
+                        if (saved) this.userParkingData = JSON.parse(saved);
+                    } catch(e) {
+                        this.userParkingData = {};
+                    }
+                },
+
+                saveUserData() {
+                    localStorage.setItem(STORAGE_KEYS.PARKING_DATA, JSON.stringify(this.userParkingData));
+                },
+
+                getUserNote(parkingId) {
+                    if (!parkingId || !this.userParkingData[parkingId]) return null;
+                    return this.userParkingData[parkingId].note;
+                },
+
+                updateParkingNote(parkingId, newNote) {
+                    if (!parkingId) return false;
+
+                    const exists = (PARKING_DATA || []).some(p => p.id === parkingId);
+                    if (!exists) return false;
+
+                    if (!this.userParkingData[parkingId]) this.userParkingData[parkingId] = {};
+                    this.userParkingData[parkingId].note = newNote;
+                    this.userParkingData[parkingId].updatedAt = new Date().toISOString();
+                    this.saveUserData();
+                    return true;
                 }
-                return null;
-            } catch(e) {
-                return null;
-            }
-        }
-        
-        const DATABASE = {
-            users: [],
-            stations: [],
-            contacts: [],
-            documents: [],
-            parking: [],
-            currentUser: null,
-            isInitialized: false,
+            };
 
-            init() {
-                this.users = Object.values(ACCESS_LEVELS);
-                this.contacts = CONTACTS_DATA;
-                this.stations = STATIONS_DATA;
-                this.documents = DOCUMENTS_DATA;
-                this.parking = PARKING_DATA;
-                this.isInitialized = true;
-            },
-
-            calculateMatchPercent(text, query) {
-                if (!text || !query) return 0;
-                const t = text.toLowerCase();
-                const q = query.toLowerCase();
-                if (t === q) return 100;
-                if (t.includes(q)) return Math.min((q.length / t.length) * 100, 99);
-                return 0;
-            },
-
-            hasPermission(perm) {
-                return this.currentUser && this.currentUser.permissions.includes(perm);
-            },
-
-            searchStationsRanked(q) {
-                if (!q || !this.hasPermission('stations')) return [];
-                const lq = q.toLowerCase().trim();
-                const res = [];
-                this.stations.forEach(s => {
-                    let best = 0;
-                    if (s.searchName) best = Math.max(best, this.calculateMatchPercent(s.searchName, lq));
-                    if (s.телефон) best = Math.max(best, this.calculateMatchPercent(s.телефон, lq));
-                    if (best > 0) res.push({ ...s, type: 'station', matchPercent: best });
-                });
-                return res;
-            },
-
-            searchParkingRanked(q) {
-                if (!q || !this.hasPermission('parking')) return [];
-                const lq = q.toLowerCase().trim();
-                const res = [];
-                this.parking.forEach(p => {
-                    let best = 0;
-                    if (p.searchName) best = Math.max(best, this.calculateMatchPercent(p.searchName, lq));
-                    if (best > 0) res.push({ ...p, type: 'parking', matchPercent: best });
-                });
-                return res;
-            },
-
-            searchContactsRanked(q) {
-                if (!q || !this.hasPermission('contacts')) return [];
-                const lq = q.toLowerCase().trim();
-                const res = [];
-                this.contacts.forEach(c => {
-                    let best = 0;
-                    if (c.searchName) best = Math.max(best, this.calculateMatchPercent(c.searchName, lq));
-                    if (c.телефон) best = Math.max(best, this.calculateMatchPercent(c.телефон, lq));
-                    if (best > 0) res.push({ ...c, type: 'contact', matchPercent: best });
-                });
-                return res;
-            },
-
-            searchDocumentsRanked(q) {
-                if (!q || !this.hasPermission('documents')) return [];
-                const lq = q.toLowerCase().trim();
-                const res = [];
-                this.documents.forEach(d => {
-                    let best = 0;
-                    if (d.searchName) best = Math.max(best, this.calculateMatchPercent(d.searchName, lq));
-                    if (best > 0) res.push({ ...d, type: 'document', matchPercent: best });
-                });
-                return res;
-            },
-
-            searchAllRanked(q) {
-                let allResults = [
-                    ...this.searchStationsRanked(q),
-                    ...this.searchParkingRanked(q),
-                    ...this.searchContactsRanked(q),
-                    ...this.searchDocumentsRanked(q)
-                ];
-                allResults.sort((a, b) => b.matchPercent - a.matchPercent);
-                return allResults;
-            },
-
-            setCurrentUser(u) {
-                this.currentUser = u;
-            }
-        };
-        
-        const ParkingUI = {
-            userParkingData: {},
-
-            init() {
-                this.loadUserData();
-            },
-
-            loadUserData() {
-                try {
-                    const saved = localStorage.getItem('infa_parking_user_data');
-                    if (saved) this.userParkingData = JSON.parse(saved);
-                } catch(e) {
-                    this.userParkingData = {};
+            // ======== ГЛАВНЫЙ КЛАСС ПРИЛОЖЕНИЯ ========
+            class InfaApp {
+                constructor() {
+                    this.currentUser = null;
+                    this.isLoggedIn = false;
+                    this.currentZoom = 100;
+                    this.drawerCloseTimer = null;
+                    this.pinCode = "";
+                    this.isRestoredResults = false;
+                    this.currentDataVersion = null;
+                    this.bannerShown = false;
+                    this.bannerHiddenBySwipe = false;
+                    this.bannerGlobalListenersActive = false;
+                    this._parkingHandlers = new Map();
+                    this._boundKeyHandler = null;
+                    this.init();
                 }
-            },
 
-            saveUserData() {
-                localStorage.setItem('infa_parking_user_data', JSON.stringify(this.userParkingData));
-            },
+                cacheElements() {
+                    this.loadingScreen = document.getElementById('loading-screen');
+                    this.loginScreen = document.getElementById('login-screen');
+                    this.mainScreen = document.getElementById('main-screen');
+                    this.loadingText = document.getElementById('loading-status-text');
+                    this.usernameSpan = document.getElementById('username');
+                    this.menuBtn = document.getElementById('menu-btn');
+                    this.searchInput = document.getElementById('search-input');
+                    this.resultsContainer = document.getElementById('results-container');
+                    this.notification = document.getElementById('notification');
+                    this.zoomInBtn = document.getElementById('zoom-in-btn');
+                    this.zoomOutBtn = document.getElementById('zoom-out-btn');
+                    this.zoomIndicator = document.getElementById('zoom-indicator');
 
-            getUserNote(parkingId) {
-                return (this.userParkingData[parkingId] && this.userParkingData[parkingId].note !== undefined) 
-                    ? this.userParkingData[parkingId].note 
-                    : null;
-            },
+                    this.pinPad = document.getElementById('pin-pad');
+                    this.pinDots = document.getElementById('pin-dots');
+                    this.pinHiddenInput = document.getElementById('login-password-hidden');
+                    this.forgotPinBtn = document.getElementById('forgot-pin-btn');
 
-            updateParkingNote(parkingId, newNote) {
-                if (!parkingId) return false;
-                if (!PARKING_DATA.find(p => p.id === parkingId)) return false;
-                if (!this.userParkingData[parkingId]) this.userParkingData[parkingId] = {};
-                this.userParkingData[parkingId].note = newNote;
-                this.userParkingData[parkingId].updatedAt = new Date().toISOString();
-                this.saveUserData();
-                return true;
-            }
-        };
-        
-        class InfaApp {
-            constructor() {
-                this.currentUser = null;
-                this.isLoggedIn = false;
-                this.currentZoom = 100;
-                this.minZoom = 70;
-                this.maxZoom = 150;
-                this.zoomStep = 10;
-                this.drawerCloseTimer = null;
-                this.pinCode = "";
-                this.maxPinLength = 4;
-                this.isRestoredResults = false;
-                this.currentDataVersion = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : null;
-                this.bannerShown = false;
-                this.bannerHiddenBySwipe = false;
-                this.bannerGlobalListenersActive = false; 
-                this.init();
-            }
+                    this.drawerOverlay = document.getElementById('drawer-overlay');
+                    this.drawer = document.getElementById('drawer');
+                    this.drawerClose = document.getElementById('drawer-close');
+                    this.drawerError = document.getElementById('drawer-error');
+                    this.drawerAddData = document.getElementById('drawer-add-data');
+                    this.drawerLogout = document.getElementById('drawer-logout');
+                    this.drawerSubmenuAdd = document.getElementById('drawer-submenu-add');
+                    this.drawerMenuMain = document.getElementById('drawer-menu-main');
+                    this.drawerBackMain = document.getElementById('drawer-back-main');
+                    this.drawerAddStation = document.getElementById('drawer-add-station');
+                    this.drawerAddParking = document.getElementById('drawer-add-parking');
+                    this.drawerAddContact = document.getElementById('drawer-add-contact');
 
-            cacheElements() {
-                this.loadingScreen = document.getElementById('loading-screen');
-                this.loginScreen = document.getElementById('login-screen');
-                this.mainScreen = document.getElementById('main-screen');
-                this.loadingText = document.querySelector('.loading-text');
-                this.usernameSpan = document.getElementById('username');
-                this.menuBtn = document.getElementById('menu-btn');
-                this.searchInput = document.getElementById('search-input');
-                this.resultsContainer = document.getElementById('results-container');
-                this.notification = document.getElementById('notification');
-                this.zoomInBtn = document.getElementById('zoom-in-btn');
-                this.zoomOutBtn = document.getElementById('zoom-out-btn');
-                this.zoomIndicator = document.getElementById('zoom-indicator');
-                
-                this.pinPad = document.getElementById('pin-pad');
-                this.pinDots = document.getElementById('pin-dots');
-                this.pinHiddenInput = document.getElementById('login-password-hidden');
-                this.forgotPinBtn = document.getElementById('forgot-pin-btn');
-                
-                this.drawerOverlay = document.getElementById('drawer-overlay');
-                this.drawer = document.getElementById('drawer');
-                this.drawerClose = document.getElementById('drawer-close');
-                this.drawerError = document.getElementById('drawer-error');
-                this.drawerAddData = document.getElementById('drawer-add-data');
-                this.drawerLogout = document.getElementById('drawer-logout');
-                this.drawerSubmenuAdd = document.getElementById('drawer-submenu-add');
-                this.drawerMenuMain = document.getElementById('drawer-menu-main');
-                this.drawerBackMain = document.getElementById('drawer-back-main');
-                this.drawerAddStation = document.getElementById('drawer-add-station');
-                this.drawerAddParking = document.getElementById('drawer-add-parking');
-                this.drawerAddContact = document.getElementById('drawer-add-contact');
-                
-                this.versionBadge = document.getElementById('app-version-badge');
-                this.manualUpdateBtn = document.getElementById('manual-update-btn');
-            }
-
-            saveSearchResults(results, query) {
-                if (!results || results.length === 0) {
-                    this.clearSavedResults();
-                    return;
+                    this.versionBadge = document.getElementById('app-version-badge');
+                    this.manualUpdateBtn = document.getElementById('manual-update-btn');
                 }
-                try {
-                    const rawResults = results.map(item => {
-                        const clone = { ...item };
-                        if (clone.userNote) delete clone.userNote;
-                        return clone;
-                    });
-                    localStorage.setItem(STORAGE_KEYS.LAST_RESULTS, JSON.stringify(rawResults));
-                    localStorage.setItem(STORAGE_KEYS.LAST_QUERY, query);
-                } catch (e) {}
-            }
 
-            restoreSearchResults() {
-                try {
-                    const savedResultsRaw = localStorage.getItem(STORAGE_KEYS.LAST_RESULTS);
-                    const savedQuery = localStorage.getItem(STORAGE_KEYS.LAST_QUERY);
-                    
-                    if (savedResultsRaw && savedQuery) {
-                        const rawResults = JSON.parse(savedResultsRaw);
-                        const restoredResults = rawResults.map(item => {
-                            if (item.type === 'parking' && item.id) {
-                                return { ...item, userNote: ParkingUI.getUserNote(item.id) };
-                            }
-                            return item;
+                saveSearchResults(results, query) {
+                    if (!results || results.length === 0) {
+                        this.clearSavedResults();
+                        return;
+                    }
+                    try {
+                        const rawResults = results.map(item => {
+                            const clone = { ...item };
+                            if (clone.userNote) delete clone.userNote;
+                            return clone;
                         });
-                        this.displayResults(restoredResults, savedQuery);
-                        if (this.resultsContainer) {
-                            this.resultsContainer.classList.add('restored-result');
-                        }
-                        this.isRestoredResults = true;
-                        this.showNotification(`Показаны сохранённые результаты: "${savedQuery}"`, 'success');
-                        return true;
+                        localStorage.setItem(STORAGE_KEYS.LAST_RESULTS, JSON.stringify(rawResults));
+                        localStorage.setItem(STORAGE_KEYS.LAST_QUERY, query);
+                    } catch (e) {
+                        console.error('Save results error:', e);
                     }
-                } catch (e) {}
-                return false;
-            }
+                }
 
-            clearSavedResults() {
-                localStorage.removeItem(STORAGE_KEYS.LAST_RESULTS);
-                localStorage.removeItem(STORAGE_KEYS.LAST_QUERY);
-            }
+                restoreSearchResults() {
+                    try {
+                        const savedResultsRaw = localStorage.getItem(STORAGE_KEYS.LAST_RESULTS);
+                        const savedQuery = localStorage.getItem(STORAGE_KEYS.LAST_QUERY);
 
-            initPinPad() {
-                if (!this.pinPad) return;
-                
-                this.pinPad.addEventListener('click', (e) => {
-                    const btn = e.target.closest('.pin-btn');
-                    if (!btn) return;
-                    
-                    const digit = btn.getAttribute('data-digit');
-                    const action = btn.getAttribute('data-action');
-                    
-                    if (digit !== null) {
-                        this.addPinDigit(digit);
-                    } else if (action === 'backspace') {
-                        this.removePinDigit();
-                    }
-                });
-
-                document.addEventListener('keydown', (e) => {
-                    if (!this.loginScreen.classList.contains('active')) return;
-                    
-                    if (e.key >= '0' && e.key <= '9') {
-                        e.preventDefault();
-                        this.addPinDigit(e.key);
-                    } else if (e.key === 'Backspace') {
-                        e.preventDefault();
-                        this.removePinDigit();
-                    } else if (e.key === 'Enter') {
-                        e.preventDefault();
-                        this.submitPin();
-                    }
-                });
-
-                if (this.pinHiddenInput) {
-                    this.pinHiddenInput.addEventListener('input', (e) => {
-                        const val = e.target.value.replace(/\D/g, '');
-                        if (val) {
-                            this.pinCode = val.slice(0, this.maxPinLength);
-                            this.updatePinDots();
-                            if (this.pinCode.length >= this.maxPinLength) {
-                                this.submitPin();
+                        if (savedResultsRaw && savedQuery) {
+                            const rawResults = JSON.parse(savedResultsRaw);
+                            const restoredResults = rawResults.map(item => {
+                                if (item.type === 'parking' && item.id) {
+                                    return { ...item, userNote: ParkingUI.getUserNote(item.id) };
+                                }
+                                return item;
+                            });
+                            this.displayResults(restoredResults, savedQuery);
+                            if (this.resultsContainer) {
+                                this.resultsContainer.classList.add('restored-result');
                             }
+                            this.isRestoredResults = true;
+                            this.showNotification('Показаны сохранённые результаты: "' + savedQuery + '"', 'success');
+                            return true;
+                        }
+                    } catch (e) {
+                        console.error('Restore results error:', e);
+                    }
+                    return false;
+                }
+
+                clearSavedResults() {
+                    localStorage.removeItem(STORAGE_KEYS.LAST_RESULTS);
+                    localStorage.removeItem(STORAGE_KEYS.LAST_QUERY);
+                }
+
+                initPinPad() {
+                    if (!this.pinPad) return;
+
+                    this.pinPad.addEventListener('click', (e) => {
+                        const btn = e.target.closest('.pin-btn');
+                        if (!btn) return;
+
+                        const digit = btn.getAttribute('data-digit');
+                        const action = btn.getAttribute('data-action');
+
+                        if (digit !== null) {
+                            this.addPinDigit(digit);
+                        } else if (action === 'backspace') {
+                            this.removePinDigit();
                         }
                     });
+
+                    this._boundKeyHandler = (e) => {
+                        if (!this.loginScreen || !this.loginScreen.classList.contains('active')) return;
+
+                        if (e.key >= '0' && e.key <= '9') {
+                            e.preventDefault();
+                            this.addPinDigit(e.key);
+                        } else if (e.key === 'Backspace') {
+                            e.preventDefault();
+                            this.removePinDigit();
+                        } else if (e.key === 'Enter') {
+                            e.preventDefault();
+                            this.submitPin();
+                        }
+                    };
+                    document.addEventListener('keydown', this._boundKeyHandler);
+
+                    if (this.pinHiddenInput) {
+                        this.pinHiddenInput.addEventListener('input', (e) => {
+                            const val = e.target.value.replace(/\D/g, '');
+                            if (val) {
+                                this.pinCode = val.slice(0, CONFIG.PIN_LENGTH);
+                                this.updatePinDots();
+                                if (this.pinCode.length >= CONFIG.PIN_LENGTH) {
+                                    setTimeout(() => this.submitPin(), 200);
+                                }
+                            }
+                        });
+                    }
+
+                    if (this.forgotPinBtn) {
+                        this.forgotPinBtn.addEventListener('click', () => {
+                            window.location.href = 'tel:89169002420';
+                        });
+                    }
                 }
 
-                if (this.forgotPinBtn) {
-                    this.forgotPinBtn.addEventListener('click', () => {
-                        window.location.href = 'tel:89169002420';
+                addPinDigit(digit) {
+                    if (this.pinCode.length < CONFIG.PIN_LENGTH) {
+                        this.pinCode += digit;
+                        this.updatePinDots();
+
+                        if (this.pinHiddenInput) {
+                            this.pinHiddenInput.value = this.pinCode;
+                        }
+
+                        if (this.pinCode.length >= CONFIG.PIN_LENGTH) {
+                            setTimeout(() => this.submitPin(), 200);
+                        }
+                    }
+                }
+
+                removePinDigit() {
+                    if (this.pinCode.length > 0) {
+                        this.pinCode = this.pinCode.slice(0, -1);
+                        this.updatePinDots();
+                        if (this.pinHiddenInput) {
+                            this.pinHiddenInput.value = this.pinCode;
+                        }
+                    }
+                }
+
+                updatePinDots() {
+                    if (!this.pinDots) return;
+                    const dots = this.pinDots.querySelectorAll('.pin-dot');
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('filled', index < this.pinCode.length);
+                        dot.classList.remove('error');
                     });
                 }
-            }
 
-            addPinDigit(digit) {
-                if (this.pinCode.length < this.maxPinLength) {
-                    this.pinCode += digit;
-                    this.updatePinDots();
-                    
-                    if (this.pinHiddenInput) {
-                        this.pinHiddenInput.value = this.pinCode;
+                showPinError() {
+                    if (!this.pinDots) return;
+                    const dots = this.pinDots.querySelectorAll('.pin-dot');
+                    dots.forEach(dot => dot.classList.add('error'));
+
+                    setTimeout(() => {
+                        this.pinCode = "";
+                        this.updatePinDots();
+                        if (this.pinHiddenInput) {
+                            this.pinHiddenInput.value = "";
+                        }
+                    }, 500);
+                }
+
+                async submitPin() {
+                    if (this.pinCode.length === 0) return;
+
+                    const userData = verifyAccessCode(this.pinCode);
+                    if (!userData) {
+                        this.showPinError();
+                        this.showNotification('Неверный код доступа', 'error');
+                        return;
                     }
-                    
-                    if (this.pinCode.length >= this.maxPinLength) {
-                        setTimeout(() => this.submitPin(), 200);
+
+                    this.showLoadingMessage('Расшифровка данных...');
+
+                    const fullUserData = { ...userData, enteredCode: this.pinCode };
+                    const decryptSuccess = decryptAllDataWithCode(fullUserData);
+
+                    if (!decryptSuccess) {
+                        this.showNotification('Ошибка расшифровки данных. Обратитесь к администратору.', 'error');
+                        this.pinCode = "";
+                        this.updatePinDots();
+                        return;
+                    }
+
+                    this.currentUser = fullUserData;
+                    this.isLoggedIn = true;
+                    DATABASE.setCurrentUser(fullUserData);
+
+                    const pinStorage = new SecurePinStorage();
+                    pinStorage.storeEncryptedPin(this.pinCode, userData.level);
+
+                    saveSession(fullUserData);
+
+                    this.pinCode = "";
+                    this.updatePinDots();
+                    this.showMainScreen();
+                    this.showNotification('✅ Всё готово, можно начинать поиск', 'success');
+                }
+
+                updateZoomIndicator() {
+                    const text = this.currentZoom === 100 ? 'Масштаб' : this.currentZoom + '%';
+                    if (this.zoomIndicator) this.zoomIndicator.textContent = text;
+                }
+
+                applyZoomToDrawer() {
+                    const scale = this.currentZoom / 100;
+                    const drawer = this.drawer;
+                    if (!drawer) return;
+                    const drawerItems = drawer.querySelectorAll('.drawer-item, .drawer-header h3, .drawer-close');
+                    drawerItems.forEach(el => {
+                        let baseSize = 15;
+                        if (el.classList.contains('drawer-item')) baseSize = 15;
+                        else if (el.tagName === 'H3') baseSize = 18;
+                        else if (el.classList.contains('drawer-close')) baseSize = 24;
+                        else baseSize = 14;
+                        el.style.fontSize = (baseSize * scale) + 'px';
+                    });
+                    const icons = drawer.querySelectorAll('.item-icon');
+                    icons.forEach(icon => {
+                        icon.style.fontSize = (18 * scale) + 'px';
+                    });
+                }
+
+                applyZoom(percent) {
+                    percent = Math.max(CONFIG.MIN_ZOOM, Math.min(CONFIG.MAX_ZOOM, percent));
+                    this.currentZoom = percent;
+                    const scale = percent / 100;
+
+                    if (this.searchInput) this.searchInput.style.fontSize = (1.3 * scale) + 'rem';
+
+                    document.querySelectorAll('.result-card').forEach(card => {
+                        const title = card.querySelector('.result-title');
+                        if (title) title.style.fontSize = (1 * scale) + 'rem';
+                        card.querySelectorAll('.result-detail, .result-contact').forEach(el => {
+                            el.style.fontSize = (0.8125 * scale) + 'rem';
+                        });
+                        const ctx = card.querySelector('.result-context');
+                        if (ctx) ctx.style.fontSize = (0.85 * scale) + 'rem';
+                        const mp = card.querySelector('.match-percent');
+                        if (mp) mp.style.fontSize = (0.7 * scale) + 'rem';
+                    });
+
+                    const nores = document.querySelector('.no-results');
+                    if (nores) nores.style.fontSize = (0.875 * scale) + 'rem';
+
+                    if (this.zoomIndicator) this.zoomIndicator.style.fontSize = (0.875 * scale) + 'rem';
+                    document.querySelectorAll('.zoom-btn').forEach(btn => btn.style.fontSize = (0.875 * scale) + 'rem');
+
+                    this.updateZoomIndicator();
+                    this.applyZoomToDrawer();
+                    localStorage.setItem(STORAGE_KEYS.ZOOM, this.currentZoom);
+                }
+
+                zoomIn() {
+                    let nz = this.currentZoom + CONFIG.ZOOM_STEP;
+                    if (nz > CONFIG.MAX_ZOOM) {
+                        this.showNotification('Максимальный масштаб: ' + CONFIG.MAX_ZOOM + '%', 'error');
+                        return;
+                    }
+                    this.applyZoom(nz);
+                    this.showNotification('Масштаб: ' + nz + '%', 'success');
+                }
+
+                zoomOut() {
+                    let nz = this.currentZoom - CONFIG.ZOOM_STEP;
+                    if (nz < CONFIG.MIN_ZOOM) {
+                        this.showNotification('Минимальный масштаб: ' + CONFIG.MIN_ZOOM + '%', 'error');
+                        return;
+                    }
+                    this.applyZoom(nz);
+                    this.showNotification('Масштаб: ' + nz + '%', 'success');
+                }
+
+                loadZoomSetting() {
+                    const saved = localStorage.getItem(STORAGE_KEYS.ZOOM);
+                    if (saved) {
+                        let z = parseInt(saved, 10);
+                        if (!isNaN(z) && z >= CONFIG.MIN_ZOOM && z <= CONFIG.MAX_ZOOM) {
+                            this.currentZoom = z;
+                        } else {
+                            this.currentZoom = 100;
+                        }
+                    }
+                    this.applyZoom(this.currentZoom);
+                }
+
+                openDrawer() {
+                    if (this.drawerOverlay && this.drawer) {
+                        this.drawerOverlay.classList.add('active');
+                        this.drawer.classList.add('active');
+                        this.startDrawerAutoClose();
+                        if (this.drawerMenuMain) this.drawerMenuMain.style.display = 'flex';
+                        if (this.drawerSubmenuAdd) this.drawerSubmenuAdd.classList.remove('active');
                     }
                 }
-            }
 
-            removePinDigit() {
-                if (this.pinCode.length > 0) {
-                    this.pinCode = this.pinCode.slice(0, -1);
-                    this.updatePinDots();
-                    if (this.pinHiddenInput) {
-                        this.pinHiddenInput.value = this.pinCode;
+                closeDrawer() {
+                    if (this.drawerOverlay && this.drawer) {
+                        this.drawerOverlay.classList.remove('active');
+                        this.drawer.classList.remove('active');
+                        this.stopDrawerAutoClose();
                     }
                 }
-            }
 
-            updatePinDots() {
-                if (!this.pinDots) return;
-                const dots = this.pinDots.querySelectorAll('.pin-dot');
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('filled', index < this.pinCode.length);
-                    dot.classList.remove('error');
-                });
-            }
+                startDrawerAutoClose() {
+                    this.stopDrawerAutoClose();
+                    this.drawerCloseTimer = setTimeout(() => {
+                        this.closeDrawer();
+                    }, 30000);
+                }
 
-            showPinError() {
-                if (!this.pinDots) return;
-                const dots = this.pinDots.querySelectorAll('.pin-dot');
-                dots.forEach(dot => dot.classList.add('error'));
-                
-                setTimeout(() => {
+                stopDrawerAutoClose() {
+                    if (this.drawerCloseTimer) {
+                        clearTimeout(this.drawerCloseTimer);
+                        this.drawerCloseTimer = null;
+                    }
+                }
+
+                resetDrawerAutoClose() {
+                    if (this.drawer && this.drawer.classList.contains('active')) {
+                        this.startDrawerAutoClose();
+                    }
+                }
+
+                showAddSubmenu() {
+                    if (this.drawerMenuMain) this.drawerMenuMain.style.display = 'none';
+                    if (this.drawerSubmenuAdd) this.drawerSubmenuAdd.classList.add('active');
+                    this.resetDrawerAutoClose();
+                }
+
+                hideAddSubmenu() {
+                    if (this.drawerMenuMain) this.drawerMenuMain.style.display = 'flex';
+                    if (this.drawerSubmenuAdd) this.drawerSubmenuAdd.classList.remove('active');
+                    this.resetDrawerAutoClose();
+                }
+
+                async requestPinForUpdate() {
+                    return new Promise((resolve) => {
+                        const modal = document.createElement('div');
+                        modal.className = 'pin-modal';
+                        modal.id = 'pin-update-modal';
+
+                        modal.innerHTML = `
+                            <div class="pin-modal-card">
+                                <div class="pin-modal-title" style="color: #f97316;">Для обновления введите ваш код доступа</div>
+                                <div class="pin-modal-dots" id="pin-modal-dots">
+                                    <div class="pin-modal-dot" data-index="0"></div>
+                                    <div class="pin-modal-dot" data-index="1"></div>
+                                    <div class="pin-modal-dot" data-index="2"></div>
+                                    <div class="pin-modal-dot" data-index="3"></div>
+                                </div>
+                                <div class="pin-modal-pad" id="pin-modal-pad">
+                                    <button class="pin-modal-btn" data-digit="1">1</button>
+                                    <button class="pin-modal-btn" data-digit="2">2</button>
+                                    <button class="pin-modal-btn" data-digit="3">3</button>
+                                    <button class="pin-modal-btn" data-digit="4">4</button>
+                                    <button class="pin-modal-btn" data-digit="5">5</button>
+                                    <button class="pin-modal-btn" data-digit="6">6</button>
+                                    <button class="pin-modal-btn" data-digit="7">7</button>
+                                    <button class="pin-modal-btn" data-digit="8">8</button>
+                                    <button class="pin-modal-btn" data-digit="9">9</button>
+                                    <button class="pin-modal-btn empty"></button>
+                                    <button class="pin-modal-btn" data-digit="0">0</button>
+                                    <button class="pin-modal-btn backspace" data-action="backspace">⌫</button>
+                                </div>
+                                <div id="pin-modal-error" class="pin-modal-error"></div>
+                                <button class="pin-modal-cancel" id="pin-modal-cancel">Обновить позже</button>
+                            </div>
+                        `;
+                        document.body.appendChild(modal);
+
+                        const dotsContainer = document.getElementById('pin-modal-dots');
+                        const pad = document.getElementById('pin-modal-pad');
+                        const errorDiv = document.getElementById('pin-modal-error');
+                        const cancelBtn = document.getElementById('pin-modal-cancel');
+
+                        let currentPin = "";
+                        const maxLen = CONFIG.PIN_LENGTH;
+
+                        const updateDots = () => {
+                            if (!dotsContainer) return;
+                            const dots = dotsContainer.querySelectorAll('.pin-modal-dot');
+                            dots.forEach((dot, idx) => {
+                                dot.classList.toggle('filled', idx < currentPin.length);
+                            });
+                        };
+
+                        const handleDigit = (digit) => {
+                            if (currentPin.length < maxLen) {
+                                currentPin += digit;
+                                updateDots();
+                                if (errorDiv) errorDiv.textContent = '';
+
+                                if (currentPin.length === maxLen) {
+                                    const userData = verifyAccessCode(currentPin);
+                                    if (!userData) {
+                                        if (errorDiv) errorDiv.textContent = 'Неверный код доступа';
+                                        currentPin = "";
+                                        updateDots();
+                                    } else {
+                                        modal.remove();
+                                        resolve(currentPin);
+                                    }
+                                }
+                            }
+                        };
+
+                        const handleBackspace = () => {
+                            if (currentPin.length > 0) {
+                                currentPin = currentPin.slice(0, -1);
+                                updateDots();
+                                if (errorDiv) errorDiv.textContent = '';
+                            }
+                        };
+
+                        const handleCancel = () => {
+                            modal.remove();
+                            resolve(null);
+                        };
+
+                        if (pad) {
+                            pad.querySelectorAll('.pin-modal-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    const digit = btn.getAttribute('data-digit');
+                                    const action = btn.getAttribute('data-action');
+                                    if (digit !== null) {
+                                        handleDigit(digit);
+                                    } else if (action === 'backspace') {
+                                        handleBackspace();
+                                    }
+                                });
+                            });
+                        }
+
+                        if (cancelBtn) {
+                            cancelBtn.addEventListener('click', handleCancel);
+                        }
+
+                        const keyHandler = (e) => {
+                            if (!modal.isConnected) {
+                                document.removeEventListener('keydown', keyHandler);
+                                return;
+                            }
+                            if (e.key >= '0' && e.key <= '9') {
+                                e.preventDefault();
+                                handleDigit(e.key);
+                            } else if (e.key === 'Backspace') {
+                                e.preventDefault();
+                                handleBackspace();
+                            } else if (e.key === 'Escape') {
+                                handleCancel();
+                            }
+                        };
+                        document.addEventListener('keydown', keyHandler);
+                    });
+                }
+
+                async executeDataRefresh(userData, pin) {
+                    // Сохраняем PIN и уровень для автовхода после перезагрузки
+                    const pinStorage = new SecurePinStorage();
+                    pinStorage.storeEncryptedPin(pin, userData.level);
+
+                    // Сохраняем метаданные сессии
+                    const fullUserData = { ...userData, enteredCode: pin };
+                    saveSession(fullUserData);
+
+                    // Помечаем, что это обновление данных (не обычный вход)
+                    sessionStorage.setItem('infa_pending_refresh', 'true');
+
+                    if (this.currentDataVersion) {
+                        localStorage.setItem(STORAGE_KEYS.LAST_UPDATED_VERSION, this.currentDataVersion);
+                    }
+
+                    this.showNotification('🌐 Перезагрузка для обновления данных...', 'success');
+
+                    // Даём время на показ уведомления, затем перезагружаем
+                    setTimeout(() => {
+                        window.location.reload(true);
+                    }, 1200);
+
+                    return true;
+                }
+
+                async refreshData() {
+                    const pinStorage = new SecurePinStorage();
+                    const savedPin = pinStorage.retrievePin();
+
+                    if (!savedPin) {
+                        const userPin = await this.requestPinForUpdate();
+
+                        if (!userPin) {
+                            this.showNotification('Обновление отменено.', 'error');
+                            this.showManualUpdateButton();
+                            return false;
+                        }
+
+                        const userData = verifyAccessCode(userPin);
+                        if (!userData) {
+                            this.showNotification('Неверный код доступа', 'error');
+                            this.showManualUpdateButton();
+                            return false;
+                        }
+
+                        pinStorage.storeEncryptedPin(userPin, userData.level);
+
+                        return await this.executeDataRefresh(userData, userPin);
+                    }
+
+                    const userData = verifyAccessCode(savedPin);
+                    if (!userData) {
+                        pinStorage.clear();
+                        this.showNotification('Срок действия кода-доступа истёк! Введите код-доступа ещё раз', 'error');
+                        this.handleLogout();
+                        this.showManualUpdateButton();
+                        return false;
+                    }
+
+                    return await this.executeDataRefresh(userData, savedPin);
+                }
+
+                updateVersionBadgeColor() {
+                    if (!this.versionBadge) return;
+                    const currentVer = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : null;
+                    const lastUpdated = localStorage.getItem(STORAGE_KEYS.LAST_UPDATED_VERSION);
+                    if (currentVer && lastUpdated === currentVer) {
+                        this.versionBadge.style.background = 'rgba(74, 222, 128, 0.25)';
+                        this.versionBadge.style.color = '#4ade80';
+                        this.versionBadge.style.border = '1px solid rgba(74, 222, 128, 0.5)';
+                    } else {
+                        this.versionBadge.style.background = 'rgba(248, 113, 113, 0.25)';
+                        this.versionBadge.style.color = '#f87171';
+                        this.versionBadge.style.border = '1px solid rgba(248, 113, 113, 0.5)';
+                    }
+                }
+
+                showManualUpdateButton() {
+                    if (!this.manualUpdateBtn) return;
+                    if (this.manualUpdateBtn.style.display === 'block') return;
+
+                    this.hideUpdateBanner();
+                    this.bannerShown = false;
+                    this.removeBannerGlobalListeners();
+
+                    this.manualUpdateBtn.style.display = 'block';
+                    this.manualUpdateBtn.style.animation = 'fadeInUp 0.4s ease';
+                }
+
+                hideManualUpdateButton() {
+                    if (!this.manualUpdateBtn) return;
+                    this.manualUpdateBtn.style.display = 'none';
+                }
+
+                hideUpdateBanner() {
+                    const banner = document.getElementById('force-update-banner');
+                    if (banner) {
+                        banner.classList.add('hiding');
+                        setTimeout(() => {
+                            if (banner && banner.parentNode) banner.remove();
+                        }, 300);
+                    }
+                }
+
+                addBannerGlobalListeners() {
+                    if (this.bannerGlobalListenersActive) return;
+                    this.bannerGlobalListenersActive = true;
+
+                    this.bannerClickHandler = (e) => {
+                        const banner = document.getElementById('force-update-banner');
+                        if (!banner) {
+                            this.removeBannerGlobalListeners();
+                            return;
+                        }
+                        if (!banner.contains(e.target)) {
+                            this.handleBannerAutoClose();
+                        }
+                    };
+
+                    this.bannerScrollHandler = () => {
+                        const banner = document.getElementById('force-update-banner');
+                        if (banner) {
+                            this.handleBannerAutoClose();
+                        } else {
+                            this.removeBannerGlobalListeners();
+                        }
+                    };
+
+                    document.addEventListener('click', this.bannerClickHandler);
+                    window.addEventListener('scroll', this.bannerScrollHandler);
+                    window.addEventListener('touchmove', this.bannerScrollHandler, { passive: true });
+                }
+
+                removeBannerGlobalListeners() {
+                    if (!this.bannerGlobalListenersActive) return;
+                    this.bannerGlobalListenersActive = false;
+                    if (this.bannerClickHandler) {
+                        document.removeEventListener('click', this.bannerClickHandler);
+                    }
+                    if (this.bannerScrollHandler) {
+                        window.removeEventListener('scroll', this.bannerScrollHandler);
+                        window.removeEventListener('touchmove', this.bannerScrollHandler);
+                    }
+                }
+
+                handleBannerAutoClose() {
+                    if (this.bannerHiddenBySwipe) return;
+                    this.bannerHiddenBySwipe = true;
+                    this.showManualUpdateButton();
+                }
+
+                handleBannerSwipeClose() {
+                    this.handleBannerAutoClose();
+                }
+
+                showLoadingMessage(msg) {
+                    if (this.loadingText) this.loadingText.textContent = msg;
+                }
+
+                handleLogout() {
+                    this.isLoggedIn = false;
+                    this.currentUser = null;
+                    DATABASE.setCurrentUser(null);
+
+                    const pinStorage = new SecurePinStorage();
+                    pinStorage.clear();
+
+                    localStorage.removeItem(STORAGE_KEYS.SESSION_DATA);
+                    localStorage.removeItem(STORAGE_KEYS.SESSION_TIMESTAMP);
+
+                    this.clearSavedResults();
+
+                    this.hideUpdateBanner();
+                    this.hideManualUpdateButton();
+                    this.bannerShown = false;
+                    this.bannerHiddenBySwipe = false;
+                    this.removeBannerGlobalListeners();
+
+                    if (this._boundKeyHandler) {
+                        document.removeEventListener('keydown', this._boundKeyHandler);
+                        this._boundKeyHandler = null;
+                    }
+
+                    this.pinCode = "";
+                    this.updatePinDots();
+                    this.showLoginScreen();
+                    this.showNotification('Вы вышли из аккаунта', 'success');
+                }
+
+                showLoginScreen() {
+                    if (this.loadingScreen) this.loadingScreen.classList.remove('active');
+                    if (this.mainScreen) this.mainScreen.classList.remove('active');
+                    if (this.loginScreen) this.loginScreen.classList.add('active');
+                    this.closeDrawer();
                     this.pinCode = "";
                     this.updatePinDots();
                     if (this.pinHiddenInput) {
                         this.pinHiddenInput.value = "";
                     }
-                }, 500);
-            }
-
-            async submitPin() {
-                if (this.pinCode.length === 0) return;
-                
-                const userData = verifyAccessCode(this.pinCode);
-                if (!userData) {
-                    this.showPinError();
-                    this.showNotification('Неверный код доступа', 'error');
-                    return;
                 }
 
-                this.showLoadingMessage('Расшифровка данных...');
-                
-                const fullUserData = { ...userData, enteredCode: this.pinCode };
-                const decryptSuccess = decryptAllDataWithCode(fullUserData);
-
-                if (!decryptSuccess) {
-                    this.showNotification('Ошибка расшифровки данных. Обратитесь к администратору.', 'error');
-                    this.pinCode = "";
-                    this.updatePinDots();
-                    return;
+                isMobileDevice() {
+                    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 }
 
-                this.currentUser = fullUserData;
-                this.isLoggedIn = true;
-                DATABASE.setCurrentUser(fullUserData);
-                
-                const pinStorage = new SecurePinStorage();
-                pinStorage.storeEncryptedPin(this.pinCode, userData.level);
-                
-                saveSession(fullUserData);
-                
-                this.pinCode = "";
-                this.updatePinDots();
-                this.showMainScreen();
-                this.showNotification(`✅ Всё готово, можно начинать поиск`, 'success');
-            }
+                showMainScreen() {
+                    if (this.loadingScreen) this.loadingScreen.classList.remove('active');
+                    if (this.loginScreen) this.loginScreen.classList.remove('active');
+                    if (this.mainScreen) this.mainScreen.classList.add('active');
 
-            updateZoomIndicator() {
-                const text = this.currentZoom === 100 ? 'Масштаб' : `${this.currentZoom}%`;
-                if (this.zoomIndicator) this.zoomIndicator.textContent = text;
-            }
+                    if (this.usernameSpan && this.currentUser) {
+                        this.usernameSpan.textContent = this.currentUser.greeting;
+                    }
 
-            applyZoomToDrawer() {
-                const scale = this.currentZoom / 100;
-                const drawer = this.drawer;
-                if (!drawer) return;
-                const drawerItems = drawer.querySelectorAll('.drawer-item, .drawer-header h3, .drawer-close');
-                drawerItems.forEach(el => {
-                    let baseSize = 15;
-                    if (el.classList.contains('drawer-item')) baseSize = 15;
-                    else if (el.tagName === 'H3') baseSize = 18;
-                    else if (el.classList.contains('drawer-close')) baseSize = 24;
-                    else baseSize = 14;
-                    el.style.fontSize = `${baseSize * scale}px`;
-                });
-                const icons = drawer.querySelectorAll('.item-icon');
-                icons.forEach(icon => {
-                    icon.style.fontSize = `${18 * scale}px`;
-                });
-            }
+                    this.loadZoomSetting();
 
-            applyZoom(percent) {
-                percent = Math.max(this.minZoom, Math.min(this.maxZoom, percent));
-                this.currentZoom = percent;
-                const scale = percent / 100;
+                    if (this.versionBadge) {
+                        this.versionBadge.textContent = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : '?';
+                        this.updateVersionBadgeColor();
+                    }
 
-                if (this.searchInput) this.searchInput.style.fontSize = `${1.3 * scale}rem`;
-                
-                document.querySelectorAll('.result-card').forEach(card => {
-                    const title = card.querySelector('.result-title');
-                    if (title) title.style.fontSize = `${1 * scale}rem`;
-                    card.querySelectorAll('.result-detail, .result-contact').forEach(el => {
-                        el.style.fontSize = `${0.8125 * scale}rem`;
-                    });
-                    const ctx = card.querySelector('.result-context');
-                    if (ctx) ctx.style.fontSize = `${0.85 * scale}rem`;
-                    const mp = card.querySelector('.match-percent');
-                    if (mp) mp.style.fontSize = `${0.7 * scale}rem`;
-                });
+                    if (this.searchInput) {
+                        this.searchInput.value = '';
+                        if (!this.isMobileDevice()) {
+                            setTimeout(() => this.searchInput.focus(), 100);
+                        }
+                    }
 
-                const nores = document.querySelector('.no-results');
-                if (nores) nores.style.fontSize = `${0.875 * scale}rem`;
-                
-                if (this.zoomIndicator) this.zoomIndicator.style.fontSize = `${0.875 * scale}rem`;
-                document.querySelectorAll('.zoom-btn').forEach(btn => btn.style.fontSize = `${0.875 * scale}rem`);
+                    if (this.resultsContainer) {
+                        const hasRestored = this.restoreSearchResults();
 
-                this.updateZoomIndicator();
-                this.applyZoomToDrawer();
-                localStorage.setItem('infa_zoom', this.currentZoom);
-            }
+                        if (!hasRestored) {
+                            this.resultsContainer.innerHTML = '';
+                            this.resultsContainer.classList.add('hidden');
+                            if (this.resultsContainer.classList.contains('restored-result')) {
+                                this.resultsContainer.classList.remove('restored-result');
+                            }
+                            this.isRestoredResults = false;
+                        }
+                    }
 
-            zoomIn() {
-                let nz = this.currentZoom + this.zoomStep;
-                if (nz > this.maxZoom) {
-                    this.showNotification(`Максимальный масштаб: ${this.maxZoom}%`, 'error');
-                    return;
+                    DATABASE.init();
+                    ParkingUI.init();
+
+                    this.showForceUpdateBanner();
                 }
-                this.applyZoom(nz);
-                this.showNotification(`Масштаб: ${nz}%`, 'success');
-            }
 
-            zoomOut() {
-                let nz = this.currentZoom - this.zoomStep;
-                if (nz < this.minZoom) {
-                    this.showNotification(`Минимальный масштаб: ${this.minZoom}%`, 'error');
-                    return;
+                showForceUpdateBanner() {
+                    if (!CONFIG.FORCE_UPDATE_BANNER) return;
+                    if (this.bannerShown) return;
+                    if (this.bannerHiddenBySwipe) return;
+                    if (!this.isLoggedIn) return;
+
+                    if (!this.currentDataVersion) {
+                        if (typeof CACHE_VERSION !== 'undefined') {
+                            this.currentDataVersion = CACHE_VERSION;
+                        } else {
+                            return;
+                        }
+                    }
+
+                    const lastUpdated = localStorage.getItem(STORAGE_KEYS.LAST_UPDATED_VERSION);
+
+                    if (lastUpdated === this.currentDataVersion) {
+                        return;
+                    }
+
+                    if (sessionStorage.getItem(STORAGE_KEYS.BANNER_SHOWN_PREFIX + this.currentDataVersion) === 'true') {
+                        return;
+                    }
+
+                    this.showUpdateBanner();
                 }
-                this.applyZoom(nz);
-                this.showNotification(`Масштаб: ${nz}%`, 'success');
-            }
 
-            loadZoomSetting() {
-                const saved = localStorage.getItem('infa_zoom');
-                if (saved) {
-                    let z = parseInt(saved);
-                    if (!isNaN(z) && z >= this.minZoom && z <= this.maxZoom) {
-                        this.currentZoom = z;
-                    } else {
-                        this.currentZoom = 100;
+                showUpdateBanner() {
+                    if (this.bannerShown) return;
+                    if (!this.isLoggedIn) return;
+                    if (!CONFIG.FORCE_UPDATE_BANNER) return;
+                    if (!this.currentDataVersion) {
+                        if (typeof CACHE_VERSION !== 'undefined') {
+                            this.currentDataVersion = CACHE_VERSION;
+                        } else {
+                            return;
+                        }
+                    }
+                    const lastUpdated = localStorage.getItem(STORAGE_KEYS.LAST_UPDATED_VERSION);
+                    if (lastUpdated === this.currentDataVersion) return;
+                    if (sessionStorage.getItem(STORAGE_KEYS.BANNER_SHOWN_PREFIX + this.currentDataVersion) === 'true') return;
+                    if (document.getElementById('force-update-banner')) return;
+
+                    this.bannerShown = true;
+
+                    const banner = document.createElement('div');
+                    banner.className = 'update-banner';
+                    banner.id = 'force-update-banner';
+                    banner.innerHTML = `
+                        <div class="update-banner-text">
+                           🔔 В базу данных добавлена новая информация!
+                        </div>
+                        <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
+                    `;
+                    document.body.appendChild(banner);
+
+                    setTimeout(() => banner.classList.add('show'), 100);
+
+                    this.addBannerGlobalListeners();
+
+                    let startY = 0;
+                    banner.addEventListener('touchstart', (e) => {
+                        startY = e.touches[0].clientY;
+                    }, { passive: true });
+                    banner.addEventListener('touchmove', (e) => {
+                        if (!startY) return;
+                        const deltaY = e.touches[0].clientY - startY;
+                        if (deltaY > 50) {
+                            e.preventDefault();
+                            this.handleBannerSwipeClose();
+                        }
+                    }, { passive: false });
+
+                    const btn = document.getElementById('force-update-btn');
+                    if (btn) {
+                        btn.addEventListener('click', async (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            const originalText = btn.textContent;
+                            btn.textContent = '⏳ Обновление...';
+                            btn.disabled = true;
+
+                            await this.refreshData();
+
+                            btn.textContent = originalText;
+                            btn.disabled = false;
+                        });
                     }
                 }
-                this.applyZoom(this.currentZoom);
-            }
 
-            openDrawer() {
-                if (this.drawerOverlay && this.drawer) {
-                    this.drawerOverlay.classList.add('active');
-                    this.drawer.classList.add('active');
-                    this.startDrawerAutoClose();
-                    this.drawerMenuMain.style.display = 'flex';
-                    this.drawerSubmenuAdd.classList.remove('active');
+                liveSearch() {
+                    if (!this.searchInput || !DATABASE) return;
+                    const q = this.searchInput.value.trim().toLowerCase();
+
+                    if (q.length >= 1 && this.resultsContainer && this.resultsContainer.classList.contains('restored-result')) {
+                        this.resultsContainer.classList.remove('restored-result');
+                        this.isRestoredResults = false;
+                    }
+
+                    if (q.length === 1) {
+                        this.clearSavedResults();
+                    }
+
+                    if (q.length < 2) {
+                        if (this.resultsContainer) {
+                            this.resultsContainer.innerHTML = '';
+                            this.resultsContainer.classList.add('hidden');
+                        }
+                        return;
+                    }
+
+                    const results = DATABASE.searchAllRanked(q);
+                    this.displayResults(results, q);
+                    this.saveSearchResults(results, this.searchInput.value.trim());
                 }
-            }
 
-            closeDrawer() {
-                if (this.drawerOverlay && this.drawer) {
-                    this.drawerOverlay.classList.remove('active');
-                    this.drawer.classList.remove('active');
-                    this.stopDrawerAutoClose();
+                performSearch() {
+                    if (!this.searchInput) return;
+                    const q = this.searchInput.value.trim();
+                    if (!q) {
+                        this.showNotification('Сначала напишите свой вопрос!', 'error');
+                        this.searchInput.focus();
+                        return;
+                    }
+                    const results = DATABASE.searchAllRanked(q.toLowerCase());
+                    this.displayResults(results, q);
+                    this.saveSearchResults(results, q);
                 }
-            }
 
-            startDrawerAutoClose() {
-                this.stopDrawerAutoClose();
-                this.drawerCloseTimer = setTimeout(() => {
-                    this.closeDrawer();
-                }, 30000);
-            }
+                formatTextWithLinks(text) {
+                    if (!text) return '';
+                    let t = escapeHtml(text).replace(/\n/g, '<br>');
 
-            stopDrawerAutoClose() {
-                if (this.drawerCloseTimer) {
-                    clearTimeout(this.drawerCloseTimer);
-                    this.drawerCloseTimer = null;
+                    t = t.replace(/(\+?[0-9][0-9\s\-\(\)]{8,}[0-9])/g, m => {
+                        const clean = m.replace(/[^\d+]/g,'');
+                        return '<a href="tel:' + clean + '" class="contact-link">' + escapeHtml(m) + '</a>';
+                    });
+
+                    t = t.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, m => 
+                        '<a href="mailto:' + m + '" class="contact-link">' + escapeHtml(m) + '</a>');
+
+                    t = t.replace(/(https?:\/\/[^\s]+)/g, m => 
+                        '<a href="' + m + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(m) + '</a>');
+
+                    return t;
                 }
-            }
 
-            resetDrawerAutoClose() {
-                if (this.drawer && this.drawer.classList.contains('active')) {
-                    this.startDrawerAutoClose();
+                highlightText(text, query, color) {
+                    if (!text) return '';
+                    if (!query) {
+                        return color 
+                            ? '<span style="color:' + color + ';">' + escapeHtml(text) + '</span>' 
+                            : escapeHtml(text);
+                    }
+                    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp('(' + escapedQuery + ')', 'gi');
+                    const highlighted = text.replace(regex, '<span style="color: #4ade80; font-weight: 700;">$1</span>');
+                    if (color) return '<span style="color:' + color + ';">' + highlighted + '</span>';
+                    return highlighted;
                 }
-            }
 
-            showAddSubmenu() {
-                this.drawerMenuMain.style.display = 'none';
-                this.drawerSubmenuAdd.classList.add('active');
-                this.resetDrawerAutoClose();
-            }
+                displayResults(results, query) {
+                    if (!this.resultsContainer) return;
+                    this.resultsContainer.classList.remove('hidden');
 
-            hideAddSubmenu() {
-                this.drawerMenuMain.style.display = 'flex';
-                this.drawerSubmenuAdd.classList.remove('active');
-                this.resetDrawerAutoClose();
-            }
+                    if (results.length === 0) {
+                        this.resultsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                        this.applyZoom(this.currentZoom);
+                        return;
+                    }
 
-            async requestPinForUpdate() {
-                return new Promise((resolve) => {
-                    const modal = document.createElement('div');
-                    modal.className = 'pin-modal';
-                    
-                    modal.innerHTML = `
-                        <div class="pin-modal-card">
-                            <div class="pin-modal-title" style="color: #f97316;">Для обновления введите ваш код доступа</div>
-                            <div class="pin-modal-dots" id="pin-modal-dots">
-                                <div class="pin-modal-dot" data-index="0"></div>
-                                <div class="pin-modal-dot" data-index="1"></div>
-                                <div class="pin-modal-dot" data-index="2"></div>
-                                <div class="pin-modal-dot" data-index="3"></div>
-                            </div>
-                            <div class="pin-modal-pad" id="pin-modal-pad">
-                                <button class="pin-modal-btn" data-digit="1">1</button>
-                                <button class="pin-modal-btn" data-digit="2">2</button>
-                                <button class="pin-modal-btn" data-digit="3">3</button>
-                                <button class="pin-modal-btn" data-digit="4">4</button>
-                                <button class="pin-modal-btn" data-digit="5">5</button>
-                                <button class="pin-modal-btn" data-digit="6">6</button>
-                                <button class="pin-modal-btn" data-digit="7">7</button>
-                                <button class="pin-modal-btn" data-digit="8">8</button>
-                                <button class="pin-modal-btn" data-digit="9">9</button>
-                                <button class="pin-modal-btn empty"></button>
-                                <button class="pin-modal-btn" data-digit="0">0</button>
-                                <button class="pin-modal-btn backspace" data-action="backspace">⌫</button>
-                            </div>
-                            <div id="pin-modal-error" class="pin-modal-error"></div>
-                            <button class="pin-modal-cancel" id="pin-modal-cancel">Обновить позже</button>
-                        </div>
-                    `;
-                    document.body.appendChild(modal);
-                    
-                    const dotsContainer = document.getElementById('pin-modal-dots');
-                    const pad = document.getElementById('pin-modal-pad');
-                    const errorDiv = document.getElementById('pin-modal-error');
-                    const cancelBtn = document.getElementById('pin-modal-cancel');
-                    
-                    let currentPin = "";
-                    const maxLen = 4;
-                    
-                    const updateDots = () => {
-                        const dots = dotsContainer.querySelectorAll('.pin-modal-dot');
-                        dots.forEach((dot, idx) => {
-                            dot.classList.toggle('filled', idx < currentPin.length);
+                    const currentQ = (query || '').toLowerCase();
+
+                    this.resultsContainer.innerHTML = results.map(item => {
+                        if (item.type === 'contact') {
+                            const phone = item['телефон'] 
+                                ? '<a href="tel:' + item['телефон'].replace(/[^0-9+]/g,'') + '" class="contact-link">☎️ ' + escapeHtml(item['телефон']) + '</a>' 
+                                : '';
+                            const nameHtml = this.highlightText(item['имя'], currentQ, '#ffb347');
+                            const jobHtml = this.highlightText(item['должность'], currentQ);
+                            return '<div class="result-card contact">' +
+                                '<div class="result-icon">👤</div>' +
+                                '<div class="result-content">' +
+                                    '<div class="result-title">' + nameHtml + '</div>' +
+                                    '<div class="result-detail">💼 ' + jobHtml + '</div>' +
+                                    (phone ? '<div class="result-contact">' + phone + '</div>' : '') +
+                                '</div>' +
+                            '</div>';
+                        } else if (item.type === 'parking') {
+                            const mapLink = item['ссылка'] 
+                                ? '<div class="result-contact"><a href="' + item['ссылка'] + '" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ПОСТРОИТЬ МАРШРУТ</a></div>' 
+                                : '';
+                            let currentNote = item['примечание'] || '';
+                            const userNote = item.userNote !== undefined ? item.userNote : ParkingUI.getUserNote(item.id);
+                            if (userNote !== null) currentNote = userNote;
+                            const noteHtml = currentNote 
+                                ? '<div class="result-detail parking-note">' + this.formatTextWithLinks(currentNote) + '</div>' 
+                                : '';
+                            const contextHtml = item['контекст'] 
+                                ? '<div class="result-context">' + this.formatTextWithLinks(item['контекст']) + '</div>' 
+                                : '';
+                            const titleHtml = this.highlightText(item['название'], currentQ, '#ffb347');
+                            const buttons = '<div class="parking-buttons">' +
+                                '<button class="parking-yes-btn" data-id="' + item.id + '">✅ Есть парковка</button>' +
+                                '<button class="parking-no-btn" data-id="' + item.id + '">❌ Нет парковки</button>' +
+                            '</div>';
+                            return '<div class="result-card parking" data-parking-id="' + item.id + '">' +
+                                '<div class="result-icon">🅿️</div>' +
+                                '<div class="result-content">' +
+                                    '<div class="result-title">' + titleHtml + '</div>' +
+                                    contextHtml + noteHtml + mapLink + buttons +
+                                '</div>' +
+                            '</div>';
+                        } else if (item.type === 'station') {
+                            const fields = [];
+                            if (item['линия']) fields.push('✳️ ' + item['линия']);
+                            if (item['станция']) fields.push('🟠 ' + item['станция']);
+                            if (item['кросс']) fields.push('🔹 КРОСС: ' + item['кросс']);
+                            if (item['радиоузел']) fields.push('🔹 РАДИОУЗЕЛ: ' + item['радиоузел']);
+                            if (item['бск']) fields.push('🔹 БСК: ' + item['бск']);
+                            if (item['код']) fields.push('🔹 КОД: ' + item['код']);
+                            if (item['дсп']) fields.push('🔻 ДСП: ' + item['дсп']);
+                            if (item['телефон']) fields.push('☎️ ' + item['телефон']);
+                            if (item['блокпост']) fields.push('🔻 БЛОК-ПОСТ: ' + item['блокпост']);
+                            if (item['туалет']) fields.push('🚾 с/у: ' + item['туалет']);
+                            if (item['инфа']) fields.push('💬 ИНФА: ' + item['инфа']);
+                            if (item['обновлено']) fields.push('✅ Обновлено: ' + item['обновлено']);
+                            const stationHtml = this.highlightText(item['станция'] || item['линия'], currentQ, '#ffb347');
+                            return '<div class="result-card station">' +
+                                '<div class="result-icon">🚇</div>' +
+                                '<div class="result-content">' +
+                                    '<div class="result-title">' + stationHtml + '</div>' +
+                                    fields.map(f => '<div class="result-detail">' + this.formatTextWithLinks(f) + '</div>').join('') +
+                                '</div>' +
+                            '</div>';
+                        } else if (item.type === 'document') {
+                            const fileLink = item['ссылка'] 
+                                ? '<div class="result-contact"><a href="' + item['ссылка'] + '" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ОТКРЫТЬ ФАЙЛ</a></div>' 
+                                : '';
+                            const titleHtml = this.highlightText(item['название'], currentQ, '#ffb347');
+                            return '<div class="result-card document">' +
+                                '<div class="result-icon">📄</div>' +
+                                '<div class="result-content">' +
+                                    '<div class="result-title">' + titleHtml + '</div>' +
+                                    fileLink +
+                                '</div>' +
+                            '</div>';
+                        }
+                        return '';
+                    }).join('');
+
+                    this.applyZoom(this.currentZoom);
+
+                    // Очищаем старые обработчики
+                    this._parkingHandlers.forEach((handler, id) => {
+                        const oldBtn = document.querySelector('[data-id="' + id + '"].parking-yes-btn, [data-id="' + id + '"].parking-no-btn');
+                        if (oldBtn) {
+                            oldBtn.removeEventListener('click', handler);
+                        }
+                    });
+                    this._parkingHandlers.clear();
+
+                    // Добавляем новые обработчики
+                    document.querySelectorAll('.parking-yes-btn, .parking-no-btn').forEach(btn => {
+                        const id = parseInt(btn.getAttribute('data-id'), 10);
+                        if (isNaN(id)) return;
+
+                        const handler = (e) => {
+                            e.stopPropagation();
+                            const status = btn.classList.contains('parking-yes-btn') ? 'yes' : 'no';
+                            const today = new Date().toLocaleDateString('ru-RU');
+                            const newNote = status === 'yes' 
+                                ? '✅ проверено ' + today 
+                                : '❌ не актуально ' + today;
+                            if (ParkingUI.updateParkingNote(id, newNote)) {
+                                this.showNotification('Спасибо за Ваш отзыв: ' + newNote, 'success');
+                                this.performSearch();
+                            } else {
+                                this.showNotification('Ошибка обновления', 'error');
+                            }
+                        };
+
+                        this._parkingHandlers.set(id, handler);
+                        btn.addEventListener('click', handler);
+                    });
+                }
+
+                showNotification(msg, type) {
+                    type = type || 'success';
+                    if (!this.notification) return;
+                    this.notification.textContent = msg;
+                    this.notification.className = 'notification ' + type;
+                    setTimeout(() => this.notification.classList.add('show'), 10);
+                    setTimeout(() => {
+                        if (this.notification) this.notification.classList.remove('show');
+                    }, 3000);
+                }
+
+                bindEvents() {
+                    if (this.searchInput) {
+                        this.searchInput.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                this.performSearch();
+                                this.searchInput.blur();
+                            }
                         });
+                        this.searchInput.addEventListener('input', () => this.liveSearch());
+                    }
+
+                    if (this.menuBtn) {
+                        this.menuBtn.addEventListener('click', () => this.openDrawer());
+                    }
+                    if (this.drawerClose) {
+                        this.drawerClose.addEventListener('click', () => this.closeDrawer());
+                    }
+                    if (this.drawerOverlay) {
+                        this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
+                    }
+
+                    if (this.zoomInBtn) {
+                        this.zoomInBtn.addEventListener('click', () => this.zoomIn());
+                    }
+                    if (this.zoomOutBtn) {
+                        this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
+                    }
+
+                    if (this.drawerError) {
+                        this.drawerError.addEventListener('click', () => {
+                            window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank');
+                            this.closeDrawer();
+                        });
+                    }
+                    if (this.drawerAddData) {
+                        this.drawerAddData.addEventListener('click', () => this.showAddSubmenu());
+                    }
+                    if (this.drawerLogout) {
+                        this.drawerLogout.addEventListener('click', () => {
+                            this.handleLogout();
+                            this.closeDrawer();
+                        });
+                    }
+                    if (this.drawerBackMain) {
+                        this.drawerBackMain.addEventListener('click', () => this.hideAddSubmenu());
+                    }
+                    if (this.drawerAddStation) {
+                        this.drawerAddStation.addEventListener('click', () => {
+                            window.open(this.drawerAddStation.getAttribute('data-url'), '_blank');
+                            this.closeDrawer();
+                        });
+                    }
+                    if (this.drawerAddParking) {
+                        this.drawerAddParking.addEventListener('click', () => {
+                            window.open(this.drawerAddParking.getAttribute('data-url'), '_blank');
+                            this.closeDrawer();
+                        });
+                    }
+                    if (this.drawerAddContact) {
+                        this.drawerAddContact.addEventListener('click', () => {
+                            window.open(this.drawerAddContact.getAttribute('data-url'), '_blank');
+                            this.closeDrawer();
+                        });
+                    }
+
+                    if (this.manualUpdateBtn) {
+                        this.manualUpdateBtn.addEventListener('click', async () => {
+                            await this.refreshData();
+                        });
+                    }
+
+                    document.addEventListener('click', (e) => {
+                        if (this.drawer && this.drawer.classList.contains('active') && 
+                            !this.drawer.contains(e.target) && this.menuBtn && !this.menuBtn.contains(e.target)) {
+                            this.closeDrawer();
+                        }
+                    });
+
+                    this.setupKeyboardHideOnScroll();
+                }
+
+                setupKeyboardHideOnScroll() {
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    if (!isMobile) return;
+
+                    let scrollTimeout = null;
+                    let activeElementBeforeScroll = null;
+
+                    const handleScrollStart = () => {
+                        const focusedElement = document.activeElement;
+                        if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
+                            activeElementBeforeScroll = focusedElement;
+                        } else {
+                            activeElementBeforeScroll = null;
+                        }
                     };
-                    
-                    const handleDigit = (digit) => {
-                        if (currentPin.length < maxLen) {
-                            currentPin += digit;
-                            updateDots();
-                            errorDiv.textContent = '';
-                            
-                            if (currentPin.length === maxLen) {
-                                const userData = verifyAccessCode(currentPin);
-                                if (!userData) {
-                                    errorDiv.textContent = 'Неверный код доступа';
-                                    currentPin = "";
-                                    updateDots();
-                                } else {
-                                    modal.remove();
-                                    resolve(currentPin);
+
+                    const handleScrollEnd = () => {
+                        if (activeElementBeforeScroll) {
+                            activeElementBeforeScroll.blur();
+                            activeElementBeforeScroll = null;
+                        }
+                    };
+
+                    let isScrolling = false;
+                    const onTouchMove = () => {
+                        if (!isScrolling) {
+                            isScrolling = true;
+                            handleScrollStart();
+                        }
+                        if (scrollTimeout) clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(() => {
+                            isScrolling = false;
+                            handleScrollEnd();
+                        }, 150);
+                    };
+
+                    const onWheelOrScroll = () => {
+                        if (!isScrolling) {
+                            isScrolling = true;
+                            handleScrollStart();
+                        }
+                        if (scrollTimeout) clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(() => {
+                            isScrolling = false;
+                            handleScrollEnd();
+                        }, 150);
+                    };
+
+                    window.addEventListener('touchmove', onTouchMove, { passive: true });
+                    window.addEventListener('scroll', onWheelOrScroll);
+                    window.addEventListener('wheel', onWheelOrScroll);
+
+                    if (this.resultsContainer) {
+                        this.resultsContainer.addEventListener('touchmove', onTouchMove, { passive: true });
+                        this.resultsContainer.addEventListener('scroll', onWheelOrScroll);
+                    }
+
+                    if (this.drawer) {
+                        this.drawer.addEventListener('touchmove', onTouchMove, { passive: true });
+                        this.drawer.addEventListener('scroll', onWheelOrScroll);
+                    }
+                }
+
+                startLoading() {
+                    const startTime = Date.now();
+
+                    if (typeof CryptoJS === 'undefined') {
+                        console.error('CryptoJS not loaded!');
+                        this.showLoadingMessage('Ошибка загрузки...');
+                        setTimeout(() => {
+                            this.showLoginScreen();
+                            this.showNotification('Ошибка загрузки библиотек. Обновите страницу.', 'error');
+                        }, 2000);
+                        return;
+                    }
+
+                    // Проверяем, было ли обновление данных (перезагрузка после обновления)
+                    const pendingRefresh = sessionStorage.getItem('infa_pending_refresh');
+                    if (pendingRefresh === 'true') {
+                        sessionStorage.removeItem('infa_pending_refresh');
+
+                        const pinStorage = new SecurePinStorage();
+                        const savedPin = pinStorage.retrievePin();
+
+                        if (savedPin) {
+                            const userData = verifyAccessCode(savedPin);
+                            if (userData) {
+                                const fullUserData = { ...userData, enteredCode: savedPin };
+                                const decryptSuccess = decryptAllDataWithCode(fullUserData);
+
+                                if (decryptSuccess) {
+                                    this.currentUser = fullUserData;
+                                    this.isLoggedIn = true;
+                                    DATABASE.setCurrentUser(fullUserData);
+
+                                    const finishRefresh = () => {
+                                        this.showMainScreen();
+                                        this.showNotification('✅ Данные успешно обновлены!', 'success');
+                                    };
+
+                                    const elapsed = Date.now() - startTime;
+                                    const minLoadTime = 2000;
+
+                                    if (elapsed >= minLoadTime) {
+                                        finishRefresh();
+                                    } else {
+                                        setTimeout(finishRefresh, minLoadTime - elapsed);
+                                    }
+
+                                    this.checkSWVersionAndResetFlag();
+                                    return;
                                 }
                             }
                         }
-                    };
-                    
-                    const handleBackspace = () => {
-                        if (currentPin.length > 0) {
-                            currentPin = currentPin.slice(0, -1);
-                            updateDots();
-                            errorDiv.textContent = '';
-                        }
-                    };
-                    
-                    const handleCancel = () => {
-                        modal.remove();
-                        resolve(null);
-                    };
-                    
-                    pad.querySelectorAll('.pin-modal-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const digit = btn.getAttribute('data-digit');
-                            const action = btn.getAttribute('data-action');
-                            if (digit !== null) {
-                                handleDigit(digit);
-                            } else if (action === 'backspace') {
-                                handleBackspace();
+
+                        // Если не удалось восстановить после обновления — показываем логин
+                        this.showLoginScreen();
+                        this.showNotification('Введите код доступа повторно', 'error');
+                        return;
+                    }
+
+                    // Обычная загрузка (не после обновления)
+                    const restoredUser = restoreSessionFromStorage();
+
+                    const finishLoading = () => {
+                        if (restoredUser && isSessionValid()) {
+                            const pinStorage = new SecurePinStorage();
+                            const savedPin = pinStorage.retrievePin();
+
+                            if (savedPin) {
+                                const fullUserData = { ...restoredUser, enteredCode: savedPin };
+                                const decryptSuccess = decryptAllDataWithCode(fullUserData);
+
+                                if (decryptSuccess) {
+                                    this.currentUser = fullUserData;
+                                    this.isLoggedIn = true;
+                                    DATABASE.setCurrentUser(fullUserData);
+                                    this.showMainScreen();
+                                    this.showNotification('✅ Всё готово, можно продолжать поиск', 'success');
+                                    return;
+                                }
                             }
-                        });
-                    });
-                    
-                    cancelBtn.addEventListener('click', handleCancel);
-                    
-                    const keyHandler = (e) => {
-                        if (!modal.isConnected) {
-                            document.removeEventListener('keydown', keyHandler);
-                            return;
-                        }
-                        if (e.key >= '0' && e.key <= '9') {
-                            e.preventDefault();
-                            handleDigit(e.key);
-                        } else if (e.key === 'Backspace') {
-                            e.preventDefault();
-                            handleBackspace();
-                        } else if (e.key === 'Escape') {
-                            handleCancel();
-                        }
-                    };
-                    document.addEventListener('keydown', keyHandler);
-                    
-                    modal._keyHandler = keyHandler;
-                });
-            }
 
-            async executeDataRefresh(userData, pin) {
-                this.showNotification('🌐 Обновление данных...', 'success');
-                this.showLoadingMessage('Обновление данных...');
-                this.loadingScreen.classList.add('active');
-                this.mainScreen.classList.remove('active');
-                
-                this.clearSavedResults();
-                CONTACTS_DATA = [];
-                STATIONS_DATA = [];
-                PARKING_DATA = [];
-                DOCUMENTS_DATA = [];
-                
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
-                const fullUserData = { ...userData, enteredCode: pin };
-                const decryptSuccess = decryptAllDataWithCode(fullUserData);
-                
-                if (!decryptSuccess) {
-                    this.loadingScreen.classList.remove('active');
-                    this.showMainScreen();
-                    this.showNotification('❌ Ошибка расшифровки данных.', 'error');
-                    return false;
-                }
-                
-                const pinStorage = new SecurePinStorage();
-                pinStorage.storeEncryptedPin(pin, userData.level);
-                
-                DATABASE.contacts = CONTACTS_DATA;
-                DATABASE.stations = STATIONS_DATA;
-                DATABASE.parking = PARKING_DATA;
-                DATABASE.documents = DOCUMENTS_DATA;
-                
-                saveSession(fullUserData);
-                
-                this.currentUser = fullUserData;
-                this.isLoggedIn = true;
-                DATABASE.setCurrentUser(fullUserData);
-                
-                if (this.currentDataVersion) {
-                    localStorage.setItem('last_updated_version', this.currentDataVersion);
-                    sessionStorage.setItem(`banner_shown_${this.currentDataVersion}`, 'true');
-                }
-                
-                this.hideUpdateBanner();
-                this.hideManualUpdateButton();
-                this.bannerShown = false;
-                this.bannerHiddenBySwipe = false;
-                this.removeBannerGlobalListeners();
-                
-                this.loadingScreen.classList.remove('active');
-                this.showMainScreen();
-                
-                if (this.searchInput && this.searchInput.value.trim()) {
-                    const query = this.searchInput.value.trim();
-                    const results = DATABASE.searchAllRanked(query.toLowerCase());
-                    this.displayResults(results, query);
-                    this.saveSearchResults(results, query);
-                }
-                
-                this.updateVersionBadgeColor();
-                this.showNotification('✅ Данные успешно обновлены!', 'success');
-                return true;
-            }
-
-            async refreshData() {
-                const pinStorage = new SecurePinStorage();
-                const savedPin = pinStorage.retrievePin();
-                
-                if (!savedPin) {
-                    const userPin = await this.requestPinForUpdate();
-                    
-                    if (!userPin) {
-                        this.showNotification('Обновление отменено.', 'error');
-                        this.showManualUpdateButton();
-                        return false;
-                    }
-                    
-                    const userData = verifyAccessCode(userPin);
-                    if (!userData) {
-                        this.showNotification('Неверный код доступа', 'error');
-                        this.showManualUpdateButton();
-                        return false;
-                    }
-                    
-                    pinStorage.storeEncryptedPin(userPin, userData.level);
-                    
-                    return await this.executeDataRefresh(userData, userPin);
-                }
-                
-                const userData = verifyAccessCode(savedPin);
-                if (!userData) {
-                    pinStorage.clear();
-                    this.showNotification('Срок действия кода-доступа истёк! Введите код-доступа ещё раз', 'error');
-                    this.handleLogout();
-                    this.showManualUpdateButton();
-                    return false;
-                }
-                
-                return await this.executeDataRefresh(userData, savedPin);
-            }
-
-            updateVersionBadgeColor() {
-                if (!this.versionBadge) return;
-                const currentVer = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : null;
-                const lastUpdated = localStorage.getItem('last_updated_version');
-                if (currentVer && lastUpdated === currentVer) {
-                    this.versionBadge.style.background = 'rgba(74, 222, 128, 0.25)';
-                    this.versionBadge.style.color = '#4ade80';
-                    this.versionBadge.style.border = '1px solid rgba(74, 222, 128, 0.5)';
-                } else {
-                    this.versionBadge.style.background = 'rgba(248, 113, 113, 0.25)';
-                    this.versionBadge.style.color = '#f87171';
-                    this.versionBadge.style.border = '1px solid rgba(248, 113, 113, 0.5)';
-                }
-            }
-            
-            showManualUpdateButton() {
-                if (!this.manualUpdateBtn) return;
-                if (this.manualUpdateBtn.style.display === 'block') return;
-                
-                this.hideUpdateBanner();
-                this.bannerShown = false;
-                this.removeBannerGlobalListeners();
-                
-                this.manualUpdateBtn.style.display = 'block';
-                this.manualUpdateBtn.style.animation = 'fadeInUp 0.4s ease';
-            }
-            
-            hideManualUpdateButton() {
-                if (!this.manualUpdateBtn) return;
-                this.manualUpdateBtn.style.display = 'none';
-            }
-            
-            hideUpdateBanner() {
-                const banner = document.getElementById('force-update-banner');
-                if (banner) {
-                    banner.classList.add('hiding');
-                    setTimeout(() => {
-                        if (banner && banner.parentNode) banner.remove();
-                    }, 300);
-                }
-            }
-            
-            addBannerGlobalListeners() {
-                if (this.bannerGlobalListenersActive) return;
-                this.bannerGlobalListenersActive = true;
-                
-                this.bannerClickHandler = (e) => {
-                    const banner = document.getElementById('force-update-banner');
-                    if (!banner) {
-                        this.removeBannerGlobalListeners();
-                        return;
-                    }
-                    if (!banner.contains(e.target)) {
-                        this.handleBannerAutoClose();
-                    }
-                };
-                
-                this.bannerScrollHandler = () => {
-                    const banner = document.getElementById('force-update-banner');
-                    if (banner) {
-                        this.handleBannerAutoClose();
-                    } else {
-                        this.removeBannerGlobalListeners();
-                    }
-                };
-                
-                document.addEventListener('click', this.bannerClickHandler);
-                window.addEventListener('scroll', this.bannerScrollHandler);
-                window.addEventListener('touchmove', this.bannerScrollHandler, { passive: true });
-            }
-            
-            removeBannerGlobalListeners() {
-                if (!this.bannerGlobalListenersActive) return;
-                this.bannerGlobalListenersActive = false;
-                if (this.bannerClickHandler) {
-                    document.removeEventListener('click', this.bannerClickHandler);
-                    window.removeEventListener('scroll', this.bannerScrollHandler);
-                    window.removeEventListener('touchmove', this.bannerScrollHandler);
-                }
-            }
-            
-            handleBannerAutoClose() {
-                if (this.bannerHiddenBySwipe) return;
-                this.bannerHiddenBySwipe = true;
-                this.showManualUpdateButton();
-            }
-            
-            handleBannerSwipeClose() {
-                this.handleBannerAutoClose();
-            }
-            
-            showLoadingMessage(msg) {
-                if (this.loadingText) this.loadingText.textContent = msg;
-            }
-
-            handleLogout() {
-                this.isLoggedIn = false;
-                this.currentUser = null;
-                DATABASE.setCurrentUser(null);
-                
-                const pinStorage = new SecurePinStorage();
-                pinStorage.clear();
-                
-                localStorage.removeItem('access_session_data');
-                localStorage.removeItem('access_session_timestamp');
-                sessionStorage.removeItem('access_session_data');
-                
-                this.clearSavedResults();
-                
-                this.hideUpdateBanner();
-                this.hideManualUpdateButton();
-                this.bannerShown = false;
-                this.bannerHiddenBySwipe = false;
-                this.removeBannerGlobalListeners();
-                
-                this.pinCode = "";
-                this.updatePinDots();
-                this.showLoginScreen();
-                this.showNotification('Вы вышли из аккаунта', 'success');
-            }
-
-            showLoginScreen() {
-                this.loadingScreen.classList.remove('active');
-                this.mainScreen.classList.remove('active');
-                this.loginScreen.classList.add('active');
-                this.closeDrawer();
-                this.pinCode = "";
-                this.updatePinDots();
-                if (this.pinHiddenInput) {
-                    this.pinHiddenInput.value = "";
-                }
-            }
-
-            isMobileDevice() {
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            }
-
-            showMainScreen() {
-                this.loadingScreen.classList.remove('active');
-                this.loginScreen.classList.remove('active');
-                this.mainScreen.classList.add('active');
-                
-                if (this.usernameSpan && this.currentUser) {
-                    this.usernameSpan.textContent = this.currentUser.greeting;
-                }
-                
-                this.loadZoomSetting();
-                
-                if (this.versionBadge) {
-                    this.versionBadge.textContent = (typeof CACHE_VERSION !== 'undefined') ? CACHE_VERSION : '?';
-                    this.updateVersionBadgeColor();
-                }
-                
-                if (this.searchInput) {
-                    this.searchInput.value = '';
-                    if (!this.isMobileDevice()) {
-                        setTimeout(() => this.searchInput.focus(), 100);
-                    }
-                }
-                
-                if (this.resultsContainer) {
-                    const hasRestored = this.restoreSearchResults();
-                    
-                    if (!hasRestored) {
-                        this.resultsContainer.innerHTML = '';
-                        this.resultsContainer.classList.add('hidden');
-                        if (this.resultsContainer.classList.contains('restored-result')) {
-                            this.resultsContainer.classList.remove('restored-result');
-                        }
-                        this.isRestoredResults = false;
-                    }
-                }
-                
-                DATABASE.init();
-                ParkingUI.init();
-                
-                this.showForceUpdateBanner();
-            }
-            
-            showForceUpdateBanner() {
-                if (!FORCE_UPDATE_BANNER) return;
-                if (this.bannerShown) return;
-                if (this.bannerHiddenBySwipe) return;
-                if (!this.isLoggedIn) return;
-                
-                if (!this.currentDataVersion) {
-                    if (typeof CACHE_VERSION !== 'undefined') {
-                        this.currentDataVersion = CACHE_VERSION;
-                    } else {
-                        return;
-                    }
-                }
-                
-                const lastUpdated = localStorage.getItem('last_updated_version');
-                
-                if (lastUpdated === this.currentDataVersion) {
-                    return;
-                }
-                
-                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') {
-                    return;
-                }
-                
-                this.showUpdateBanner();
-            }
-            
-            showUpdateBanner() {
-                if (this.bannerShown) return;
-                if (!this.isLoggedIn) return;
-                if (!FORCE_UPDATE_BANNER) return;
-                if (!this.currentDataVersion) {
-                    if (typeof CACHE_VERSION !== 'undefined') {
-                        this.currentDataVersion = CACHE_VERSION;
-                    } else {
-                        return;
-                    }
-                }
-                const lastUpdated = localStorage.getItem('last_updated_version');
-                if (lastUpdated === this.currentDataVersion) return;
-                if (sessionStorage.getItem(`banner_shown_${this.currentDataVersion}`) === 'true') return;
-                if (document.getElementById('force-update-banner')) return;
-                
-                this.bannerShown = true;
-                
-                const banner = document.createElement('div');
-                banner.className = 'update-banner';
-                banner.id = 'force-update-banner';
-                banner.innerHTML = `
-                    <div class="update-banner-text">
-                       🔔 В базу данных добавлена новая информация!
-                    </div>
-                    <button class="update-banner-btn" id="force-update-btn">🌐 Обновить БД</button>
-                `;
-                document.body.appendChild(banner);
-                
-                setTimeout(() => banner.classList.add('show'), 100);
-                
-                this.addBannerGlobalListeners();
-                
-                let startY = 0;
-                banner.addEventListener('touchstart', (e) => {
-                    startY = e.touches[0].clientY;
-                }, { passive: true });
-                banner.addEventListener('touchmove', (e) => {
-                    if (!startY) return;
-                    const deltaY = e.touches[0].clientY - startY;
-                    if (deltaY > 50) {
-                        e.preventDefault();
-                        this.handleBannerSwipeClose();
-                    }
-                }, { passive: false });
-                
-                const btn = document.getElementById('force-update-btn');
-                if (btn) {
-                    btn.addEventListener('click', async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        const originalText = btn.textContent;
-                        btn.textContent = '⏳ Обновление...';
-                        btn.disabled = true;
-                        
-                        await this.refreshData();
-                        
-                        btn.textContent = originalText;
-                        btn.disabled = false;
-                    });
-                }
-            }
-
-            liveSearch() {
-                if (!this.searchInput || !DATABASE) return;
-                const q = this.searchInput.value.trim().toLowerCase();
-                
-                if (q.length >= 1 && this.resultsContainer && this.resultsContainer.classList.contains('restored-result')) {
-                    this.resultsContainer.classList.remove('restored-result');
-                    this.isRestoredResults = false;
-                }
-                
-                if (q.length === 1) {
-                    this.clearSavedResults();
-                }
-                
-                if (q.length < 2) {
-                    if (this.resultsContainer) {
-                        this.resultsContainer.innerHTML = '';
-                        this.resultsContainer.classList.add('hidden');
-                    }
-                    return;
-                }
-                
-                const results = DATABASE.searchAllRanked(q);
-                this.displayResults(results, q);
-                this.saveSearchResults(results, this.searchInput.value.trim());
-            }
-
-            performSearch() {
-                if (!this.searchInput) return;
-                const q = this.searchInput.value.trim();
-                if (!q) {
-                    this.showNotification('Сначала напишите свой вопрос!', 'error');
-                    this.searchInput.focus();
-                    return;
-                }
-                const results = DATABASE.searchAllRanked(q.toLowerCase());
-                this.displayResults(results, q);
-                this.saveSearchResults(results, q);
-                
-                if (results.length === 0) {
-                     console.log('Ничего не найдено');
-                } else {
-                    console.log(`Найдено: ${results.length}`);
-                }
-            }
-
-            formatTextWithLinks(text) {
-                if (!text) return '';
-                let t = this.escapeHtml(text).replace(/\n/g, '<br>');
-                t = t.replace(/(\+?[0-9][0-9\s\-\(\)]{8,}[0-9])/g, m => 
-                    `<a href="tel:${m.replace(/[^\d+]/g,'')}" class="contact-link">${m}</a>`);
-                t = t.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, m => 
-                    `<a href="mailto:${m}" class="contact-link">${m}</a>`);
-                t = t.replace(/(https?:\/\/[^\s]+)/g, m => 
-                    `<a href="${m}" target="_blank" rel="noopener noreferrer" class="contact-link">${m}</a>`);
-                return t;
-            }
-
-            highlightText(text, query, color = null) {
-                if (!text) return '';
-                if (!query) {
-                    return color 
-                        ? `<span style="color:${color};">${this.escapeHtml(text)}</span>` 
-                        : this.escapeHtml(text);
-                }
-                const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-                const highlighted = text.replace(regex, '<span style="color: #4ade80; font-weight: 700;">$1</span>');
-                if (color) return `<span style="color:${color}; ">${highlighted}</span>`;
-                return highlighted;
-            }
-
-            displayResults(results, query) {
-                if (!this.resultsContainer) return;
-                this.resultsContainer.classList.remove('hidden');
-
-                if (results.length === 0) {
-                    this.resultsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
-                    this.applyZoom(this.currentZoom);
-                    return;
-                }
-
-                const currentQ = (query || '').toLowerCase();
-
-                this.resultsContainer.innerHTML = results.map(item => {
-                    if (item.type === 'contact') {
-                        const phone = item.телефон 
-                            ? `<a href="tel:${item.телефон.replace(/[^0-9+]/g,'')}" class="contact-link">☎️ ${this.escapeHtml(item.телефон)}</a>` 
-                            : '';
-                        const nameHtml = this.highlightText(item.имя, currentQ, '#ffb347');
-                        const jobHtml = this.highlightText(item.должность, currentQ);
-                        return `<div class="result-card contact">
-                            <div class="result-icon">👤</div>
-                            <div class="result-content">
-                                <div class="result-title">${nameHtml}</div>
-                                <div class="result-detail">💼 ${jobHtml}</div>
-                                ${phone ? `<div class="result-contact">${phone}</div>` : ''}
-                            </div>
-                        </div>`;
-                    } else if (item.type === 'parking') {
-                        const mapLink = item.ссылка 
-                            ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ПОСТРОИТЬ МАРШРУТ</a></div>` 
-                            : '';
-                        let currentNote = item.примечание || '';
-                        const userNote = item.userNote !== undefined ? item.userNote : ParkingUI.getUserNote(item.id);
-                        if (userNote !== null) currentNote = userNote;
-                        const noteHtml = currentNote 
-                            ? `<div class="result-detail parking-note">${this.formatTextWithLinks(currentNote)}</div>` 
-                            : '';
-                        const contextHtml = item.контекст 
-                            ? `<div class="result-context">${this.formatTextWithLinks(item.контекст)}</div>` 
-                            : '';
-                        const titleHtml = this.highlightText(item.название, currentQ, '#ffb347');
-                        const buttons = `<div class="parking-buttons">
-                            <button class="parking-yes-btn" data-id="${item.id}">✅ Есть парковка</button>
-                            <button class="parking-no-btn" data-id="${item.id}">❌ Нет парковки</button>
-                        </div>`;
-                        return `<div class="result-card parking" data-parking-id="${item.id}">
-                            <div class="result-icon">🅿️</div>
-                            <div class="result-content">
-                                <div class="result-title">${titleHtml}</div>
-                                ${contextHtml}${noteHtml}${mapLink}${buttons}
-                            </div>
-                        </div>`;
-                    } else if (item.type === 'station') {
-                        const fields = [];
-                        if (item.линия) fields.push(`✳️ ${item.линия}`);
-                        if (item.станция) fields.push(`🟠 ${item.станция}`);
-                        if (item.кросс) fields.push(`🔹 КРОСС: ${item.кросс}`);
-                        if (item.радиоузел) fields.push(`🔹 РАДИОУЗЕЛ: ${item.радиоузел}`);
-                        if (item.бск) fields.push(`🔹 БСК: ${item.бск}`);
-                        if (item.код) fields.push(`🔹 КОД: ${item.код}`);
-                        if (item.дсп) fields.push(`🔻 ДСП: ${item.дсп}`);
-                        if (item.телефон) fields.push(`☎️ ${item.телефон}`);
-                        if (item.блокпост) fields.push(`🔻 БЛОК-ПОСТ: ${item.блокпост}`);
-                        if (item.туалет) fields.push(`🚾 с/у: ${item.туалет}`);
-                        if (item.инфа) fields.push(`💬 ИНФА: ${item.инфа}`);
-                        if (item.обновлено) fields.push(`✅ Обновлено: ${item.обновлено}`);
-                        const stationHtml = this.highlightText(item.станция || item.линия, currentQ, '#ffb347');
-                        return `<div class="result-card station">
-                            <div class="result-icon">🚇</div>
-                            <div class="result-content">
-                                <div class="result-title">${stationHtml}</div>
-                                ${fields.map(f => `<div class="result-detail">${this.formatTextWithLinks(f)}</div>`).join('')}
-                            </div>
-                        </div>`;
-                    } else if (item.type === 'document') {
-                        const fileLink = item.ссылка 
-                            ? `<div class="result-contact"><a href="${item.ссылка}" target="_blank" class="contact-link" rel="noopener noreferrer">⭐️ ОТКРЫТЬ ФАЙЛ</a></div>` 
-                            : '';
-                        const titleHtml = this.highlightText(item.название, currentQ, '#ffb347');
-                        return `<div class="result-card document">
-                            <div class="result-icon">📄</div>
-                            <div class="result-content">
-                                <div class="result-title">${titleHtml}</div>
-                                ${fileLink}
-                            </div>
-                        </div>`;
-                    }
-                    return '';
-                }).join('');
-
-                this.applyZoom(this.currentZoom);
-
-                document.querySelectorAll('.parking-yes-btn, .parking-no-btn').forEach(btn => {
-                    btn.removeEventListener('click', this.parkingHandler);
-                    this.parkingHandler = (e) => {
-                        e.stopPropagation();
-                        const id = parseInt(btn.getAttribute('data-id'));
-                        const status = btn.classList.contains('parking-yes-btn') ? 'yes' : 'no';
-                        const today = new Date().toLocaleDateString('ru-RU');
-                        const newNote = status === 'yes' 
-                            ? `✅ проверено ${today}` 
-                            : `❌ не актуально ${today}`;
-                        if (ParkingUI.updateParkingNote(id, newNote)) {
-                            this.showNotification(`Спасибо за Ваш отзыв: ${newNote}`, 'success');
-                            this.performSearch();
+                            this.showLoginScreen();
                         } else {
-                            this.showNotification('Ошибка обновления', 'error');
+                            this.showLoginScreen();
                         }
                     };
-                    btn.addEventListener('click', this.parkingHandler);
-                });
-            }
 
-            showNotification(msg, type = 'success') {
-                if (!this.notification) return;
-                this.notification.textContent = msg;
-                this.notification.className = `notification ${type}`;
-                setTimeout(() => this.notification.classList.add('show'), 10);
-                setTimeout(() => {
-                    if (this.notification) this.notification.classList.remove('show');
-                }, 3000);
-            }
+                    const elapsed = Date.now() - startTime;
+                    const minLoadTime = 2000; 
 
-            escapeHtml(t) {
-                if (!t) return '';
-                const div = document.createElement('div');
-                div.textContent = t;
-                return div.innerHTML;
-            }
-
-            bindEvents() {
-                if (this.searchInput) {
-                    this.searchInput.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            this.performSearch();
-                            this.searchInput.blur();
-                        }
-                    });
-                    this.searchInput.addEventListener('input', () => this.liveSearch());
-                }
-
-                if (this.menuBtn) {
-                    this.menuBtn.addEventListener('click', () => this.openDrawer());
-                }
-                if (this.drawerClose) {
-                    this.drawerClose.addEventListener('click', () => this.closeDrawer());
-                }
-                if (this.drawerOverlay) {
-                    this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
-                }
-
-                if (this.zoomInBtn) {
-                    this.zoomInBtn.addEventListener('click', () => this.zoomIn());
-                }
-                if (this.zoomOutBtn) {
-                    this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
-                }
-
-                if (this.drawerError) {
-                    this.drawerError.addEventListener('click', () => {
-                        window.open('https://forms.gle/ffQzDFhU2Lg9HncDA', '_blank');
-                        this.closeDrawer();
-                    });
-                }
-                if (this.drawerAddData) {
-                    this.drawerAddData.addEventListener('click', () => this.showAddSubmenu());
-                }
-                if (this.drawerLogout) {
-                    this.drawerLogout.addEventListener('click', () => {
-                        this.handleLogout();
-                        this.closeDrawer();
-                    });
-                }
-                if (this.drawerBackMain) {
-                    this.drawerBackMain.addEventListener('click', () => this.hideAddSubmenu());
-                }
-                if (this.drawerAddStation) {
-                    this.drawerAddStation.addEventListener('click', () => {
-                        window.open(this.drawerAddStation.getAttribute('data-url'), '_blank');
-                        this.closeDrawer();
-                    });
-                }
-                if (this.drawerAddParking) {
-                    this.drawerAddParking.addEventListener('click', () => {
-                        window.open(this.drawerAddParking.getAttribute('data-url'), '_blank');
-                        this.closeDrawer();
-                    });
-                }
-                if (this.drawerAddContact) {
-                    this.drawerAddContact.addEventListener('click', () => {
-                        window.open(this.drawerAddContact.getAttribute('data-url'), '_blank');
-                        this.closeDrawer();
-                    });
-                }
-
-                if (this.manualUpdateBtn) {
-                    this.manualUpdateBtn.addEventListener('click', async () => {
-                        await this.refreshData();
-                    });
-                }
-
-                document.addEventListener('click', (e) => {
-                    if (this.drawer && this.drawer.classList.contains('active') && 
-                        !this.drawer.contains(e.target) && !this.menuBtn.contains(e.target)) {
-                        this.closeDrawer();
-                    }
-                });
-
-                this.setupKeyboardHideOnScroll();
-            }
-
-            setupKeyboardHideOnScroll() {
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                if (!isMobile) return;
-
-                let scrollTimeout = null;
-                let activeElementBeforeScroll = null;
-
-                const handleScrollStart = () => {
-                    const focusedElement = document.activeElement;
-                    if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
-                        activeElementBeforeScroll = focusedElement;
+                    if (elapsed >= minLoadTime) {
+                        finishLoading();
                     } else {
-                        activeElementBeforeScroll = null;
+                        setTimeout(finishLoading, minLoadTime - elapsed);
                     }
-                };
 
-                const handleScrollEnd = () => {
-                    if (activeElementBeforeScroll) {
-                        activeElementBeforeScroll.blur();
-                        activeElementBeforeScroll = null;
-                    }
-                };
-
-                let isScrolling = false;
-                const onTouchMove = () => {
-                    if (!isScrolling) {
-                        isScrolling = true;
-                        handleScrollStart();
-                    }
-                    if (scrollTimeout) clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        isScrolling = false;
-                        handleScrollEnd();
-                    }, 150);
-                };
-
-                const onWheelOrScroll = () => {
-                    if (!isScrolling) {
-                        isScrolling = true;
-                        handleScrollStart();
-                    }
-                    if (scrollTimeout) clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        isScrolling = false;
-                        handleScrollEnd();
-                    }, 150);
-                };
-
-                window.addEventListener('touchmove', onTouchMove, { passive: false });
-                window.addEventListener('scroll', onWheelOrScroll);
-                window.addEventListener('wheel', onWheelOrScroll);
-                
-                if (this.resultsContainer) {
-                    this.resultsContainer.addEventListener('touchmove', onTouchMove, { passive: false });
-                    this.resultsContainer.addEventListener('scroll', onWheelOrScroll);
+                    this.checkSWVersionAndResetFlag();
                 }
-                
-                if (this.drawer) {
-                    this.drawer.addEventListener('touchmove', onTouchMove, { passive: false });
-                    this.drawer.addEventListener('scroll', onWheelOrScroll);
-                }
-            }
 
-            startLoading() {
-                const restoredUser = restoreSessionFromStorage();
-                
-                if (restoredUser && isSessionValid()) {
-                    this.currentUser = restoredUser;
-                    this.isLoggedIn = true;
-                    DATABASE.setCurrentUser(restoredUser);
-                    this.showMainScreen();
-                    this.showNotification('✅ Всё готово, можно продолжать поиск', 'success');
-                } else {
-                    this.showLoginScreen();
-                }
-                
-                this.checkSWVersionAndResetFlag();
-            }
-            
-            async checkSWVersionAndResetFlag() {
-                if (!('serviceWorker' in navigator)) return;
-                
-                try {
-                    const registration = await navigator.serviceWorker.getRegistration();
-                    if (registration && registration.active) {
-                        const swUrl = registration.active.scriptURL;
-                        const response = await fetch(swUrl + '?t=' + Date.now());
-                        const swContent = await response.text();
-                        
-                        let currentVersion = null;
-                        let match = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/);
-                        if (match) currentVersion = match[1];
-                        
-                        if (!currentVersion) {
-                            match = swContent.match(/CACHE_NAME\s*=\s*['"][^'"]*-([^'"]+)['"]/);
+                async checkSWVersionAndResetFlag() {
+                    if (!('serviceWorker' in navigator)) return;
+
+                    try {
+                        const registration = await navigator.serviceWorker.getRegistration(CONFIG.SW_SCOPE);
+                        if (registration && registration.active) {
+                            const swUrl = registration.active.scriptURL;
+                            const response = await fetch(swUrl + '?t=' + Date.now());
+
+                            if (!response.ok) {
+                                console.warn('SW fetch failed:', response.status);
+                                return;
+                            }
+
+                            const contentType = response.headers.get('content-type');
+                            if (!contentType || !contentType.includes('javascript')) {
+                                console.warn('SW response is not JavaScript:', contentType);
+                                return;
+                            }
+
+                            const swContent = await response.text();
+
+                            let currentVersion = null;
+                            let match = swContent.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/);
                             if (match) currentVersion = match[1];
-                        }
-                        
-                        if (currentVersion) {
-                            this.currentDataVersion = currentVersion;
-                            const savedVersion = localStorage.getItem('sw_cache_version');
-                            
-                            if (savedVersion !== currentVersion) {
-                                localStorage.setItem('sw_cache_version', currentVersion);
+
+                            if (!currentVersion) {
+                                match = swContent.match(/CACHE_NAME\s*=\s*['"][^'"]*-([^'"]+)['"]/);
+                                if (match) currentVersion = match[1];
+                            }
+
+                            if (currentVersion) {
+                                this.currentDataVersion = currentVersion;
+                                const savedVersion = localStorage.getItem(STORAGE_KEYS.SW_CACHE_VERSION);
+
+                                if (savedVersion !== currentVersion) {
+                                    localStorage.setItem(STORAGE_KEYS.SW_CACHE_VERSION, currentVersion);
+                                }
                             }
                         }
+                    } catch(e) {
+                        console.error('SW version check error:', e);
                     }
-                } catch(e) {}
+                }
+
+                init() {
+                    this.cacheElements();
+                    this.initPinPad();
+                    this.bindEvents();
+                    DATABASE.init();
+                    this.startLoading();
+                }
             }
 
-            init() {
-                this.cacheElements();
-                this.initPinPad();
-                this.bindEvents();
-                DATABASE.init();
-                this.startLoading();
-            }
-        }
+            // ======== ИНИЦИАЛИЗАЦИЯ ========
+            function initNeonLoader() {
+                const particlesContainer = document.getElementById('particles');
+                const matrixBg = document.getElementById('matrixBg');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            window.app = new InfaApp();
-        });
+                if (!particlesContainer || !matrixBg) return;
+
+                particlesContainer.innerHTML = '';
+                matrixBg.innerHTML = '';
+
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    const orbit = 110 + Math.random() * 60;
+                    particle.style.setProperty('--orbit', orbit + 'px');
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    particle.style.animation = 'particleOrbit ' + (3 + Math.random() * 2) + 's linear infinite';
+                    particle.style.animationDelay = (Math.random() * 5) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+
+                const chars = '0123456789';
+                for (let i = 0; i < 25; i++) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = Math.random() * 100 + '%';
+                    char.style.animationDelay = Math.random() * 3 + 's';
+                    char.style.animationDuration = (2 + Math.random() * 3) + 's';
+                    matrixBg.appendChild(char);
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    initNeonLoader();
+                    window.app = new InfaApp();
+                });
+            } else {
+                initNeonLoader();
+                window.app = new InfaApp();
+            }
+        })();
     </script>
 
     <script>
         (function() {
+            'use strict';
+
             if ('serviceWorker' in navigator && location.protocol === 'https:') {
                 window.addEventListener('load', function() {
-                    const path = window.location.pathname;
-                    const basePath = path.substring(0, path.lastIndexOf('/') + 1);
-                    const swPath = basePath + 'sw.js';
+                    const swPath = './sw.js';
                     const swUrl = swPath + '?v=' + Date.now();
-                    
-                    navigator.serviceWorker.register(swUrl)
+
+                    navigator.serviceWorker.register(swUrl, { scope: './' })
                         .then(function(reg) {
                             reg.addEventListener('updatefound', () => {
                                 const newWorker = reg.installing;
                                 newWorker.addEventListener('statechange', () => {
                                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                        if (window.app) {
+                                        if (window.app && window.app.checkAndShowBanner) {
                                             setTimeout(() => window.app.checkAndShowBanner(), 1000);
                                         }
                                     }
                                 });
                             });
                         })
-                        .catch(function(err) {});
+                        .catch(function(err) {
+                            console.error('SW registration failed:', err);
+                        });
                 });
             }
         })();
